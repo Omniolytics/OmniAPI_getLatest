@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="faf4d66d060441608ca4ade6cb28ab7c" Name="Diagram1">
+        <EntityTypeShape EntityType="omnioModel1.tbl_DeviceData" Width="1.5" PointX="15" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="omnioModel1.tbl_DeviceDataDetail" Width="1.5" PointX="15" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="omnioModel1.tbl_DeviceLimits" Width="1.5" PointX="17.25" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="omnioModel1.tbl_Devices" Width="1.5" PointX="12.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="omnioModel1.tbl_DeviceType" Width="1.5" PointX="9.5" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="omnioModel1.tbl_ThresholdAlarms" Width="1.5" PointX="19.5" PointY="7.25" IsExpanded="true" />
+        <AssociationConnector Association="omnioModel1.FK_tbl_DeviceData_tbl_Devices" ManuallyRouted="false" />
+        <AssociationConnector Association="omnioModel1.FK_tbl_DeviceDataDetail_tbl_Devices" ManuallyRouted="false" />
+        <AssociationConnector Association="omnioModel1.FK_tbl_DeviceLimits_tbl_DeviceDataDetail" ManuallyRouted="false" />
+        <AssociationConnector Association="omnioModel1.FK_tbl_DeviceLimits_tbl_Devices" ManuallyRouted="false" />
+        <AssociationConnector Association="omnioModel1.FK_tbl_ThresholdAlarms_tbl_DeviceLimits" ManuallyRouted="false" />
+        <AssociationConnector Association="omnioModel1.FK_tbl_Devices_tbl_DeviceType" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

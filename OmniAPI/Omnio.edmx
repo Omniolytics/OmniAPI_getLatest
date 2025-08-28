@@ -1,0 +1,2112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="omnioModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_activities">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="broilerId" Type="int" />
+          <Property Name="cycleId" Type="int" />
+          <Property Name="typeAct" Type="int" />
+          <Property Name="nameId" Type="int" />
+          <Property Name="dosage" Type="float" Nullable="false" />
+          <Property Name="addremove" Type="varchar" MaxLength="10" />
+          <Property Name="startDate" Type="datetime" />
+          <Property Name="endDate" Type="datetime" />
+          <Property Name="response_1" Type="varchar" MaxLength="100" />
+          <Property Name="response_2" Type="varchar" MaxLength="100" />
+          <Property Name="response_3" Type="varchar" MaxLength="100" />
+          <Property Name="response_4" Type="varchar" MaxLength="100" />
+          <Property Name="sid_1" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="sid_2" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="sid_3" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="sid_4" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="dt_response_1" Type="datetime" />
+          <Property Name="dt_response_2" Type="datetime" />
+          <Property Name="dt_response_3" Type="datetime" />
+          <Property Name="dt_response_4" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_BriolerData">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="briolerID" Type="int" />
+          <Property Name="fatalities" Type="int" />
+          <Property Name="dateTime" Type="datetime" />
+          <Property Name="culls" Type="int" />
+          <Property Name="weight" Type="float" />
+          <Property Name="eventCullsID" Type="int" />
+          <Property Name="eventMortalitiesID" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_Briolers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="300" />
+          <Property Name="Description" Type="nvarchar" MaxLength="300" />
+          <Property Name="farmID" Type="int" />
+          <Property Name="NoOfBirds" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_BroilerInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="farmId" Type="int" />
+          <Property Name="type" Type="int" />
+          <Property Name="value" Type="varchar" MaxLength="100" />
+          <Property Name="description" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="tbl_BroilerSettings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="broilerId" Type="int" />
+          <Property Name="cycleId" Type="int" />
+          <Property Name="placementDate" Type="datetime" />
+          <Property Name="heatingSystemsType" Type="int" />
+          <Property Name="ventalationSystem" Type="int" />
+          <Property Name="drinkerSystemType" Type="int" />
+          <Property Name="lightingProgram" Type="int" />
+          <Property Name="litterType" Type="int" />
+          <Property Name="healthType" Type="int" />
+          <Property Name="sanitationProgram" Type="int" />
+          <Property Name="dateFinalCatch" Type="datetime" />
+          <Property Name="vaccination" Type="int" />
+          <Property Name="strain" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_catching">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="noofbirds" Type="int" />
+          <Property Name="date" Type="date" />
+          <Property Name="broilerId" Type="int" />
+          <Property Name="cycleId" Type="int" />
+          <Property Name="totalweight" Type="float" />
+        </EntityType>
+        <EntityType Name="tbl_CullsEvent">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="eventName" Type="varchar" MaxLength="100" />
+          <Property Name="description" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="tbl_Cycles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="farmId" Type="int" />
+          <Property Name="broilerid" Type="int" />
+          <Property Name="name" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="tbl_DeviceData">
+          <Key>
+            <PropertyRef Name="DeviceID" />
+          </Key>
+          <Property Name="DeviceID" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="TimeStamp" Type="datetime" />
+          <Property Name="AirTemp" Type="float" />
+          <Property Name="Humidity" Type="float" />
+          <Property Name="PH" Type="float" />
+          <Property Name="CO2" Type="float" />
+          <Property Name="NH3" Type="float" />
+          <Property Name="Water" Type="float" />
+          <Property Name="WaterTemp" Type="float" />
+          <Property Name="ORP" Type="float" />
+          <Property Name="EC" Type="float" />
+          <Property Name="Weight" Type="float" />
+          <Property Name="Battery" Type="float" />
+          <Property Name="Lux" Type="float" />
+        </EntityType>
+        <EntityType Name="tbl_DeviceDataDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeviceID" Type="varchar" MaxLength="200" />
+          <Property Name="TImestamp" Type="datetime" />
+          <Property Name="Value" Type="float" />
+          <Property Name="ValueType" Type="varchar" MaxLength="20" />
+          <Property Name="Unit" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="tbl_DeviceLimits">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeviceID" Type="varchar" MaxLength="200" />
+          <Property Name="DeviceDataID" Type="bigint" />
+          <Property Name="Unit" Type="varchar" MaxLength="5" />
+          <Property Name="HighLimit" Type="float" />
+          <Property Name="LowLimit" Type="float" />
+          <Property Name="HighColor" Type="nvarchar" MaxLength="10" />
+          <Property Name="LowColor" Type="nvarchar" MaxLength="10" />
+          <Property Name="SetpointColor" Type="nvarchar" MaxLength="10" />
+          <Property Name="ThresholdEnabled" Type="bit" />
+          <Property Name="PrimaryContact" Type="varchar" MaxLength="100" />
+          <Property Name="SecondaryContact" Type="varchar" MaxLength="100" />
+          <Property Name="SecondaryContactDelay" Type="int" />
+          <Property Name="DeviceType" Type="varchar" MaxLength="50" />
+          <Property Name="smsDelay" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_Devices">
+          <Key>
+            <PropertyRef Name="DeviceID" />
+          </Key>
+          <Property Name="DeviceID" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="TypeID" Type="int" />
+          <Property Name="BriolerID" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="150" />
+          <Property Name="Description" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="tbl_DeviceType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="AirTemp" Type="bit" />
+          <Property Name="Humidity" Type="bit" />
+          <Property Name="PH" Type="bit" />
+          <Property Name="CO2" Type="bit" />
+          <Property Name="NH3" Type="bit" />
+          <Property Name="WaterTemp" Type="bit" />
+          <Property Name="ORP" Type="bit" />
+          <Property Name="EC" Type="bit" />
+          <Property Name="Weight" Type="bit" />
+          <Property Name="Battery" Type="bit" />
+        </EntityType>
+        <EntityType Name="tbl_DOC">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="broilerId" Type="int" />
+          <Property Name="cycleId" Type="int" />
+          <Property Name="hatcheryName" Type="int" />
+          <Property Name="date" Type="datetime" />
+          <Property Name="invoiceNumber" Type="varchar" MaxLength="50" />
+          <Property Name="totalNoOfBoxes" Type="int" />
+          <Property Name="noOfBirdsPerBox" Type="int" />
+          <Property Name="totalQauntity" Type="int" />
+          <Property Name="breederCode" Type="int" />
+          <Property Name="description" Type="varchar" MaxLength="150" />
+          <Property Name="checkWeight" Type="float" />
+          <Property Name="qauntity" Type="int" />
+          <Property Name="parentAge" Type="int" />
+          <Property Name="timeOfPulling" Type="datetime" />
+          <Property Name="hatcherNo" Type="int" />
+          <Property Name="setterNo" Type="int" />
+          <Property Name="noOfBirdsInBoxes" Type="int" />
+          <Property Name="internalChickTemp" Type="float" />
+          <Property Name="vehicleRelativeHumidity" Type="float" />
+          <Property Name="cargoHoldTemp" Type="float" />
+          <Property Name="boxStockDensity" Type="float" />
+          <Property Name="holdingAreaTemp" Type="float" />
+          <Property Name="primaryNumber" Type="nvarchar" MaxLength="15" />
+          <Property Name="secondaryNumber" Type="nvarchar" MaxLength="15" />
+          <Property Name="timeOfDelivery" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_DOCTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cycleId" Type="int" />
+          <Property Name="breederCode" Type="int" />
+          <Property Name="description" Type="varchar" MaxLength="255" />
+          <Property Name="chickWeight" Type="real" />
+          <Property Name="qauntity" Type="int" />
+          <Property Name="parentAge" Type="int" />
+          <Property Name="timeOfPulling" Type="datetime" />
+          <Property Name="hatcherno" Type="int" />
+          <Property Name="setterno" Type="int" />
+          <Property Name="broilerId" Type="int" />
+          <Property Name="deformaties" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_Farm">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="300" />
+          <Property Name="Description" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="tbl_Feed">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="broilerId" Type="int" />
+          <Property Name="stageId" Type="int" />
+          <Property Name="supplierId" Type="int" />
+          <Property Name="startdate" Type="datetime" />
+          <Property Name="enddate" Type="datetime" />
+          <Property Name="type" Type="int" />
+          <Property Name="cycleId" Type="int" />
+          <Property Name="feedname" Type="int" />
+          <Property Name="weight" Type="float" />
+        </EntityType>
+        <EntityType Name="tbl_FeedWater">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="broilerID" Type="int" />
+          <Property Name="Feed" Type="float" />
+          <Property Name="WaterConsumption" Type="float" />
+          <Property Name="DateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Hatchery">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="int" />
+          <Property Name="BreederCode" Type="int" />
+          <Property Name="BirdsBoxes" Type="int" />
+          <Property Name="ChickWeight" Type="float" />
+          <Property Name="TimeofPulling" Type="datetime" />
+          <Property Name="broilerId" Type="int" />
+          <Property Name="DateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Health">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="broilerId" Type="int" />
+          <Property Name="cycleId" Type="int" />
+          <Property Name="litterId" Type="int" />
+          <Property Name="sanitationId" Type="int" />
+          <Property Name="healthId" Type="int" />
+          <Property Name="vaccinationId" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_MortalitiesEvent">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="eventName" Type="varchar" MaxLength="200" />
+          <Property Name="description" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="tbl_PlacementWeight">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="totalBirdWeight" Type="float" />
+          <Property Name="averageBox" Type="float" />
+          <Property Name="noOfBoxes" Type="int" />
+          <Property Name="noOfBirdsPerBox" Type="int" />
+          <Property Name="date" Type="datetime" />
+          <Property Name="broilerId" Type="int" />
+          <Property Name="weightId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="tbl_Systems">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="broilerId" Type="int" />
+          <Property Name="cycleId" Type="int" />
+          <Property Name="heatingId" Type="int" />
+          <Property Name="ventilationId" Type="int" />
+          <Property Name="drinkerId" Type="int" />
+          <Property Name="lightingId" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_ThresholdAlarms">
+          <Key>
+            <PropertyRef Name="limitID" />
+          </Key>
+          <Property Name="limitID" Type="int" Nullable="false" />
+          <Property Name="TimeStamp" Type="datetime" />
+          <Property Name="FirstSend" Type="bit" />
+          <Property Name="SecondSent" Type="bit" />
+          <Property Name="TimeStampSecondary" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="500" />
+          <Property Name="Surname" Type="varchar" MaxLength="500" />
+          <Property Name="Email" Type="varchar" MaxLength="500" />
+          <Property Name="Password" Type="varchar" MaxLength="500" />
+          <Property Name="ContactNumber" Type="varchar" MaxLength="500" />
+          <Property Name="Registered" Type="bit" />
+          <Property Name="UserTypeID" Type="int" />
+          <Property Name="Username" Type="varchar" MaxLength="500" />
+          <Property Name="UniqueID" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="tbl_UsersAdditional">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="500" />
+          <Property Name="Surname" Type="varchar" MaxLength="500" />
+          <Property Name="Email" Type="varchar" MaxLength="500" />
+          <Property Name="Password" Type="varchar" MaxLength="500" />
+          <Property Name="ContactNumber" Type="varchar" MaxLength="500" />
+          <Property Name="Registered" Type="bit" />
+          <Property Name="UserTypeID" Type="int" />
+          <Property Name="Username" Type="varchar" MaxLength="500" />
+          <Property Name="UniqueID" Type="varchar" MaxLength="300" />
+          <Property Name="UserID" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_UserTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="varchar" MaxLength="150" />
+          <Property Name="Rights" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_Weights">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BroilerID" Type="int" />
+          <Property Name="WeightBack" Type="float" />
+          <Property Name="WeightCenter" Type="float" />
+          <Property Name="WeightFront" Type="float" />
+          <Property Name="WeightAverage" Type="float" />
+          <Property Name="dateTime" Type="datetime" />
+          <Property Name="WeightBackR" Type="float" />
+          <Property Name="WeightCenterR" Type="float" />
+          <Property Name="WeightFrontR" Type="float" />
+          <Property Name="SampleSize" Type="float" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'omnio.dbo.vw_briolerDataDay' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_briolerDataDay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Total" Type="int" />
+          <Property Name="TotalCulls" Type="int" />
+          <Property Name="AvgWeight" Type="float" />
+          <Property Name="created" Type="datetime" />
+          <Property Name="ID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'omnio.dbo.vw_briolerDataMonth' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_briolerDataMonth">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="month" Type="datetime" />
+          <Property Name="Total" Type="int" />
+          <Property Name="TotalCulls" Type="int" />
+          <Property Name="ID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'omnio.dbo.vw_briolerDataWeek' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_briolerDataWeek">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="year" Type="int" />
+          <Property Name="week" Type="int" />
+          <Property Name="Total" Type="int" />
+          <Property Name="TotalCulls" Type="int" />
+          <Property Name="ID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'omnio.dbo.vw_DeviceDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_DeviceDetails">
+          <Key>
+            <PropertyRef Name="DeviceID" />
+          </Key>
+          <Property Name="Name" Type="varchar" MaxLength="150" />
+          <Property Name="Description" Type="varchar" MaxLength="150" />
+          <Property Name="BriolerName" Type="nvarchar" MaxLength="300" />
+          <Property Name="BriolerDescription" Type="nvarchar" MaxLength="300" />
+          <Property Name="FarmName" Type="varchar" MaxLength="300" />
+          <Property Name="FarmDescription" Type="varchar" MaxLength="300" />
+          <Property Name="DeviceID" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="DeviceType" Type="varchar" MaxLength="100" />
+          <Property Name="TImestamp" Type="datetime" />
+          <Property Name="Unit" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <Association Name="FK_tbl_BriolerData_tbl_Briolers">
+          <End Role="tbl_Briolers" Type="Self.tbl_Briolers" Multiplicity="0..1" />
+          <End Role="tbl_BriolerData" Type="Self.tbl_BriolerData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Briolers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_BriolerData">
+              <PropertyRef Name="briolerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_BriolerData_tbl_CullsEvent">
+          <End Role="tbl_CullsEvent" Type="Self.tbl_CullsEvent" Multiplicity="0..1" />
+          <End Role="tbl_BriolerData" Type="Self.tbl_BriolerData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_CullsEvent">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_BriolerData">
+              <PropertyRef Name="eventCullsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_BriolerData_tbl_MortalitiesEvent">
+          <End Role="tbl_MortalitiesEvent" Type="Self.tbl_MortalitiesEvent" Multiplicity="0..1" />
+          <End Role="tbl_BriolerData" Type="Self.tbl_BriolerData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_MortalitiesEvent">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_BriolerData">
+              <PropertyRef Name="eventMortalitiesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Briolers_tbl_Farm">
+          <End Role="tbl_Farm" Type="Self.tbl_Farm" Multiplicity="0..1" />
+          <End Role="tbl_Briolers" Type="Self.tbl_Briolers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Farm">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Briolers">
+              <PropertyRef Name="farmID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_BroilerData_tbl_Farm">
+          <End Role="tbl_Farm" Type="Self.tbl_Farm" Multiplicity="0..1" />
+          <End Role="tbl_BroilerInfo" Type="Self.tbl_BroilerInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Farm">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_BroilerInfo">
+              <PropertyRef Name="farmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Cycles_tbl_Briolers">
+          <End Role="tbl_Briolers" Type="Self.tbl_Briolers" Multiplicity="0..1" />
+          <End Role="tbl_Cycles" Type="Self.tbl_Cycles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Briolers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Cycles">
+              <PropertyRef Name="broilerid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Cycles_tbl_Farm">
+          <End Role="tbl_Farm" Type="Self.tbl_Farm" Multiplicity="0..1" />
+          <End Role="tbl_Cycles" Type="Self.tbl_Cycles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Farm">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Cycles">
+              <PropertyRef Name="farmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DeviceData_tbl_Devices">
+          <End Role="tbl_Devices" Type="Self.tbl_Devices" Multiplicity="1" />
+          <End Role="tbl_DeviceData" Type="Self.tbl_DeviceData" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Devices">
+              <PropertyRef Name="DeviceID" />
+            </Principal>
+            <Dependent Role="tbl_DeviceData">
+              <PropertyRef Name="DeviceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DeviceDataDetail_tbl_Devices">
+          <End Role="tbl_Devices" Type="Self.tbl_Devices" Multiplicity="0..1" />
+          <End Role="tbl_DeviceDataDetail" Type="Self.tbl_DeviceDataDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Devices">
+              <PropertyRef Name="DeviceID" />
+            </Principal>
+            <Dependent Role="tbl_DeviceDataDetail">
+              <PropertyRef Name="DeviceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DeviceLimits_tbl_DeviceDataDetail">
+          <End Role="tbl_DeviceDataDetail" Type="Self.tbl_DeviceDataDetail" Multiplicity="0..1" />
+          <End Role="tbl_DeviceLimits" Type="Self.tbl_DeviceLimits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_DeviceDataDetail">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_DeviceLimits">
+              <PropertyRef Name="DeviceDataID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DeviceLimits_tbl_Devices">
+          <End Role="tbl_Devices" Type="Self.tbl_Devices" Multiplicity="0..1" />
+          <End Role="tbl_DeviceLimits" Type="Self.tbl_DeviceLimits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Devices">
+              <PropertyRef Name="DeviceID" />
+            </Principal>
+            <Dependent Role="tbl_DeviceLimits">
+              <PropertyRef Name="DeviceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Devices_tbl_DeviceType">
+          <End Role="tbl_DeviceType" Type="Self.tbl_DeviceType" Multiplicity="0..1" />
+          <End Role="tbl_Devices" Type="Self.tbl_Devices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_DeviceType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Devices">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Devices_tbl_Farm">
+          <End Role="tbl_Briolers" Type="Self.tbl_Briolers" Multiplicity="0..1" />
+          <End Role="tbl_Devices" Type="Self.tbl_Devices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Briolers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Devices">
+              <PropertyRef Name="BriolerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DOC_tbl_Briolers">
+          <End Role="tbl_Briolers" Type="Self.tbl_Briolers" Multiplicity="0..1" />
+          <End Role="tbl_DOC" Type="Self.tbl_DOC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Briolers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_DOC">
+              <PropertyRef Name="broilerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Farm_tbl_Users">
+          <End Role="tbl_Users" Type="Self.tbl_Users" Multiplicity="0..1" />
+          <End Role="tbl_Farm" Type="Self.tbl_Farm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Farm">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_FeedWater_tbl_Briolers">
+          <End Role="tbl_Briolers" Type="Self.tbl_Briolers" Multiplicity="0..1" />
+          <End Role="tbl_FeedWater" Type="Self.tbl_FeedWater" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Briolers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_FeedWater">
+              <PropertyRef Name="broilerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ThresholdAlarms_tbl_DeviceLimits">
+          <End Role="tbl_DeviceLimits" Type="Self.tbl_DeviceLimits" Multiplicity="1" />
+          <End Role="tbl_ThresholdAlarms" Type="Self.tbl_ThresholdAlarms" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_DeviceLimits">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_ThresholdAlarms">
+              <PropertyRef Name="limitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Users_tbl_Users">
+          <End Role="tbl_UserTypes" Type="Self.tbl_UserTypes" Multiplicity="0..1" />
+          <End Role="tbl_Users" Type="Self.tbl_Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_UserTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Users">
+              <PropertyRef Name="UserTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Weights_tbl_Briolers">
+          <End Role="tbl_Briolers" Type="Self.tbl_Briolers" Multiplicity="0..1" />
+          <End Role="tbl_Weights" Type="Self.tbl_Weights" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Briolers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Weights">
+              <PropertyRef Name="BroilerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="omnioModelStoreContainer">
+          <EntitySet Name="tbl_activities" EntityType="Self.tbl_activities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_BriolerData" EntityType="Self.tbl_BriolerData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Briolers" EntityType="Self.tbl_Briolers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_BroilerInfo" EntityType="Self.tbl_BroilerInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_BroilerSettings" EntityType="Self.tbl_BroilerSettings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_catching" EntityType="Self.tbl_catching" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_CullsEvent" EntityType="Self.tbl_CullsEvent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Cycles" EntityType="Self.tbl_Cycles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_DeviceData" EntityType="Self.tbl_DeviceData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_DeviceDataDetail" EntityType="Self.tbl_DeviceDataDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_DeviceLimits" EntityType="Self.tbl_DeviceLimits" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Devices" EntityType="Self.tbl_Devices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_DeviceType" EntityType="Self.tbl_DeviceType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_DOC" EntityType="Self.tbl_DOC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_DOCTable" EntityType="Self.tbl_DOCTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Farm" EntityType="Self.tbl_Farm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Feed" EntityType="Self.tbl_Feed" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_FeedWater" EntityType="Self.tbl_FeedWater" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Hatchery" EntityType="Self.tbl_Hatchery" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Health" EntityType="Self.tbl_Health" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_MortalitiesEvent" EntityType="Self.tbl_MortalitiesEvent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_PlacementWeight" EntityType="Self.tbl_PlacementWeight" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Systems" EntityType="Self.tbl_Systems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_ThresholdAlarms" EntityType="Self.tbl_ThresholdAlarms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Users" EntityType="Self.tbl_Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_UsersAdditional" EntityType="Self.tbl_UsersAdditional" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_UserTypes" EntityType="Self.tbl_UserTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Weights" EntityType="Self.tbl_Weights" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vw_briolerDataDay" EntityType="Self.vw_briolerDataDay" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[vw_briolerDataDay].[Total] AS [Total], 
+[vw_briolerDataDay].[TotalCulls] AS [TotalCulls], 
+[vw_briolerDataDay].[AvgWeight] AS [AvgWeight], 
+[vw_briolerDataDay].[created] AS [created], 
+[vw_briolerDataDay].[ID] AS [ID]
+FROM [dbo].[vw_briolerDataDay] AS [vw_briolerDataDay]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_briolerDataMonth" EntityType="Self.vw_briolerDataMonth" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[vw_briolerDataMonth].[month] AS [month], 
+[vw_briolerDataMonth].[Total] AS [Total], 
+[vw_briolerDataMonth].[TotalCulls] AS [TotalCulls], 
+[vw_briolerDataMonth].[ID] AS [ID]
+FROM [dbo].[vw_briolerDataMonth] AS [vw_briolerDataMonth]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_briolerDataWeek" EntityType="Self.vw_briolerDataWeek" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[vw_briolerDataWeek].[year] AS [year], 
+[vw_briolerDataWeek].[week] AS [week], 
+[vw_briolerDataWeek].[Total] AS [Total], 
+[vw_briolerDataWeek].[TotalCulls] AS [TotalCulls], 
+[vw_briolerDataWeek].[ID] AS [ID]
+FROM [dbo].[vw_briolerDataWeek] AS [vw_briolerDataWeek]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_DeviceDetails" EntityType="Self.vw_DeviceDetails" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[vw_DeviceDetails].[Name] AS [Name], 
+[vw_DeviceDetails].[Description] AS [Description], 
+[vw_DeviceDetails].[BriolerName] AS [BriolerName], 
+[vw_DeviceDetails].[BriolerDescription] AS [BriolerDescription], 
+[vw_DeviceDetails].[FarmName] AS [FarmName], 
+[vw_DeviceDetails].[FarmDescription] AS [FarmDescription], 
+[vw_DeviceDetails].[DeviceID] AS [DeviceID], 
+[vw_DeviceDetails].[DeviceType] AS [DeviceType], 
+[vw_DeviceDetails].[TImestamp] AS [TImestamp], 
+[vw_DeviceDetails].[Unit] AS [Unit]
+FROM [dbo].[vw_DeviceDetails] AS [vw_DeviceDetails]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_tbl_BriolerData_tbl_Briolers" Association="Self.FK_tbl_BriolerData_tbl_Briolers">
+            <End Role="tbl_Briolers" EntitySet="tbl_Briolers" />
+            <End Role="tbl_BriolerData" EntitySet="tbl_BriolerData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_BriolerData_tbl_CullsEvent" Association="Self.FK_tbl_BriolerData_tbl_CullsEvent">
+            <End Role="tbl_CullsEvent" EntitySet="tbl_CullsEvent" />
+            <End Role="tbl_BriolerData" EntitySet="tbl_BriolerData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_BriolerData_tbl_MortalitiesEvent" Association="Self.FK_tbl_BriolerData_tbl_MortalitiesEvent">
+            <End Role="tbl_MortalitiesEvent" EntitySet="tbl_MortalitiesEvent" />
+            <End Role="tbl_BriolerData" EntitySet="tbl_BriolerData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Briolers_tbl_Farm" Association="Self.FK_tbl_Briolers_tbl_Farm">
+            <End Role="tbl_Farm" EntitySet="tbl_Farm" />
+            <End Role="tbl_Briolers" EntitySet="tbl_Briolers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_BroilerData_tbl_Farm" Association="Self.FK_tbl_BroilerData_tbl_Farm">
+            <End Role="tbl_Farm" EntitySet="tbl_Farm" />
+            <End Role="tbl_BroilerInfo" EntitySet="tbl_BroilerInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Cycles_tbl_Briolers" Association="Self.FK_tbl_Cycles_tbl_Briolers">
+            <End Role="tbl_Briolers" EntitySet="tbl_Briolers" />
+            <End Role="tbl_Cycles" EntitySet="tbl_Cycles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Cycles_tbl_Farm" Association="Self.FK_tbl_Cycles_tbl_Farm">
+            <End Role="tbl_Farm" EntitySet="tbl_Farm" />
+            <End Role="tbl_Cycles" EntitySet="tbl_Cycles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DeviceData_tbl_Devices" Association="Self.FK_tbl_DeviceData_tbl_Devices">
+            <End Role="tbl_Devices" EntitySet="tbl_Devices" />
+            <End Role="tbl_DeviceData" EntitySet="tbl_DeviceData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DeviceDataDetail_tbl_Devices" Association="Self.FK_tbl_DeviceDataDetail_tbl_Devices">
+            <End Role="tbl_Devices" EntitySet="tbl_Devices" />
+            <End Role="tbl_DeviceDataDetail" EntitySet="tbl_DeviceDataDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DeviceLimits_tbl_DeviceDataDetail" Association="Self.FK_tbl_DeviceLimits_tbl_DeviceDataDetail">
+            <End Role="tbl_DeviceDataDetail" EntitySet="tbl_DeviceDataDetail" />
+            <End Role="tbl_DeviceLimits" EntitySet="tbl_DeviceLimits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DeviceLimits_tbl_Devices" Association="Self.FK_tbl_DeviceLimits_tbl_Devices">
+            <End Role="tbl_Devices" EntitySet="tbl_Devices" />
+            <End Role="tbl_DeviceLimits" EntitySet="tbl_DeviceLimits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Devices_tbl_DeviceType" Association="Self.FK_tbl_Devices_tbl_DeviceType">
+            <End Role="tbl_DeviceType" EntitySet="tbl_DeviceType" />
+            <End Role="tbl_Devices" EntitySet="tbl_Devices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Devices_tbl_Farm" Association="Self.FK_tbl_Devices_tbl_Farm">
+            <End Role="tbl_Briolers" EntitySet="tbl_Briolers" />
+            <End Role="tbl_Devices" EntitySet="tbl_Devices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DOC_tbl_Briolers" Association="Self.FK_tbl_DOC_tbl_Briolers">
+            <End Role="tbl_Briolers" EntitySet="tbl_Briolers" />
+            <End Role="tbl_DOC" EntitySet="tbl_DOC" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Farm_tbl_Users" Association="Self.FK_tbl_Farm_tbl_Users">
+            <End Role="tbl_Users" EntitySet="tbl_Users" />
+            <End Role="tbl_Farm" EntitySet="tbl_Farm" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_FeedWater_tbl_Briolers" Association="Self.FK_tbl_FeedWater_tbl_Briolers">
+            <End Role="tbl_Briolers" EntitySet="tbl_Briolers" />
+            <End Role="tbl_FeedWater" EntitySet="tbl_FeedWater" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ThresholdAlarms_tbl_DeviceLimits" Association="Self.FK_tbl_ThresholdAlarms_tbl_DeviceLimits">
+            <End Role="tbl_DeviceLimits" EntitySet="tbl_DeviceLimits" />
+            <End Role="tbl_ThresholdAlarms" EntitySet="tbl_ThresholdAlarms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Users_tbl_Users" Association="Self.FK_tbl_Users_tbl_Users">
+            <End Role="tbl_UserTypes" EntitySet="tbl_UserTypes" />
+            <End Role="tbl_Users" EntitySet="tbl_Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Weights_tbl_Briolers" Association="Self.FK_tbl_Weights_tbl_Briolers">
+            <End Role="tbl_Briolers" EntitySet="tbl_Briolers" />
+            <End Role="tbl_Weights" EntitySet="tbl_Weights" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="omnioModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="omnioEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbl_BriolerData" EntityType="omnioModel.tbl_BriolerData" />
+          <EntitySet Name="tbl_Briolers" EntityType="omnioModel.tbl_Briolers" />
+          <EntitySet Name="tbl_BroilerInfo" EntityType="omnioModel.tbl_BroilerInfo" />
+          <EntitySet Name="tbl_CullsEvent" EntityType="omnioModel.tbl_CullsEvent" />
+          <EntitySet Name="tbl_DeviceData" EntityType="omnioModel.tbl_DeviceData" />
+          <EntitySet Name="tbl_DeviceDataDetail" EntityType="omnioModel.tbl_DeviceDataDetail" />
+          <EntitySet Name="tbl_DeviceLimits" EntityType="omnioModel.tbl_DeviceLimits" />
+          <EntitySet Name="tbl_Devices" EntityType="omnioModel.tbl_Devices" />
+          <EntitySet Name="tbl_DeviceType" EntityType="omnioModel.tbl_DeviceType" />
+          <EntitySet Name="tbl_Farm" EntityType="omnioModel.tbl_Farm" />
+          <EntitySet Name="tbl_FeedWater" EntityType="omnioModel.tbl_FeedWater" />
+          <EntitySet Name="tbl_Hatchery" EntityType="omnioModel.tbl_Hatchery" />
+          <EntitySet Name="tbl_MortalitiesEvent" EntityType="omnioModel.tbl_MortalitiesEvent" />
+          <EntitySet Name="tbl_ThresholdAlarms" EntityType="omnioModel.tbl_ThresholdAlarms" />
+          <EntitySet Name="tbl_Users" EntityType="omnioModel.tbl_Users" />
+          <EntitySet Name="tbl_UsersAdditional" EntityType="omnioModel.tbl_UsersAdditional" />
+          <EntitySet Name="tbl_UserTypes" EntityType="omnioModel.tbl_UserTypes" />
+          <EntitySet Name="tbl_Weights" EntityType="omnioModel.tbl_Weights" />
+          <EntitySet Name="vw_briolerDataDay" EntityType="omnioModel.vw_briolerDataDay" />
+          <EntitySet Name="vw_briolerDataMonth" EntityType="omnioModel.vw_briolerDataMonth" />
+          <EntitySet Name="vw_briolerDataWeek" EntityType="omnioModel.vw_briolerDataWeek" />
+          <EntitySet Name="vw_DeviceDetails" EntityType="omnioModel.vw_DeviceDetails" />
+          <AssociationSet Name="FK_tbl_BriolerData_tbl_Briolers" Association="omnioModel.FK_tbl_BriolerData_tbl_Briolers">
+            <End Role="tbl_Briolers" EntitySet="tbl_Briolers" />
+            <End Role="tbl_BriolerData" EntitySet="tbl_BriolerData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_BriolerData_tbl_CullsEvent" Association="omnioModel.FK_tbl_BriolerData_tbl_CullsEvent">
+            <End Role="tbl_CullsEvent" EntitySet="tbl_CullsEvent" />
+            <End Role="tbl_BriolerData" EntitySet="tbl_BriolerData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_BriolerData_tbl_MortalitiesEvent" Association="omnioModel.FK_tbl_BriolerData_tbl_MortalitiesEvent">
+            <End Role="tbl_MortalitiesEvent" EntitySet="tbl_MortalitiesEvent" />
+            <End Role="tbl_BriolerData" EntitySet="tbl_BriolerData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Briolers_tbl_Farm" Association="omnioModel.FK_tbl_Briolers_tbl_Farm">
+            <End Role="tbl_Farm" EntitySet="tbl_Farm" />
+            <End Role="tbl_Briolers" EntitySet="tbl_Briolers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Devices_tbl_Farm" Association="omnioModel.FK_tbl_Devices_tbl_Farm">
+            <End Role="tbl_Briolers" EntitySet="tbl_Briolers" />
+            <End Role="tbl_Devices" EntitySet="tbl_Devices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_FeedWater_tbl_Briolers" Association="omnioModel.FK_tbl_FeedWater_tbl_Briolers">
+            <End Role="tbl_Briolers" EntitySet="tbl_Briolers" />
+            <End Role="tbl_FeedWater" EntitySet="tbl_FeedWater" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Weights_tbl_Briolers" Association="omnioModel.FK_tbl_Weights_tbl_Briolers">
+            <End Role="tbl_Briolers" EntitySet="tbl_Briolers" />
+            <End Role="tbl_Weights" EntitySet="tbl_Weights" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_BroilerData_tbl_Farm" Association="omnioModel.FK_tbl_BroilerData_tbl_Farm">
+            <End Role="tbl_Farm" EntitySet="tbl_Farm" />
+            <End Role="tbl_BroilerInfo" EntitySet="tbl_BroilerInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DeviceData_tbl_Devices" Association="omnioModel.FK_tbl_DeviceData_tbl_Devices">
+            <End Role="tbl_Devices" EntitySet="tbl_Devices" />
+            <End Role="tbl_DeviceData" EntitySet="tbl_DeviceData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DeviceDataDetail_tbl_Devices" Association="omnioModel.FK_tbl_DeviceDataDetail_tbl_Devices">
+            <End Role="tbl_Devices" EntitySet="tbl_Devices" />
+            <End Role="tbl_DeviceDataDetail" EntitySet="tbl_DeviceDataDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DeviceLimits_tbl_DeviceDataDetail" Association="omnioModel.FK_tbl_DeviceLimits_tbl_DeviceDataDetail">
+            <End Role="tbl_DeviceDataDetail" EntitySet="tbl_DeviceDataDetail" />
+            <End Role="tbl_DeviceLimits" EntitySet="tbl_DeviceLimits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DeviceLimits_tbl_Devices" Association="omnioModel.FK_tbl_DeviceLimits_tbl_Devices">
+            <End Role="tbl_Devices" EntitySet="tbl_Devices" />
+            <End Role="tbl_DeviceLimits" EntitySet="tbl_DeviceLimits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ThresholdAlarms_tbl_DeviceLimits" Association="omnioModel.FK_tbl_ThresholdAlarms_tbl_DeviceLimits">
+            <End Role="tbl_DeviceLimits" EntitySet="tbl_DeviceLimits" />
+            <End Role="tbl_ThresholdAlarms" EntitySet="tbl_ThresholdAlarms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Devices_tbl_DeviceType" Association="omnioModel.FK_tbl_Devices_tbl_DeviceType">
+            <End Role="tbl_DeviceType" EntitySet="tbl_DeviceType" />
+            <End Role="tbl_Devices" EntitySet="tbl_Devices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Farm_tbl_Users" Association="omnioModel.FK_tbl_Farm_tbl_Users">
+            <End Role="tbl_Users" EntitySet="tbl_Users" />
+            <End Role="tbl_Farm" EntitySet="tbl_Farm" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Users_tbl_Users" Association="omnioModel.FK_tbl_Users_tbl_Users">
+            <End Role="tbl_UserTypes" EntitySet="tbl_UserTypes" />
+            <End Role="tbl_Users" EntitySet="tbl_Users" />
+          </AssociationSet>
+          <EntitySet Name="tbl_Cycles" EntityType="omnioModel.tbl_Cycles" />
+          <AssociationSet Name="FK_tbl_Cycles_tbl_Briolers" Association="omnioModel.FK_tbl_Cycles_tbl_Briolers">
+            <End Role="tbl_Briolers" EntitySet="tbl_Briolers" />
+            <End Role="tbl_Cycles" EntitySet="tbl_Cycles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Cycles_tbl_Farm" Association="omnioModel.FK_tbl_Cycles_tbl_Farm">
+            <End Role="tbl_Farm" EntitySet="tbl_Farm" />
+            <End Role="tbl_Cycles" EntitySet="tbl_Cycles" />
+          </AssociationSet>
+          <EntitySet Name="tbl_PlacementWeight" EntityType="omnioModel.tbl_PlacementWeight" />
+          <EntitySet Name="tbl_BroilerSettings" EntityType="omnioModel.tbl_BroilerSettings" />
+          <EntitySet Name="tbl_Feed" EntityType="omnioModel.tbl_Feed" />
+          <EntitySet Name="tbl_catching" EntityType="omnioModel.tbl_catching" />
+          <EntitySet Name="tbl_activities" EntityType="omnioModel.tbl_activities" />
+          <EntitySet Name="tbl_DOC" EntityType="omnioModel.tbl_DOC" />
+          <AssociationSet Name="FK_tbl_DOC_tbl_Briolers" Association="omnioModel.FK_tbl_DOC_tbl_Briolers">
+            <End Role="tbl_Briolers" EntitySet="tbl_Briolers" />
+            <End Role="tbl_DOC" EntitySet="tbl_DOC" />
+          </AssociationSet>
+          <EntitySet Name="tbl_DOCTable" EntityType="omnioModel.tbl_DOCTable" />
+          <EntitySet Name="tbl_Health" EntityType="omnioModel.tbl_Health" />
+          <EntitySet Name="tbl_Systems" EntityType="omnioModel.tbl_Systems" />
+        </EntityContainer>
+        <EntityType Name="tbl_BriolerData">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="briolerID" Type="Int32" />
+          <Property Name="fatalities" Type="Int32" />
+          <Property Name="dateTime" Type="DateTime" Precision="3" />
+          <Property Name="culls" Type="Int32" />
+          <Property Name="weight" Type="Double" />
+          <Property Name="eventCullsID" Type="Int32" />
+          <Property Name="eventMortalitiesID" Type="Int32" />
+          <NavigationProperty Name="tbl_CullsEvent" Relationship="omnioModel.FK_tbl_BriolerData_tbl_CullsEvent" FromRole="tbl_BriolerData" ToRole="tbl_CullsEvent" />
+          <NavigationProperty Name="tbl_MortalitiesEvent" Relationship="omnioModel.FK_tbl_BriolerData_tbl_MortalitiesEvent" FromRole="tbl_BriolerData" ToRole="tbl_MortalitiesEvent" />
+        </EntityType>
+        <EntityType Name="tbl_Briolers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="farmID" Type="Int32" />
+          <Property Name="NoOfBirds" Type="Int32" />
+          <NavigationProperty Name="tbl_BriolerData" Relationship="omnioModel.FK_tbl_BriolerData_tbl_Briolers" FromRole="tbl_Briolers" ToRole="tbl_BriolerData" />
+          <NavigationProperty Name="tbl_Devices" Relationship="omnioModel.FK_tbl_Devices_tbl_Farm" FromRole="tbl_Briolers" ToRole="tbl_Devices" />
+          <NavigationProperty Name="tbl_Cycles" Relationship="omnioModel.FK_tbl_Cycles_tbl_Briolers" FromRole="tbl_Briolers" ToRole="tbl_Cycles" />
+          <NavigationProperty Name="tbl_DOC" Relationship="omnioModel.FK_tbl_DOC_tbl_Briolers" FromRole="tbl_Briolers" ToRole="tbl_DOC" />
+        </EntityType>
+        <EntityType Name="tbl_BroilerInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="farmId" Type="Int32" />
+          <Property Name="type" Type="Int32" />
+          <Property Name="value" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_CullsEvent">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="eventName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_DeviceData">
+          <Key>
+            <PropertyRef Name="DeviceID" />
+          </Key>
+          <Property Name="DeviceID" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+          <Property Name="AirTemp" Type="Double" />
+          <Property Name="Humidity" Type="Double" />
+          <Property Name="PH" Type="Double" />
+          <Property Name="CO2" Type="Double" />
+          <Property Name="NH3" Type="Double" />
+          <Property Name="Water" Type="Double" />
+          <Property Name="WaterTemp" Type="Double" />
+          <Property Name="ORP" Type="Double" />
+          <Property Name="EC" Type="Double" />
+          <Property Name="Weight" Type="Double" />
+          <Property Name="Battery" Type="Double" />
+          <NavigationProperty Name="tbl_Devices" Relationship="omnioModel.FK_tbl_DeviceData_tbl_Devices" FromRole="tbl_DeviceData" ToRole="tbl_Devices" />
+          <Property Name="Lux" Type="Double" />
+        </EntityType>
+        <EntityType Name="tbl_DeviceDataDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeviceID" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="TImestamp" Type="DateTime" Precision="3" />
+          <Property Name="Value" Type="Double" />
+          <Property Name="ValueType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Unit" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbl_Devices" Relationship="omnioModel.FK_tbl_DeviceDataDetail_tbl_Devices" FromRole="tbl_DeviceDataDetail" ToRole="tbl_Devices" />
+          <NavigationProperty Name="tbl_DeviceLimits" Relationship="omnioModel.FK_tbl_DeviceLimits_tbl_DeviceDataDetail" FromRole="tbl_DeviceDataDetail" ToRole="tbl_DeviceLimits" />
+        </EntityType>
+        <EntityType Name="tbl_DeviceLimits">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeviceID" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DeviceDataID" Type="Int64" />
+          <Property Name="Unit" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="HighLimit" Type="Double" />
+          <Property Name="LowLimit" Type="Double" />
+          <Property Name="HighColor" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="LowColor" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="SetpointColor" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ThresholdEnabled" Type="Boolean" />
+          <Property Name="PrimaryContact" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SecondaryContact" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SecondaryContactDelay" Type="Int32" />
+          <Property Name="DeviceType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="smsDelay" Type="Int32" />
+          <NavigationProperty Name="tbl_DeviceDataDetail" Relationship="omnioModel.FK_tbl_DeviceLimits_tbl_DeviceDataDetail" FromRole="tbl_DeviceLimits" ToRole="tbl_DeviceDataDetail" />
+          <NavigationProperty Name="tbl_Devices" Relationship="omnioModel.FK_tbl_DeviceLimits_tbl_Devices" FromRole="tbl_DeviceLimits" ToRole="tbl_Devices" />
+          <NavigationProperty Name="tbl_ThresholdAlarms" Relationship="omnioModel.FK_tbl_ThresholdAlarms_tbl_DeviceLimits" FromRole="tbl_DeviceLimits" ToRole="tbl_ThresholdAlarms" />
+        </EntityType>
+        <EntityType Name="tbl_Devices">
+          <Key>
+            <PropertyRef Name="DeviceID" />
+          </Key>
+          <Property Name="DeviceID" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="TypeID" Type="Int32" />
+          <Property Name="BriolerID" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbl_DeviceData" Relationship="omnioModel.FK_tbl_DeviceData_tbl_Devices" FromRole="tbl_Devices" ToRole="tbl_DeviceData" />
+          <NavigationProperty Name="tbl_DeviceDataDetail" Relationship="omnioModel.FK_tbl_DeviceDataDetail_tbl_Devices" FromRole="tbl_Devices" ToRole="tbl_DeviceDataDetail" />
+          <NavigationProperty Name="tbl_DeviceLimits" Relationship="omnioModel.FK_tbl_DeviceLimits_tbl_Devices" FromRole="tbl_Devices" ToRole="tbl_DeviceLimits" />
+          <NavigationProperty Name="tbl_DeviceType" Relationship="omnioModel.FK_tbl_Devices_tbl_DeviceType" FromRole="tbl_Devices" ToRole="tbl_DeviceType" />
+        </EntityType>
+        <EntityType Name="tbl_DeviceType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AirTemp" Type="Boolean" />
+          <Property Name="Humidity" Type="Boolean" />
+          <Property Name="PH" Type="Boolean" />
+          <Property Name="CO2" Type="Boolean" />
+          <Property Name="NH3" Type="Boolean" />
+          <Property Name="WaterTemp" Type="Boolean" />
+          <Property Name="ORP" Type="Boolean" />
+          <Property Name="EC" Type="Boolean" />
+          <Property Name="Weight" Type="Boolean" />
+          <Property Name="Battery" Type="Boolean" />
+          <NavigationProperty Name="tbl_Devices" Relationship="omnioModel.FK_tbl_Devices_tbl_DeviceType" FromRole="tbl_DeviceType" ToRole="tbl_Devices" />
+        </EntityType>
+        <EntityType Name="tbl_Farm">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbl_Briolers" Relationship="omnioModel.FK_tbl_Briolers_tbl_Farm" FromRole="tbl_Farm" ToRole="tbl_Briolers" />
+          <NavigationProperty Name="tbl_Cycles" Relationship="omnioModel.FK_tbl_Cycles_tbl_Farm" FromRole="tbl_Farm" ToRole="tbl_Cycles" />
+        </EntityType>
+        <EntityType Name="tbl_FeedWater">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="broilerID" Type="Int32" />
+          <Property Name="Feed" Type="Double" />
+          <Property Name="WaterConsumption" Type="Double" />
+          <Property Name="DateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_Hatchery">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="Int32" />
+          <Property Name="BreederCode" Type="Int32" />
+          <Property Name="BirdsBoxes" Type="Int32" />
+          <Property Name="ChickWeight" Type="Double" />
+          <Property Name="TimeofPulling" Type="DateTime" Precision="3" />
+          <Property Name="broilerId" Type="Int32" />
+          <Property Name="DateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_MortalitiesEvent">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="eventName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="tbl_ThresholdAlarms">
+          <Key>
+            <PropertyRef Name="limitID" />
+          </Key>
+          <Property Name="limitID" Type="Int32" Nullable="false" />
+          <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+          <Property Name="FirstSend" Type="Boolean" />
+          <Property Name="SecondSent" Type="Boolean" />
+          <Property Name="TimeStampSecondary" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tbl_DeviceLimits" Relationship="omnioModel.FK_tbl_ThresholdAlarms_tbl_DeviceLimits" FromRole="tbl_ThresholdAlarms" ToRole="tbl_DeviceLimits" />
+        </EntityType>
+        <EntityType Name="tbl_Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Surname" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ContactNumber" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Registered" Type="Boolean" />
+          <Property Name="UserTypeID" Type="Int32" />
+          <Property Name="Username" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="UniqueID" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbl_Farm" Relationship="omnioModel.FK_tbl_Farm_tbl_Users" FromRole="tbl_Users" ToRole="tbl_Farm" />
+        </EntityType>
+        <EntityType Name="tbl_UsersAdditional">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Surname" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ContactNumber" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Registered" Type="Boolean" />
+          <Property Name="UserTypeID" Type="Int32" />
+          <Property Name="Username" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="UniqueID" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="UserID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_UserTypes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Rights" Type="Int32" />
+          <NavigationProperty Name="tbl_Users" Relationship="omnioModel.FK_tbl_Users_tbl_Users" FromRole="tbl_UserTypes" ToRole="tbl_Users" />
+        </EntityType>
+        <EntityType Name="tbl_Weights">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BroilerID" Type="Int32" />
+          <Property Name="WeightBack" Type="Double" />
+          <Property Name="WeightCenter" Type="Double" />
+          <Property Name="WeightFront" Type="Double" />
+          <Property Name="WeightAverage" Type="Double" />
+          <Property Name="dateTime" Type="DateTime" Precision="3" />
+          <Property Name="WeightBackR" Type="Double" />
+          <Property Name="WeightCenterR" Type="Double" />
+          <Property Name="WeightFrontR" Type="Double" />
+          <Property Name="SampleSize" Type="Double" />
+          <NavigationProperty Name="tbl_Briolers" Relationship="omnioModel.FK_tbl_Weights_tbl_Briolers" FromRole="tbl_Weights" ToRole="tbl_Briolers" />
+        </EntityType>
+        <EntityType Name="vw_briolerDataDay">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Total" Type="Int32" />
+          <Property Name="TotalCulls" Type="Int32" />
+          <Property Name="AvgWeight" Type="Double" />
+          <Property Name="created" Type="DateTime" Precision="3" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vw_briolerDataMonth">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="month" Type="DateTime" Precision="3" />
+          <Property Name="Total" Type="Int32" />
+          <Property Name="TotalCulls" Type="Int32" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vw_briolerDataWeek">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="year" Type="Int32" />
+          <Property Name="week" Type="Int32" />
+          <Property Name="Total" Type="Int32" />
+          <Property Name="TotalCulls" Type="Int32" />
+          <Property Name="ID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vw_DeviceDetails">
+          <Key>
+            <PropertyRef Name="DeviceID" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="BriolerName" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="BriolerDescription" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="FarmName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="FarmDescription" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="DeviceID" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DeviceType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TImestamp" Type="DateTime" Precision="3" />
+          <Property Name="Unit" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_tbl_BriolerData_tbl_Briolers">
+          <End Type="omnioModel.tbl_Briolers" Role="tbl_Briolers" Multiplicity="0..1" />
+          <End Type="omnioModel.tbl_BriolerData" Role="tbl_BriolerData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Briolers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_BriolerData">
+              <PropertyRef Name="briolerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_BriolerData_tbl_CullsEvent">
+          <End Type="omnioModel.tbl_CullsEvent" Role="tbl_CullsEvent" Multiplicity="0..1" />
+          <End Type="omnioModel.tbl_BriolerData" Role="tbl_BriolerData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_CullsEvent">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_BriolerData">
+              <PropertyRef Name="eventCullsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_BriolerData_tbl_MortalitiesEvent">
+          <End Type="omnioModel.tbl_MortalitiesEvent" Role="tbl_MortalitiesEvent" Multiplicity="0..1" />
+          <End Type="omnioModel.tbl_BriolerData" Role="tbl_BriolerData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_MortalitiesEvent">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_BriolerData">
+              <PropertyRef Name="eventMortalitiesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Briolers_tbl_Farm">
+          <End Type="omnioModel.tbl_Farm" Role="tbl_Farm" Multiplicity="0..1" />
+          <End Type="omnioModel.tbl_Briolers" Role="tbl_Briolers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Farm">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Briolers">
+              <PropertyRef Name="farmID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Devices_tbl_Farm">
+          <End Type="omnioModel.tbl_Briolers" Role="tbl_Briolers" Multiplicity="0..1" />
+          <End Type="omnioModel.tbl_Devices" Role="tbl_Devices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Briolers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Devices">
+              <PropertyRef Name="BriolerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_FeedWater_tbl_Briolers">
+          <End Type="omnioModel.tbl_Briolers" Role="tbl_Briolers" Multiplicity="0..1" />
+          <End Type="omnioModel.tbl_FeedWater" Role="tbl_FeedWater" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Briolers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_FeedWater">
+              <PropertyRef Name="broilerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Weights_tbl_Briolers">
+          <End Type="omnioModel.tbl_Briolers" Role="tbl_Briolers" Multiplicity="0..1" />
+          <End Type="omnioModel.tbl_Weights" Role="tbl_Weights" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Briolers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Weights">
+              <PropertyRef Name="BroilerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_BroilerData_tbl_Farm">
+          <End Type="omnioModel.tbl_Farm" Role="tbl_Farm" Multiplicity="0..1" />
+          <End Type="omnioModel.tbl_BroilerInfo" Role="tbl_BroilerInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Farm">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_BroilerInfo">
+              <PropertyRef Name="farmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DeviceData_tbl_Devices">
+          <End Type="omnioModel.tbl_Devices" Role="tbl_Devices" Multiplicity="1" />
+          <End Type="omnioModel.tbl_DeviceData" Role="tbl_DeviceData" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Devices">
+              <PropertyRef Name="DeviceID" />
+            </Principal>
+            <Dependent Role="tbl_DeviceData">
+              <PropertyRef Name="DeviceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DeviceDataDetail_tbl_Devices">
+          <End Type="omnioModel.tbl_Devices" Role="tbl_Devices" Multiplicity="0..1" />
+          <End Type="omnioModel.tbl_DeviceDataDetail" Role="tbl_DeviceDataDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Devices">
+              <PropertyRef Name="DeviceID" />
+            </Principal>
+            <Dependent Role="tbl_DeviceDataDetail">
+              <PropertyRef Name="DeviceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DeviceLimits_tbl_DeviceDataDetail">
+          <End Type="omnioModel.tbl_DeviceDataDetail" Role="tbl_DeviceDataDetail" Multiplicity="0..1" />
+          <End Type="omnioModel.tbl_DeviceLimits" Role="tbl_DeviceLimits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_DeviceDataDetail">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_DeviceLimits">
+              <PropertyRef Name="DeviceDataID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DeviceLimits_tbl_Devices">
+          <End Type="omnioModel.tbl_Devices" Role="tbl_Devices" Multiplicity="0..1" />
+          <End Type="omnioModel.tbl_DeviceLimits" Role="tbl_DeviceLimits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Devices">
+              <PropertyRef Name="DeviceID" />
+            </Principal>
+            <Dependent Role="tbl_DeviceLimits">
+              <PropertyRef Name="DeviceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ThresholdAlarms_tbl_DeviceLimits">
+          <End Type="omnioModel.tbl_DeviceLimits" Role="tbl_DeviceLimits" Multiplicity="1" />
+          <End Type="omnioModel.tbl_ThresholdAlarms" Role="tbl_ThresholdAlarms" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_DeviceLimits">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_ThresholdAlarms">
+              <PropertyRef Name="limitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Devices_tbl_DeviceType">
+          <End Type="omnioModel.tbl_DeviceType" Role="tbl_DeviceType" Multiplicity="0..1" />
+          <End Type="omnioModel.tbl_Devices" Role="tbl_Devices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_DeviceType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Devices">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Farm_tbl_Users">
+          <End Type="omnioModel.tbl_Users" Role="tbl_Users" Multiplicity="0..1" />
+          <End Type="omnioModel.tbl_Farm" Role="tbl_Farm" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Farm">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Users_tbl_Users">
+          <End Type="omnioModel.tbl_UserTypes" Role="tbl_UserTypes" Multiplicity="0..1" />
+          <End Type="omnioModel.tbl_Users" Role="tbl_Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_UserTypes">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Users">
+              <PropertyRef Name="UserTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tbl_Cycles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="farmId" Type="Int32" />
+          <Property Name="broilerid" Type="Int32" />
+          <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_tbl_Cycles_tbl_Briolers">
+          <End Type="omnioModel.tbl_Briolers" Role="tbl_Briolers" Multiplicity="0..1" />
+          <End Type="omnioModel.tbl_Cycles" Role="tbl_Cycles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Briolers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Cycles">
+              <PropertyRef Name="broilerid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Cycles_tbl_Farm">
+          <End Type="omnioModel.tbl_Farm" Role="tbl_Farm" Multiplicity="0..1" />
+          <End Type="omnioModel.tbl_Cycles" Role="tbl_Cycles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Farm">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Cycles">
+              <PropertyRef Name="farmId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tbl_PlacementWeight">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="totalBirdWeight" Type="Double" />
+          <Property Name="averageBox" Type="Double" />
+          <Property Name="noOfBoxes" Type="Int32" />
+          <Property Name="noOfBirdsPerBox" Type="Int32" />
+          <Property Name="date" Type="DateTime" Precision="3" />
+          <Property Name="broilerId" Type="Int32" />
+          <Property Name="weightId" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_BroilerSettings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="broilerId" Type="Int32" />
+          <Property Name="cycleId" Type="Int32" />
+          <Property Name="placementDate" Type="DateTime" Precision="3" />
+          <Property Name="heatingSystemsType" Type="Int32" />
+          <Property Name="ventalationSystem" Type="Int32" />
+          <Property Name="drinkerSystemType" Type="Int32" />
+          <Property Name="lightingProgram" Type="Int32" />
+          <Property Name="litterType" Type="Int32" />
+          <Property Name="healthType" Type="Int32" />
+          <Property Name="sanitationProgram" Type="Int32" />
+          <Property Name="dateFinalCatch" Type="DateTime" Precision="3" />
+          <Property Name="vaccination" Type="Int32" />
+          <Property Name="strain" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_Feed">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="broilerId" Type="Int32" />
+          <Property Name="stageId" Type="Int32" />
+          <Property Name="supplierId" Type="Int32" />
+          <Property Name="startdate" Type="DateTime" Precision="3" />
+          <Property Name="enddate" Type="DateTime" Precision="3" />
+          <Property Name="type" Type="Int32" />
+          <Property Name="cycleId" Type="Int32" />
+          <Property Name="feedname" Type="Int32" />
+          <Property Name="weight" Type="Double" />
+        </EntityType>
+        <EntityType Name="tbl_catching">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="noofbirds" Type="Int32" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <Property Name="broilerId" Type="Int32" />
+          <Property Name="cycleId" Type="Int32" />
+          <Property Name="totalweight" Type="Double" />
+        </EntityType>
+        <EntityType Name="tbl_activities">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="broilerId" Type="Int32" />
+          <Property Name="cycleId" Type="Int32" />
+          <Property Name="typeAct" Type="Int32" />
+          <Property Name="nameId" Type="Int32" />
+          <Property Name="dosage" Type="Double" Nullable="false" />
+          <Property Name="addremove" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="startDate" Type="DateTime" Precision="3" />
+          <Property Name="endDate" Type="DateTime" Precision="3" />
+          <Property Name="response_1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="response_2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="response_3" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="response_4" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="sid_1" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="sid_2" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="sid_3" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="sid_4" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="dt_response_1" Type="DateTime" Precision="3" />
+          <Property Name="dt_response_2" Type="DateTime" Precision="3" />
+          <Property Name="dt_response_3" Type="DateTime" Precision="3" />
+          <Property Name="dt_response_4" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_DOC">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="broilerId" Type="Int32" />
+          <Property Name="cycleId" Type="Int32" />
+          <Property Name="hatcheryName" Type="Int32" />
+          <Property Name="date" Type="DateTime" Precision="3" />
+          <Property Name="invoiceNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="totalNoOfBoxes" Type="Int32" />
+          <Property Name="noOfBirdsPerBox" Type="Int32" />
+          <Property Name="totalQauntity" Type="Int32" />
+          <Property Name="breederCode" Type="Int32" />
+          <Property Name="description" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="checkWeight" Type="Double" />
+          <Property Name="qauntity" Type="Int32" />
+          <Property Name="parentAge" Type="Int32" />
+          <Property Name="timeOfPulling" Type="DateTime" Precision="3" />
+          <Property Name="hatcherNo" Type="Int32" />
+          <Property Name="setterNo" Type="Int32" />
+          <Property Name="noOfBirdsInBoxes" Type="Int32" />
+          <Property Name="internalChickTemp" Type="Double" />
+          <Property Name="vehicleRelativeHumidity" Type="Double" />
+          <Property Name="cargoHoldTemp" Type="Double" />
+          <Property Name="boxStockDensity" Type="Double" />
+          <Property Name="holdingAreaTemp" Type="Double" />
+          <Property Name="primaryNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="secondaryNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="timeOfDelivery" Type="DateTime" Precision="3" />
+        </EntityType>
+        <Association Name="FK_tbl_DOC_tbl_Briolers">
+          <End Type="omnioModel.tbl_Briolers" Role="tbl_Briolers" Multiplicity="0..1" />
+          <End Type="omnioModel.tbl_DOC" Role="tbl_DOC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Briolers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_DOC">
+              <PropertyRef Name="broilerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tbl_DOCTable">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cycleId" Type="Int32" />
+          <Property Name="breederCode" Type="Int32" />
+          <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="chickWeight" Type="Single" />
+          <Property Name="qauntity" Type="Int32" />
+          <Property Name="parentAge" Type="Int32" />
+          <Property Name="timeOfPulling" Type="DateTime" Precision="3" />
+          <Property Name="hatcherno" Type="Int32" />
+          <Property Name="setterno" Type="Int32" />
+          <Property Name="broilerId" Type="Int32" />
+          <Property Name="deformaties" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_Health">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="broilerId" Type="Int32" />
+          <Property Name="cycleId" Type="Int32" />
+          <Property Name="litterId" Type="Int32" />
+          <Property Name="sanitationId" Type="Int32" />
+          <Property Name="healthId" Type="Int32" />
+          <Property Name="vaccinationId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_Systems">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="broilerId" Type="Int32" />
+          <Property Name="cycleId" Type="Int32" />
+          <Property Name="heatingId" Type="Int32" />
+          <Property Name="ventilationId" Type="Int32" />
+          <Property Name="drinkerId" Type="Int32" />
+          <Property Name="lightingId" Type="Int32" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="omnioModelStoreContainer" CdmEntityContainer="omnioEntities">
+          <EntitySetMapping Name="tbl_BriolerData">
+            <EntityTypeMapping TypeName="omnioModel.tbl_BriolerData">
+              <MappingFragment StoreEntitySet="tbl_BriolerData">
+                <ScalarProperty Name="eventMortalitiesID" ColumnName="eventMortalitiesID" />
+                <ScalarProperty Name="eventCullsID" ColumnName="eventCullsID" />
+                <ScalarProperty Name="weight" ColumnName="weight" />
+                <ScalarProperty Name="culls" ColumnName="culls" />
+                <ScalarProperty Name="dateTime" ColumnName="dateTime" />
+                <ScalarProperty Name="fatalities" ColumnName="fatalities" />
+                <ScalarProperty Name="briolerID" ColumnName="briolerID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Briolers">
+            <EntityTypeMapping TypeName="omnioModel.tbl_Briolers">
+              <MappingFragment StoreEntitySet="tbl_Briolers">
+                <ScalarProperty Name="NoOfBirds" ColumnName="NoOfBirds" />
+                <ScalarProperty Name="farmID" ColumnName="farmID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_BroilerInfo">
+            <EntityTypeMapping TypeName="omnioModel.tbl_BroilerInfo">
+              <MappingFragment StoreEntitySet="tbl_BroilerInfo">
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="farmId" ColumnName="farmId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_CullsEvent">
+            <EntityTypeMapping TypeName="omnioModel.tbl_CullsEvent">
+              <MappingFragment StoreEntitySet="tbl_CullsEvent">
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="eventName" ColumnName="eventName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_DeviceData">
+            <EntityTypeMapping TypeName="omnioModel.tbl_DeviceData">
+              <MappingFragment StoreEntitySet="tbl_DeviceData">
+                <ScalarProperty Name="Lux" ColumnName="Lux" />
+                <ScalarProperty Name="Battery" ColumnName="Battery" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="EC" ColumnName="EC" />
+                <ScalarProperty Name="ORP" ColumnName="ORP" />
+                <ScalarProperty Name="WaterTemp" ColumnName="WaterTemp" />
+                <ScalarProperty Name="Water" ColumnName="Water" />
+                <ScalarProperty Name="NH3" ColumnName="NH3" />
+                <ScalarProperty Name="CO2" ColumnName="CO2" />
+                <ScalarProperty Name="PH" ColumnName="PH" />
+                <ScalarProperty Name="Humidity" ColumnName="Humidity" />
+                <ScalarProperty Name="AirTemp" ColumnName="AirTemp" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="DeviceID" ColumnName="DeviceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_DeviceDataDetail">
+            <EntityTypeMapping TypeName="omnioModel.tbl_DeviceDataDetail">
+              <MappingFragment StoreEntitySet="tbl_DeviceDataDetail">
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="ValueType" ColumnName="ValueType" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="TImestamp" ColumnName="TImestamp" />
+                <ScalarProperty Name="DeviceID" ColumnName="DeviceID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_DeviceLimits">
+            <EntityTypeMapping TypeName="omnioModel.tbl_DeviceLimits">
+              <MappingFragment StoreEntitySet="tbl_DeviceLimits">
+                <ScalarProperty Name="smsDelay" ColumnName="smsDelay" />
+                <ScalarProperty Name="DeviceType" ColumnName="DeviceType" />
+                <ScalarProperty Name="SecondaryContactDelay" ColumnName="SecondaryContactDelay" />
+                <ScalarProperty Name="SecondaryContact" ColumnName="SecondaryContact" />
+                <ScalarProperty Name="PrimaryContact" ColumnName="PrimaryContact" />
+                <ScalarProperty Name="ThresholdEnabled" ColumnName="ThresholdEnabled" />
+                <ScalarProperty Name="SetpointColor" ColumnName="SetpointColor" />
+                <ScalarProperty Name="LowColor" ColumnName="LowColor" />
+                <ScalarProperty Name="HighColor" ColumnName="HighColor" />
+                <ScalarProperty Name="LowLimit" ColumnName="LowLimit" />
+                <ScalarProperty Name="HighLimit" ColumnName="HighLimit" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="DeviceDataID" ColumnName="DeviceDataID" />
+                <ScalarProperty Name="DeviceID" ColumnName="DeviceID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Devices">
+            <EntityTypeMapping TypeName="omnioModel.tbl_Devices">
+              <MappingFragment StoreEntitySet="tbl_Devices">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BriolerID" ColumnName="BriolerID" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="DeviceID" ColumnName="DeviceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_DeviceType">
+            <EntityTypeMapping TypeName="omnioModel.tbl_DeviceType">
+              <MappingFragment StoreEntitySet="tbl_DeviceType">
+                <ScalarProperty Name="Battery" ColumnName="Battery" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="EC" ColumnName="EC" />
+                <ScalarProperty Name="ORP" ColumnName="ORP" />
+                <ScalarProperty Name="WaterTemp" ColumnName="WaterTemp" />
+                <ScalarProperty Name="NH3" ColumnName="NH3" />
+                <ScalarProperty Name="CO2" ColumnName="CO2" />
+                <ScalarProperty Name="PH" ColumnName="PH" />
+                <ScalarProperty Name="Humidity" ColumnName="Humidity" />
+                <ScalarProperty Name="AirTemp" ColumnName="AirTemp" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Farm">
+            <EntityTypeMapping TypeName="omnioModel.tbl_Farm">
+              <MappingFragment StoreEntitySet="tbl_Farm">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_FeedWater">
+            <EntityTypeMapping TypeName="omnioModel.tbl_FeedWater">
+              <MappingFragment StoreEntitySet="tbl_FeedWater">
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="WaterConsumption" ColumnName="WaterConsumption" />
+                <ScalarProperty Name="Feed" ColumnName="Feed" />
+                <ScalarProperty Name="broilerID" ColumnName="broilerID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Hatchery">
+            <EntityTypeMapping TypeName="omnioModel.tbl_Hatchery">
+              <MappingFragment StoreEntitySet="tbl_Hatchery">
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="broilerId" ColumnName="broilerId" />
+                <ScalarProperty Name="TimeofPulling" ColumnName="TimeofPulling" />
+                <ScalarProperty Name="ChickWeight" ColumnName="ChickWeight" />
+                <ScalarProperty Name="BirdsBoxes" ColumnName="BirdsBoxes" />
+                <ScalarProperty Name="BreederCode" ColumnName="BreederCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_MortalitiesEvent">
+            <EntityTypeMapping TypeName="omnioModel.tbl_MortalitiesEvent">
+              <MappingFragment StoreEntitySet="tbl_MortalitiesEvent">
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="eventName" ColumnName="eventName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_ThresholdAlarms">
+            <EntityTypeMapping TypeName="omnioModel.tbl_ThresholdAlarms">
+              <MappingFragment StoreEntitySet="tbl_ThresholdAlarms">
+                <ScalarProperty Name="TimeStampSecondary" ColumnName="TimeStampSecondary" />
+                <ScalarProperty Name="SecondSent" ColumnName="SecondSent" />
+                <ScalarProperty Name="FirstSend" ColumnName="FirstSend" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="limitID" ColumnName="limitID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Users">
+            <EntityTypeMapping TypeName="omnioModel.tbl_Users">
+              <MappingFragment StoreEntitySet="tbl_Users">
+                <ScalarProperty Name="UniqueID" ColumnName="UniqueID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
+                <ScalarProperty Name="Registered" ColumnName="Registered" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_UsersAdditional">
+            <EntityTypeMapping TypeName="omnioModel.tbl_UsersAdditional">
+              <MappingFragment StoreEntitySet="tbl_UsersAdditional">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UniqueID" ColumnName="UniqueID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
+                <ScalarProperty Name="Registered" ColumnName="Registered" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_UserTypes">
+            <EntityTypeMapping TypeName="omnioModel.tbl_UserTypes">
+              <MappingFragment StoreEntitySet="tbl_UserTypes">
+                <ScalarProperty Name="Rights" ColumnName="Rights" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Weights">
+            <EntityTypeMapping TypeName="omnioModel.tbl_Weights">
+              <MappingFragment StoreEntitySet="tbl_Weights">
+                <ScalarProperty Name="SampleSize" ColumnName="SampleSize" />
+                <ScalarProperty Name="WeightFrontR" ColumnName="WeightFrontR" />
+                <ScalarProperty Name="WeightCenterR" ColumnName="WeightCenterR" />
+                <ScalarProperty Name="WeightBackR" ColumnName="WeightBackR" />
+                <ScalarProperty Name="dateTime" ColumnName="dateTime" />
+                <ScalarProperty Name="WeightAverage" ColumnName="WeightAverage" />
+                <ScalarProperty Name="WeightFront" ColumnName="WeightFront" />
+                <ScalarProperty Name="WeightCenter" ColumnName="WeightCenter" />
+                <ScalarProperty Name="WeightBack" ColumnName="WeightBack" />
+                <ScalarProperty Name="BroilerID" ColumnName="BroilerID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_briolerDataDay">
+            <EntityTypeMapping TypeName="omnioModel.vw_briolerDataDay">
+              <MappingFragment StoreEntitySet="vw_briolerDataDay">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="created" ColumnName="created" />
+                <ScalarProperty Name="AvgWeight" ColumnName="AvgWeight" />
+                <ScalarProperty Name="TotalCulls" ColumnName="TotalCulls" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_briolerDataMonth">
+            <EntityTypeMapping TypeName="omnioModel.vw_briolerDataMonth">
+              <MappingFragment StoreEntitySet="vw_briolerDataMonth">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TotalCulls" ColumnName="TotalCulls" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="month" ColumnName="month" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_briolerDataWeek">
+            <EntityTypeMapping TypeName="omnioModel.vw_briolerDataWeek">
+              <MappingFragment StoreEntitySet="vw_briolerDataWeek">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TotalCulls" ColumnName="TotalCulls" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="week" ColumnName="week" />
+                <ScalarProperty Name="year" ColumnName="year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_DeviceDetails">
+            <EntityTypeMapping TypeName="omnioModel.vw_DeviceDetails">
+              <MappingFragment StoreEntitySet="vw_DeviceDetails">
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="TImestamp" ColumnName="TImestamp" />
+                <ScalarProperty Name="DeviceType" ColumnName="DeviceType" />
+                <ScalarProperty Name="DeviceID" ColumnName="DeviceID" />
+                <ScalarProperty Name="FarmDescription" ColumnName="FarmDescription" />
+                <ScalarProperty Name="FarmName" ColumnName="FarmName" />
+                <ScalarProperty Name="BriolerDescription" ColumnName="BriolerDescription" />
+                <ScalarProperty Name="BriolerName" ColumnName="BriolerName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Cycles">
+            <EntityTypeMapping TypeName="omnioModel.tbl_Cycles">
+              <MappingFragment StoreEntitySet="tbl_Cycles">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="broilerid" ColumnName="broilerid" />
+                <ScalarProperty Name="farmId" ColumnName="farmId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_PlacementWeight">
+            <EntityTypeMapping TypeName="omnioModel.tbl_PlacementWeight">
+              <MappingFragment StoreEntitySet="tbl_PlacementWeight">
+                <ScalarProperty Name="weightId" ColumnName="weightId" />
+                <ScalarProperty Name="broilerId" ColumnName="broilerId" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="noOfBirdsPerBox" ColumnName="noOfBirdsPerBox" />
+                <ScalarProperty Name="noOfBoxes" ColumnName="noOfBoxes" />
+                <ScalarProperty Name="averageBox" ColumnName="averageBox" />
+                <ScalarProperty Name="totalBirdWeight" ColumnName="totalBirdWeight" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_BroilerSettings">
+            <EntityTypeMapping TypeName="omnioModel.tbl_BroilerSettings">
+              <MappingFragment StoreEntitySet="tbl_BroilerSettings">
+                <ScalarProperty Name="strain" ColumnName="strain" />
+                <ScalarProperty Name="vaccination" ColumnName="vaccination" />
+                <ScalarProperty Name="dateFinalCatch" ColumnName="dateFinalCatch" />
+                <ScalarProperty Name="sanitationProgram" ColumnName="sanitationProgram" />
+                <ScalarProperty Name="healthType" ColumnName="healthType" />
+                <ScalarProperty Name="litterType" ColumnName="litterType" />
+                <ScalarProperty Name="lightingProgram" ColumnName="lightingProgram" />
+                <ScalarProperty Name="drinkerSystemType" ColumnName="drinkerSystemType" />
+                <ScalarProperty Name="ventalationSystem" ColumnName="ventalationSystem" />
+                <ScalarProperty Name="heatingSystemsType" ColumnName="heatingSystemsType" />
+                <ScalarProperty Name="placementDate" ColumnName="placementDate" />
+                <ScalarProperty Name="cycleId" ColumnName="cycleId" />
+                <ScalarProperty Name="broilerId" ColumnName="broilerId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Feed">
+            <EntityTypeMapping TypeName="omnioModel.tbl_Feed">
+              <MappingFragment StoreEntitySet="tbl_Feed">
+                <ScalarProperty Name="weight" ColumnName="weight" />
+                <ScalarProperty Name="feedname" ColumnName="feedname" />
+                <ScalarProperty Name="cycleId" ColumnName="cycleId" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="enddate" ColumnName="enddate" />
+                <ScalarProperty Name="startdate" ColumnName="startdate" />
+                <ScalarProperty Name="supplierId" ColumnName="supplierId" />
+                <ScalarProperty Name="stageId" ColumnName="stageId" />
+                <ScalarProperty Name="broilerId" ColumnName="broilerId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_catching">
+            <EntityTypeMapping TypeName="omnioModel.tbl_catching">
+              <MappingFragment StoreEntitySet="tbl_catching">
+                <ScalarProperty Name="totalweight" ColumnName="totalweight" />
+                <ScalarProperty Name="cycleId" ColumnName="cycleId" />
+                <ScalarProperty Name="broilerId" ColumnName="broilerId" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="noofbirds" ColumnName="noofbirds" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_activities">
+            <EntityTypeMapping TypeName="omnioModel.tbl_activities">
+              <MappingFragment StoreEntitySet="tbl_activities">
+                <ScalarProperty Name="dt_response_4" ColumnName="dt_response_4" />
+                <ScalarProperty Name="dt_response_3" ColumnName="dt_response_3" />
+                <ScalarProperty Name="dt_response_2" ColumnName="dt_response_2" />
+                <ScalarProperty Name="dt_response_1" ColumnName="dt_response_1" />
+                <ScalarProperty Name="sid_4" ColumnName="sid_4" />
+                <ScalarProperty Name="sid_3" ColumnName="sid_3" />
+                <ScalarProperty Name="sid_2" ColumnName="sid_2" />
+                <ScalarProperty Name="sid_1" ColumnName="sid_1" />
+                <ScalarProperty Name="response_4" ColumnName="response_4" />
+                <ScalarProperty Name="response_3" ColumnName="response_3" />
+                <ScalarProperty Name="response_2" ColumnName="response_2" />
+                <ScalarProperty Name="response_1" ColumnName="response_1" />
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+                <ScalarProperty Name="startDate" ColumnName="startDate" />
+                <ScalarProperty Name="addremove" ColumnName="addremove" />
+                <ScalarProperty Name="dosage" ColumnName="dosage" />
+                <ScalarProperty Name="nameId" ColumnName="nameId" />
+                <ScalarProperty Name="typeAct" ColumnName="typeAct" />
+                <ScalarProperty Name="cycleId" ColumnName="cycleId" />
+                <ScalarProperty Name="broilerId" ColumnName="broilerId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_DOC">
+            <EntityTypeMapping TypeName="omnioModel.tbl_DOC">
+              <MappingFragment StoreEntitySet="tbl_DOC">
+                <ScalarProperty Name="timeOfDelivery" ColumnName="timeOfDelivery" />
+                <ScalarProperty Name="secondaryNumber" ColumnName="secondaryNumber" />
+                <ScalarProperty Name="primaryNumber" ColumnName="primaryNumber" />
+                <ScalarProperty Name="holdingAreaTemp" ColumnName="holdingAreaTemp" />
+                <ScalarProperty Name="boxStockDensity" ColumnName="boxStockDensity" />
+                <ScalarProperty Name="cargoHoldTemp" ColumnName="cargoHoldTemp" />
+                <ScalarProperty Name="vehicleRelativeHumidity" ColumnName="vehicleRelativeHumidity" />
+                <ScalarProperty Name="internalChickTemp" ColumnName="internalChickTemp" />
+                <ScalarProperty Name="noOfBirdsInBoxes" ColumnName="noOfBirdsInBoxes" />
+                <ScalarProperty Name="setterNo" ColumnName="setterNo" />
+                <ScalarProperty Name="hatcherNo" ColumnName="hatcherNo" />
+                <ScalarProperty Name="timeOfPulling" ColumnName="timeOfPulling" />
+                <ScalarProperty Name="parentAge" ColumnName="parentAge" />
+                <ScalarProperty Name="qauntity" ColumnName="qauntity" />
+                <ScalarProperty Name="checkWeight" ColumnName="checkWeight" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="breederCode" ColumnName="breederCode" />
+                <ScalarProperty Name="totalQauntity" ColumnName="totalQauntity" />
+                <ScalarProperty Name="noOfBirdsPerBox" ColumnName="noOfBirdsPerBox" />
+                <ScalarProperty Name="totalNoOfBoxes" ColumnName="totalNoOfBoxes" />
+                <ScalarProperty Name="invoiceNumber" ColumnName="invoiceNumber" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="hatcheryName" ColumnName="hatcheryName" />
+                <ScalarProperty Name="cycleId" ColumnName="cycleId" />
+                <ScalarProperty Name="broilerId" ColumnName="broilerId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_DOCTable">
+            <EntityTypeMapping TypeName="omnioModel.tbl_DOCTable">
+              <MappingFragment StoreEntitySet="tbl_DOCTable">
+                <ScalarProperty Name="deformaties" ColumnName="deformaties" />
+                <ScalarProperty Name="broilerId" ColumnName="broilerId" />
+                <ScalarProperty Name="setterno" ColumnName="setterno" />
+                <ScalarProperty Name="hatcherno" ColumnName="hatcherno" />
+                <ScalarProperty Name="timeOfPulling" ColumnName="timeOfPulling" />
+                <ScalarProperty Name="parentAge" ColumnName="parentAge" />
+                <ScalarProperty Name="qauntity" ColumnName="qauntity" />
+                <ScalarProperty Name="chickWeight" ColumnName="chickWeight" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="breederCode" ColumnName="breederCode" />
+                <ScalarProperty Name="cycleId" ColumnName="cycleId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Health">
+            <EntityTypeMapping TypeName="omnioModel.tbl_Health">
+              <MappingFragment StoreEntitySet="tbl_Health">
+                <ScalarProperty Name="vaccinationId" ColumnName="vaccinationId" />
+                <ScalarProperty Name="healthId" ColumnName="healthId" />
+                <ScalarProperty Name="sanitationId" ColumnName="sanitationId" />
+                <ScalarProperty Name="litterId" ColumnName="litterId" />
+                <ScalarProperty Name="cycleId" ColumnName="cycleId" />
+                <ScalarProperty Name="broilerId" ColumnName="broilerId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Systems">
+            <EntityTypeMapping TypeName="omnioModel.tbl_Systems">
+              <MappingFragment StoreEntitySet="tbl_Systems">
+                <ScalarProperty Name="lightingId" ColumnName="lightingId" />
+                <ScalarProperty Name="drinkerId" ColumnName="drinkerId" />
+                <ScalarProperty Name="ventilationId" ColumnName="ventilationId" />
+                <ScalarProperty Name="heatingId" ColumnName="heatingId" />
+                <ScalarProperty Name="cycleId" ColumnName="cycleId" />
+                <ScalarProperty Name="broilerId" ColumnName="broilerId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

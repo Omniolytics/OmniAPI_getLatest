@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EventSyncClientModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_StatusChk">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Node" Type="int" />
+          <Property Name="TableName" Type="nvarchar" MaxLength="300" />
+          <Property Name="Status" Type="bigint" />
+        </EntityType>
+        <EntityType Name="tbl_TestSync">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="InstanceID" Type="int" />
+          <Property Name="Updated" Type="datetime" />
+          <Property Name="Deleted" Type="bit" />
+          <Property Name="SyncStamp" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Number" Type="int" />
+          <Property Name="Image" Type="image" />
+        </EntityType>
+        <EntityContainer Name="EventSyncClientModelStoreContainer">
+          <EntitySet Name="tbl_StatusChk" EntityType="Self.tbl_StatusChk" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_TestSync" EntityType="Self.tbl_TestSync" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EventSyncClientModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tbl_StatusChk">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Node" Type="Int32" />
+          <Property Name="TableName" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int64" />
+        </EntityType>
+        <EntityType Name="tbl_TestSync">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Guid" Nullable="false" />
+          <Property Name="InstanceID" Type="Int32" />
+          <Property Name="Updated" Type="DateTime" Precision="3" />
+          <Property Name="Deleted" Type="Boolean" />
+          <Property Name="SyncStamp" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Number" Type="Int32" />
+          <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityContainer Name="liveDataEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbl_StatusChk" EntityType="Self.tbl_StatusChk" />
+          <EntitySet Name="tbl_TestSync" EntityType="Self.tbl_TestSync" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EventSyncClientModelStoreContainer" CdmEntityContainer="liveDataEntities2">
+          <EntitySetMapping Name="tbl_StatusChk">
+            <EntityTypeMapping TypeName="EventSyncClientModel.tbl_StatusChk">
+              <MappingFragment StoreEntitySet="tbl_StatusChk">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Node" ColumnName="Node" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_TestSync">
+            <EntityTypeMapping TypeName="EventSyncClientModel.tbl_TestSync">
+              <MappingFragment StoreEntitySet="tbl_TestSync">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="InstanceID" ColumnName="InstanceID" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="SyncStamp" ColumnName="SyncStamp" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,511 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="omnioModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_DeviceData">
+          <Key>
+            <PropertyRef Name="DeviceID" />
+          </Key>
+          <Property Name="DeviceID" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="TimeStamp" Type="datetime" />
+          <Property Name="AirTemp" Type="float" />
+          <Property Name="Humidity" Type="float" />
+          <Property Name="PH" Type="float" />
+          <Property Name="CO2" Type="float" />
+          <Property Name="NH3" Type="float" />
+          <Property Name="Water" Type="float" />
+          <Property Name="WaterTemp" Type="float" />
+          <Property Name="ORP" Type="float" />
+          <Property Name="EC" Type="float" />
+          <Property Name="Weight" Type="float" />
+          <Property Name="Battery" Type="float" />
+        </EntityType>
+        <EntityType Name="tbl_DeviceDataDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeviceID" Type="varchar" MaxLength="200" />
+          <Property Name="TImestamp" Type="datetime" />
+          <Property Name="Value" Type="float" />
+          <Property Name="ValueType" Type="varchar" MaxLength="20" />
+          <Property Name="Unit" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="tbl_DeviceLimits">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeviceID" Type="varchar" MaxLength="200" />
+          <Property Name="DeviceDataID" Type="bigint" />
+          <Property Name="Unit" Type="varchar" MaxLength="5" />
+          <Property Name="HighLimit" Type="float" />
+          <Property Name="LowLimit" Type="float" />
+          <Property Name="HighColor" Type="nvarchar" MaxLength="10" />
+          <Property Name="LowColor" Type="nvarchar" MaxLength="10" />
+          <Property Name="SetpointColor" Type="nvarchar" MaxLength="10" />
+          <Property Name="ThresholdEnabled" Type="bit" />
+          <Property Name="PrimaryContact" Type="varchar" MaxLength="100" />
+          <Property Name="SecondaryContact" Type="varchar" MaxLength="100" />
+          <Property Name="SecondaryContactDelay" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_Devices">
+          <Key>
+            <PropertyRef Name="DeviceID" />
+          </Key>
+          <Property Name="DeviceID" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="TypeID" Type="int" />
+          <Property Name="BriolerID" Type="int" />
+          <Property Name="Name" Type="varchar" MaxLength="150" />
+          <Property Name="Description" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="tbl_DeviceType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="AirTemp" Type="bit" />
+          <Property Name="Humidity" Type="bit" />
+          <Property Name="PH" Type="bit" />
+          <Property Name="CO2" Type="bit" />
+          <Property Name="NH3" Type="bit" />
+          <Property Name="WaterTemp" Type="bit" />
+          <Property Name="ORP" Type="bit" />
+          <Property Name="EC" Type="bit" />
+          <Property Name="Weight" Type="bit" />
+          <Property Name="Battery" Type="bit" />
+        </EntityType>
+        <EntityType Name="tbl_ThresholdAlarms">
+          <Key>
+            <PropertyRef Name="limitID" />
+          </Key>
+          <Property Name="limitID" Type="int" Nullable="false" />
+          <Property Name="TimeStamp" Type="datetime" />
+          <Property Name="FirstSend" Type="bit" />
+          <Property Name="SecondSent" Type="bit" />
+        </EntityType>
+        <Association Name="FK_tbl_DeviceData_tbl_Devices">
+          <End Role="tbl_Devices" Type="Self.tbl_Devices" Multiplicity="1" />
+          <End Role="tbl_DeviceData" Type="Self.tbl_DeviceData" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Devices">
+              <PropertyRef Name="DeviceID" />
+            </Principal>
+            <Dependent Role="tbl_DeviceData">
+              <PropertyRef Name="DeviceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DeviceDataDetail_tbl_Devices">
+          <End Role="tbl_Devices" Type="Self.tbl_Devices" Multiplicity="0..1" />
+          <End Role="tbl_DeviceDataDetail" Type="Self.tbl_DeviceDataDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Devices">
+              <PropertyRef Name="DeviceID" />
+            </Principal>
+            <Dependent Role="tbl_DeviceDataDetail">
+              <PropertyRef Name="DeviceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DeviceLimits_tbl_DeviceDataDetail">
+          <End Role="tbl_DeviceDataDetail" Type="Self.tbl_DeviceDataDetail" Multiplicity="0..1" />
+          <End Role="tbl_DeviceLimits" Type="Self.tbl_DeviceLimits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_DeviceDataDetail">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_DeviceLimits">
+              <PropertyRef Name="DeviceDataID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DeviceLimits_tbl_Devices">
+          <End Role="tbl_Devices" Type="Self.tbl_Devices" Multiplicity="0..1" />
+          <End Role="tbl_DeviceLimits" Type="Self.tbl_DeviceLimits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Devices">
+              <PropertyRef Name="DeviceID" />
+            </Principal>
+            <Dependent Role="tbl_DeviceLimits">
+              <PropertyRef Name="DeviceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Devices_tbl_DeviceType">
+          <End Role="tbl_DeviceType" Type="Self.tbl_DeviceType" Multiplicity="0..1" />
+          <End Role="tbl_Devices" Type="Self.tbl_Devices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_DeviceType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Devices">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ThresholdAlarms_tbl_DeviceLimits">
+          <End Role="tbl_DeviceLimits" Type="Self.tbl_DeviceLimits" Multiplicity="1" />
+          <End Role="tbl_ThresholdAlarms" Type="Self.tbl_ThresholdAlarms" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_DeviceLimits">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_ThresholdAlarms">
+              <PropertyRef Name="limitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="omnioModel1StoreContainer">
+          <EntitySet Name="tbl_DeviceData" EntityType="Self.tbl_DeviceData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_DeviceDataDetail" EntityType="Self.tbl_DeviceDataDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_DeviceLimits" EntityType="Self.tbl_DeviceLimits" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Devices" EntityType="Self.tbl_Devices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_DeviceType" EntityType="Self.tbl_DeviceType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_ThresholdAlarms" EntityType="Self.tbl_ThresholdAlarms" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tbl_DeviceData_tbl_Devices" Association="Self.FK_tbl_DeviceData_tbl_Devices">
+            <End Role="tbl_Devices" EntitySet="tbl_Devices" />
+            <End Role="tbl_DeviceData" EntitySet="tbl_DeviceData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DeviceDataDetail_tbl_Devices" Association="Self.FK_tbl_DeviceDataDetail_tbl_Devices">
+            <End Role="tbl_Devices" EntitySet="tbl_Devices" />
+            <End Role="tbl_DeviceDataDetail" EntitySet="tbl_DeviceDataDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DeviceLimits_tbl_DeviceDataDetail" Association="Self.FK_tbl_DeviceLimits_tbl_DeviceDataDetail">
+            <End Role="tbl_DeviceDataDetail" EntitySet="tbl_DeviceDataDetail" />
+            <End Role="tbl_DeviceLimits" EntitySet="tbl_DeviceLimits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DeviceLimits_tbl_Devices" Association="Self.FK_tbl_DeviceLimits_tbl_Devices">
+            <End Role="tbl_Devices" EntitySet="tbl_Devices" />
+            <End Role="tbl_DeviceLimits" EntitySet="tbl_DeviceLimits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Devices_tbl_DeviceType" Association="Self.FK_tbl_Devices_tbl_DeviceType">
+            <End Role="tbl_DeviceType" EntitySet="tbl_DeviceType" />
+            <End Role="tbl_Devices" EntitySet="tbl_Devices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ThresholdAlarms_tbl_DeviceLimits" Association="Self.FK_tbl_ThresholdAlarms_tbl_DeviceLimits">
+            <End Role="tbl_DeviceLimits" EntitySet="tbl_DeviceLimits" />
+            <End Role="tbl_ThresholdAlarms" EntitySet="tbl_ThresholdAlarms" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="omnioModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tbl_DeviceData">
+          <Key>
+            <PropertyRef Name="DeviceID" />
+          </Key>
+          <Property Name="DeviceID" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+          <Property Name="AirTemp" Type="Double" />
+          <Property Name="Humidity" Type="Double" />
+          <Property Name="PH" Type="Double" />
+          <Property Name="CO2" Type="Double" />
+          <Property Name="NH3" Type="Double" />
+          <Property Name="Water" Type="Double" />
+          <Property Name="WaterTemp" Type="Double" />
+          <Property Name="ORP" Type="Double" />
+          <Property Name="EC" Type="Double" />
+          <Property Name="Weight" Type="Double" />
+          <Property Name="Battery" Type="Double" />
+        </EntityType>
+        <EntityType Name="tbl_DeviceDataDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeviceID" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="TImestamp" Type="DateTime" Precision="3" />
+          <Property Name="Value" Type="Double" />
+          <Property Name="ValueType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Unit" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbl_DeviceLimits" Relationship="Self.FK_tbl_DeviceLimits_tbl_DeviceDataDetail" FromRole="tbl_DeviceDataDetail" ToRole="tbl_DeviceLimits" />
+        </EntityType>
+        <EntityType Name="tbl_DeviceLimits">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeviceID" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="DeviceDataID" Type="Int64" />
+          <Property Name="Unit" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="HighLimit" Type="Double" />
+          <Property Name="LowLimit" Type="Double" />
+          <Property Name="HighColor" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="LowColor" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="SetpointColor" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ThresholdEnabled" Type="Boolean" />
+          <Property Name="PrimaryContact" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SecondaryContact" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SecondaryContactDelay" Type="Int32" />
+          <NavigationProperty Name="tbl_ThresholdAlarms" Relationship="Self.FK_tbl_ThresholdAlarms_tbl_DeviceLimits" FromRole="tbl_DeviceLimits" ToRole="tbl_ThresholdAlarms" />
+        </EntityType>
+        <EntityType Name="tbl_Devices">
+          <Key>
+            <PropertyRef Name="DeviceID" />
+          </Key>
+          <Property Name="DeviceID" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TypeID" Type="Int32" />
+          <Property Name="BriolerID" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbl_DeviceData" Relationship="Self.FK_tbl_DeviceData_tbl_Devices" FromRole="tbl_Devices" ToRole="tbl_DeviceData" />
+          <NavigationProperty Name="tbl_DeviceDataDetail" Relationship="Self.FK_tbl_DeviceDataDetail_tbl_Devices" FromRole="tbl_Devices" ToRole="tbl_DeviceDataDetail" />
+          <NavigationProperty Name="tbl_DeviceLimits" Relationship="Self.FK_tbl_DeviceLimits_tbl_Devices" FromRole="tbl_Devices" ToRole="tbl_DeviceLimits" />
+          <NavigationProperty Name="tbl_DeviceType" Relationship="Self.FK_tbl_Devices_tbl_DeviceType" FromRole="tbl_Devices" ToRole="tbl_DeviceType" />
+        </EntityType>
+        <EntityType Name="tbl_DeviceType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AirTemp" Type="Boolean" />
+          <Property Name="Humidity" Type="Boolean" />
+          <Property Name="PH" Type="Boolean" />
+          <Property Name="CO2" Type="Boolean" />
+          <Property Name="NH3" Type="Boolean" />
+          <Property Name="WaterTemp" Type="Boolean" />
+          <Property Name="ORP" Type="Boolean" />
+          <Property Name="EC" Type="Boolean" />
+          <Property Name="Weight" Type="Boolean" />
+          <Property Name="Battery" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="tbl_ThresholdAlarms">
+          <Key>
+            <PropertyRef Name="limitID" />
+          </Key>
+          <Property Name="limitID" Type="Int32" Nullable="false" />
+          <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+          <Property Name="FirstSend" Type="Boolean" />
+          <Property Name="SecondSent" Type="Boolean" />
+        </EntityType>
+        <Association Name="FK_tbl_DeviceData_tbl_Devices">
+          <End Role="tbl_Devices" Type="Self.tbl_Devices" Multiplicity="1" />
+          <End Role="tbl_DeviceData" Type="Self.tbl_DeviceData" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Devices">
+              <PropertyRef Name="DeviceID" />
+            </Principal>
+            <Dependent Role="tbl_DeviceData">
+              <PropertyRef Name="DeviceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DeviceDataDetail_tbl_Devices">
+          <End Role="tbl_Devices" Type="Self.tbl_Devices" Multiplicity="0..1" />
+          <End Role="tbl_DeviceDataDetail" Type="Self.tbl_DeviceDataDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Devices">
+              <PropertyRef Name="DeviceID" />
+            </Principal>
+            <Dependent Role="tbl_DeviceDataDetail">
+              <PropertyRef Name="DeviceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DeviceLimits_tbl_DeviceDataDetail">
+          <End Role="tbl_DeviceDataDetail" Type="Self.tbl_DeviceDataDetail" Multiplicity="0..1" />
+          <End Role="tbl_DeviceLimits" Type="Self.tbl_DeviceLimits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_DeviceDataDetail">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_DeviceLimits">
+              <PropertyRef Name="DeviceDataID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_DeviceLimits_tbl_Devices">
+          <End Role="tbl_Devices" Type="Self.tbl_Devices" Multiplicity="0..1" />
+          <End Role="tbl_DeviceLimits" Type="Self.tbl_DeviceLimits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Devices">
+              <PropertyRef Name="DeviceID" />
+            </Principal>
+            <Dependent Role="tbl_DeviceLimits">
+              <PropertyRef Name="DeviceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ThresholdAlarms_tbl_DeviceLimits">
+          <End Role="tbl_DeviceLimits" Type="Self.tbl_DeviceLimits" Multiplicity="1" />
+          <End Role="tbl_ThresholdAlarms" Type="Self.tbl_ThresholdAlarms" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_DeviceLimits">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_ThresholdAlarms">
+              <PropertyRef Name="limitID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Devices_tbl_DeviceType">
+          <End Role="tbl_DeviceType" Type="Self.tbl_DeviceType" Multiplicity="0..1" />
+          <End Role="tbl_Devices" Type="Self.tbl_Devices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_DeviceType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Devices">
+              <PropertyRef Name="TypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="cb_LiveData" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbl_DeviceData" EntityType="Self.tbl_DeviceData" />
+          <EntitySet Name="tbl_DeviceDataDetail" EntityType="Self.tbl_DeviceDataDetail" />
+          <EntitySet Name="tbl_DeviceLimits" EntityType="Self.tbl_DeviceLimits" />
+          <EntitySet Name="tbl_Devices" EntityType="Self.tbl_Devices" />
+          <EntitySet Name="tbl_DeviceType" EntityType="Self.tbl_DeviceType" />
+          <EntitySet Name="tbl_ThresholdAlarms" EntityType="Self.tbl_ThresholdAlarms" />
+          <AssociationSet Name="FK_tbl_DeviceData_tbl_Devices" Association="Self.FK_tbl_DeviceData_tbl_Devices">
+            <End Role="tbl_Devices" EntitySet="tbl_Devices" />
+            <End Role="tbl_DeviceData" EntitySet="tbl_DeviceData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DeviceDataDetail_tbl_Devices" Association="Self.FK_tbl_DeviceDataDetail_tbl_Devices">
+            <End Role="tbl_Devices" EntitySet="tbl_Devices" />
+            <End Role="tbl_DeviceDataDetail" EntitySet="tbl_DeviceDataDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DeviceLimits_tbl_DeviceDataDetail" Association="Self.FK_tbl_DeviceLimits_tbl_DeviceDataDetail">
+            <End Role="tbl_DeviceDataDetail" EntitySet="tbl_DeviceDataDetail" />
+            <End Role="tbl_DeviceLimits" EntitySet="tbl_DeviceLimits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_DeviceLimits_tbl_Devices" Association="Self.FK_tbl_DeviceLimits_tbl_Devices">
+            <End Role="tbl_Devices" EntitySet="tbl_Devices" />
+            <End Role="tbl_DeviceLimits" EntitySet="tbl_DeviceLimits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ThresholdAlarms_tbl_DeviceLimits" Association="Self.FK_tbl_ThresholdAlarms_tbl_DeviceLimits">
+            <End Role="tbl_DeviceLimits" EntitySet="tbl_DeviceLimits" />
+            <End Role="tbl_ThresholdAlarms" EntitySet="tbl_ThresholdAlarms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Devices_tbl_DeviceType" Association="Self.FK_tbl_Devices_tbl_DeviceType">
+            <End Role="tbl_DeviceType" EntitySet="tbl_DeviceType" />
+            <End Role="tbl_Devices" EntitySet="tbl_Devices" />
+          </AssociationSet>
+          </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="omnioModel1StoreContainer" CdmEntityContainer="cb_LiveData">
+          <EntitySetMapping Name="tbl_DeviceData">
+            <EntityTypeMapping TypeName="omnioModel1.tbl_DeviceData">
+              <MappingFragment StoreEntitySet="tbl_DeviceData">
+                <ScalarProperty Name="DeviceID" ColumnName="DeviceID" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="AirTemp" ColumnName="AirTemp" />
+                <ScalarProperty Name="Humidity" ColumnName="Humidity" />
+                <ScalarProperty Name="PH" ColumnName="PH" />
+                <ScalarProperty Name="CO2" ColumnName="CO2" />
+                <ScalarProperty Name="NH3" ColumnName="NH3" />
+                <ScalarProperty Name="Water" ColumnName="Water" />
+                <ScalarProperty Name="WaterTemp" ColumnName="WaterTemp" />
+                <ScalarProperty Name="ORP" ColumnName="ORP" />
+                <ScalarProperty Name="EC" ColumnName="EC" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Battery" ColumnName="Battery" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_DeviceDataDetail">
+            <EntityTypeMapping TypeName="omnioModel1.tbl_DeviceDataDetail">
+              <MappingFragment StoreEntitySet="tbl_DeviceDataDetail">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DeviceID" ColumnName="DeviceID" />
+                <ScalarProperty Name="TImestamp" ColumnName="TImestamp" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="ValueType" ColumnName="ValueType" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_DeviceLimits">
+            <EntityTypeMapping TypeName="omnioModel1.tbl_DeviceLimits">
+              <MappingFragment StoreEntitySet="tbl_DeviceLimits">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DeviceID" ColumnName="DeviceID" />
+                <ScalarProperty Name="DeviceDataID" ColumnName="DeviceDataID" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="HighLimit" ColumnName="HighLimit" />
+                <ScalarProperty Name="LowLimit" ColumnName="LowLimit" />
+                <ScalarProperty Name="HighColor" ColumnName="HighColor" />
+                <ScalarProperty Name="LowColor" ColumnName="LowColor" />
+                <ScalarProperty Name="SetpointColor" ColumnName="SetpointColor" />
+                <ScalarProperty Name="ThresholdEnabled" ColumnName="ThresholdEnabled" />
+                <ScalarProperty Name="PrimaryContact" ColumnName="PrimaryContact" />
+                <ScalarProperty Name="SecondaryContact" ColumnName="SecondaryContact" />
+                <ScalarProperty Name="SecondaryContactDelay" ColumnName="SecondaryContactDelay" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Devices">
+            <EntityTypeMapping TypeName="omnioModel1.tbl_Devices">
+              <MappingFragment StoreEntitySet="tbl_Devices">
+                <ScalarProperty Name="DeviceID" ColumnName="DeviceID" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="BriolerID" ColumnName="BriolerID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_DeviceType">
+            <EntityTypeMapping TypeName="omnioModel1.tbl_DeviceType">
+              <MappingFragment StoreEntitySet="tbl_DeviceType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AirTemp" ColumnName="AirTemp" />
+                <ScalarProperty Name="Humidity" ColumnName="Humidity" />
+                <ScalarProperty Name="PH" ColumnName="PH" />
+                <ScalarProperty Name="CO2" ColumnName="CO2" />
+                <ScalarProperty Name="NH3" ColumnName="NH3" />
+                <ScalarProperty Name="WaterTemp" ColumnName="WaterTemp" />
+                <ScalarProperty Name="ORP" ColumnName="ORP" />
+                <ScalarProperty Name="EC" ColumnName="EC" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Battery" ColumnName="Battery" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_ThresholdAlarms">
+            <EntityTypeMapping TypeName="omnioModel1.tbl_ThresholdAlarms">
+              <MappingFragment StoreEntitySet="tbl_ThresholdAlarms">
+                <ScalarProperty Name="limitID" ColumnName="limitID" />
+                <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
+                <ScalarProperty Name="FirstSend" ColumnName="FirstSend" />
+                <ScalarProperty Name="SecondSent" ColumnName="SecondSent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
