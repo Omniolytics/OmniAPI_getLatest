@@ -14,6 +14,15 @@ using OmniAPI.Classes;
 
 namespace OmniAPI.Controllers
 {
+    public class BroilerDto
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int? farmID { get; set; }
+        public int? NoOfBirds { get; set; }
+    }
+
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class FarmController : ApiController
     {
@@ -366,14 +375,21 @@ namespace OmniAPI.Controllers
 
         [Route("getAllBroilers")]
         [HttpGet]
-        public List<tbl_Briolers> getAllBroilers()
+        public List<BroilerDto> getAllBroilers()
         {
             try
             {
                 omnioEntities en = new omnioEntities();
                 en.Configuration.LazyLoadingEnabled = false;
 
-                return en.tbl_Briolers.ToList();
+                return en.tbl_Briolers.Select(x => new BroilerDto
+                {
+                    ID = x.ID,
+                    Name = x.Name,
+                    Description = x.Description,
+                    farmID = x.farmID,
+                    NoOfBirds = x.NoOfBirds
+                }).ToList();
             }
             catch
             {
