@@ -204,6 +204,28 @@ namespace OmniAPI.Controllers
             }
         }
 
+        [Route("removeMortalities")]
+        [HttpPost]
+        // [Authorize]
+        public bool removeMortalities(tbl_BriolerData data)
+        {
+            try
+            {
+                Encryption ecn = new Encryption();
+
+                omnioEntities en = new omnioEntities();
+                tbl_BriolerData d = en.tbl_BriolerData.Find(data.ID);
+                en.tbl_BriolerData.Remove(d);
+                en.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
 
         [Route("getFatalitiesDay")]
         [HttpPost]
