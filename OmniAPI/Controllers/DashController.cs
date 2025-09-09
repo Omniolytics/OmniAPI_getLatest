@@ -138,6 +138,49 @@ namespace OmniAPI.Controllers
             }
         }
 
+        [Route("updateMortalities")]
+        [HttpPost]
+        // [Authorize]
+        public bool updateMortalities(tbl_BriolerData data)
+        {
+            try
+            {
+                Encryption ecn = new Encryption();
+
+                omnioEntities en = new omnioEntities();
+
+                if (data.ID > 0)
+                {
+                    tbl_BriolerData existing = en.tbl_BriolerData.Find(data.ID);
+                    if (existing != null)
+                    {
+                        existing.briolerID = data.briolerID;
+                        existing.fatalities = data.fatalities;
+                        existing.dateTime = data.dateTime;
+                        existing.culls = data.culls;
+                        existing.eventCullsID = data.eventCullsID;
+                        existing.eventMortalitiesID = data.eventMortalitiesID;
+                    }
+                    else
+                    {
+                        en.tbl_BriolerData.Add(data);
+                    }
+                }
+                else
+                {
+                    en.tbl_BriolerData.Add(data);
+                }
+
+                en.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         [Route("removeBriolerData")]
         [HttpPost]
         // [Authorize]
