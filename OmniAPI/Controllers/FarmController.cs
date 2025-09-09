@@ -572,6 +572,23 @@ namespace OmniAPI.Controllers
             }
         }
 
+        [Route("getMortalities/{broilerid}")]
+        [HttpGet]
+        public List<tbl_BriolerData> getMortalities(int broilerid)
+        {
+            try
+            {
+                omnioEntities en = new omnioEntities();
+                en.Configuration.LazyLoadingEnabled = false;
+
+                return en.tbl_BriolerData.Where(x => x.briolerID == broilerid).ToList();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
 
 
         [Route("sendMail/{id}")]
