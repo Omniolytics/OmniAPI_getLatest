@@ -328,70 +328,13 @@ namespace OmniAPI.Controllers
 
                 Encryption ecn = new Encryption();
 
-                int entryCount = 0;
+                double total = (Weights.WeightBack ?? 0) + (Weights.WeightCenter ?? 0) + (Weights.WeightFront ?? 0)
+                    + (Weights.WeightBackR ?? 0) + (Weights.WeightCenterR ?? 0) + (Weights.WeightFrontR ?? 0);
 
-                if (Weights.WeightBack.HasValue)
-                {
-                    entryCount++;
-                }
-                else
-                {
-                    Weights.WeightBack = 0;
-                }
+                double sampleSize = Weights.SampleSize ?? 0;
 
-                if (Weights.WeightFront.HasValue)
-                {
-                    entryCount++;
-                }
-                else
-                {
-                    Weights.WeightFront = 0;
-                }
-
-                if (Weights.WeightCenter.HasValue)
-                {
-                    entryCount++;
-                }
-                else
-                {
-                    Weights.WeightCenter = 0;
-                }
-
-                if (Weights.WeightBackR.HasValue)
-                {
-                    entryCount++;
-                }
-                else
-                {
-                    Weights.WeightBackR = 0;
-                }
-
-                if (Weights.WeightCenterR.HasValue)
-                {
-                    entryCount++;
-                }
-                else
-                {
-                    Weights.WeightCenterR = 0;
-                }
-
-                if (Weights.WeightFrontR.HasValue)
-                {
-                    entryCount++;
-                }
-                else
-                {
-                    Weights.WeightFrontR = 0;
-                }
-
-                if (!Weights.SampleSize.HasValue)
-                    Weights.SampleSize = 0;
-
-                double sum = Weights.WeightBack.Value + Weights.WeightCenter.Value + Weights.WeightFront.Value +
-                    Weights.WeightBackR.Value + Weights.WeightCenterR.Value + Weights.WeightFrontR.Value;
-
-                if (entryCount > 0 && Weights.SampleSize.Value > 0)
-                    Weights.WeightAverage = Math.Round(sum / entryCount / Weights.SampleSize.Value, 3);
+                if (sampleSize > 0)
+                    Weights.WeightAverage = Math.Round(total / 6 / sampleSize, 3);
                 else
                     Weights.WeightAverage = 0;
 
@@ -402,7 +345,6 @@ namespace OmniAPI.Controllers
                     en.tbl_Weights.Add(Weights);
 
                 en.SaveChanges();
-
 
                 return Weights;
             }
