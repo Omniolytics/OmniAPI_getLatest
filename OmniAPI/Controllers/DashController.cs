@@ -291,21 +291,47 @@ namespace OmniAPI.Controllers
                 Encryption ecn = new Encryption();
 
                 //  Weights.dateTime = Weights.dateTime.Value.ToLocalTime();
-                if (!Weights.WeightBack.HasValue)
+
+                double sum = 0;
+                int count = 0;
+
+                if (Weights.WeightBack.HasValue)
+                {
+                    sum += Weights.WeightBack.Value;
+                    count++;
+                }
+                else
                     Weights.WeightBack = 0;
 
-                if (!Weights.WeightFront.HasValue)
+                if (Weights.WeightFront.HasValue)
+                {
+                    sum += Weights.WeightFront.Value;
+                    count++;
+                }
+                else
                     Weights.WeightFront = 0;
 
-                if (!Weights.WeightCenter.HasValue)
+                if (Weights.WeightCenter.HasValue)
+                {
+                    sum += Weights.WeightCenter.Value;
+                    count++;
+                }
+                else
                     Weights.WeightCenter = 0;
 
+                if (!Weights.SampleSize.HasValue)
+                    Weights.SampleSize = 0;
 
-                double ave = Weights.WeightBack.Value + Weights.WeightCenter.Value + Weights.WeightFront.Value;
-                Weights.WeightAverage = Math.Round( ave/3,3);
+                if (Weights.SampleSize.Value > 0 && count > 0)
+                    Weights.WeightAverage = Math.Round(sum / (Weights.SampleSize.Value * count), 3);
+                else
+                    Weights.WeightAverage = 0;
 
                 omnioEntities en = new omnioEntities();
-                en.tbl_Weights.AddOrUpdate(Weights);
+                if (Weights.ID > 0)
+                    en.tbl_Weights.AddOrUpdate(Weights);
+                else
+                    en.tbl_Weights.Add(Weights);
                 en.SaveChanges();
 
 
@@ -328,32 +354,62 @@ namespace OmniAPI.Controllers
 
                 Encryption ecn = new Encryption();
 
-                if (!Weights.WeightBack.HasValue)
+                double sum = 0;
+                int count = 0;
+
+                if (Weights.WeightBack.HasValue)
+                {
+                    sum += Weights.WeightBack.Value;
+                    count++;
+                }
+                else
                     Weights.WeightBack = 0;
 
-                if (!Weights.WeightFront.HasValue)
+                if (Weights.WeightFront.HasValue)
+                {
+                    sum += Weights.WeightFront.Value;
+                    count++;
+                }
+                else
                     Weights.WeightFront = 0;
 
-                if (!Weights.WeightCenter.HasValue)
+                if (Weights.WeightCenter.HasValue)
+                {
+                    sum += Weights.WeightCenter.Value;
+                    count++;
+                }
+                else
                     Weights.WeightCenter = 0;
 
-                if (!Weights.WeightBackR.HasValue)
+                if (Weights.WeightBackR.HasValue)
+                {
+                    sum += Weights.WeightBackR.Value;
+                    count++;
+                }
+                else
                     Weights.WeightBackR = 0;
 
-                if (!Weights.WeightCenterR.HasValue)
+                if (Weights.WeightCenterR.HasValue)
+                {
+                    sum += Weights.WeightCenterR.Value;
+                    count++;
+                }
+                else
                     Weights.WeightCenterR = 0;
 
-                if (!Weights.WeightFrontR.HasValue)
+                if (Weights.WeightFrontR.HasValue)
+                {
+                    sum += Weights.WeightFrontR.Value;
+                    count++;
+                }
+                else
                     Weights.WeightFrontR = 0;
 
                 if (!Weights.SampleSize.HasValue)
                     Weights.SampleSize = 0;
 
-                double sum = Weights.WeightBack.Value + Weights.WeightCenter.Value + Weights.WeightFront.Value +
-                    Weights.WeightBackR.Value + Weights.WeightCenterR.Value + Weights.WeightFrontR.Value;
-
-                if (Weights.SampleSize.Value > 0)
-                    Weights.WeightAverage = Math.Round(sum / Weights.SampleSize.Value, 3);
+                if (Weights.SampleSize.Value > 0 && count > 0)
+                    Weights.WeightAverage = Math.Round(sum / (Weights.SampleSize.Value * count), 3);
                 else
                     Weights.WeightAverage = 0;
 
