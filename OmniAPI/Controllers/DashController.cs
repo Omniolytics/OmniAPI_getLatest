@@ -287,7 +287,7 @@ namespace OmniAPI.Controllers
         {
             try
             {
-               
+
                 Encryption ecn = new Encryption();
 
                 //  Weights.dateTime = Weights.dateTime.Value.ToLocalTime();
@@ -312,6 +312,53 @@ namespace OmniAPI.Controllers
                 return Weights;
             }
             catch(Exception e)
+            {
+                string ex = e.ToString();
+                return null;
+            }
+        }
+
+        [Route("updateWeights")]
+        [HttpPost]
+        // [Authorize]
+        public tbl_Weights updateWeights(tbl_Weights Weights)
+        {
+            try
+            {
+
+                Encryption ecn = new Encryption();
+
+                var readings = new double?[]
+                {
+                    Weights.WeightBack,
+                    Weights.WeightCenter,
+                    Weights.WeightFront,
+                    Weights.WeightBackR,
+                    Weights.WeightCenterR,
+                    Weights.WeightFrontR
+                };
+
+                // Average = (sum of provided weights / number of provided weights) / sample size
+                double total = readings.Where(r => r.HasValue).Sum(r => r.Value);
+                int count = readings.Count(r => r.HasValue);
+                double? sampleSize = Weights.SampleSize;
+
+                if (sampleSize.HasValue && sampleSize.Value > 0 && count > 0)
+                    Weights.WeightAverage = Math.Round(total / count / sampleSize.Value, 3);
+                else
+                    Weights.WeightAverage = null;
+
+                omnioEntities en = new omnioEntities();
+                if (Weights.ID > 0)
+                    en.tbl_Weights.AddOrUpdate(Weights);
+                else
+                    en.tbl_Weights.Add(Weights);
+
+                en.SaveChanges();
+
+                return Weights;
+            }
+            catch (Exception e)
             {
                 string ex = e.ToString();
                 return null;
