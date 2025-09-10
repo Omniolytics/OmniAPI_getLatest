@@ -326,8 +326,6 @@ namespace OmniAPI.Controllers
             try
             {
 
-                Encryption ecn = new Encryption();
-
                 var readings = new double?[]
                 {
                     Weights.WeightBack,
