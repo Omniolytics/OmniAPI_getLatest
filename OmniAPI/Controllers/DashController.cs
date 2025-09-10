@@ -287,7 +287,7 @@ namespace OmniAPI.Controllers
         {
             try
             {
-               
+
                 Encryption ecn = new Encryption();
 
                 //  Weights.dateTime = Weights.dateTime.Value.ToLocalTime();
@@ -312,6 +312,101 @@ namespace OmniAPI.Controllers
                 return Weights;
             }
             catch(Exception e)
+            {
+                string ex = e.ToString();
+                return null;
+            }
+        }
+
+        [Route("updateWeights")]
+        [HttpPost]
+        // [Authorize]
+        public tbl_Weights updateWeights(tbl_Weights Weights)
+        {
+            try
+            {
+
+                Encryption ecn = new Encryption();
+
+                int entryCount = 0;
+
+                if (Weights.WeightBack.HasValue)
+                {
+                    entryCount++;
+                }
+                else
+                {
+                    Weights.WeightBack = 0;
+                }
+
+                if (Weights.WeightFront.HasValue)
+                {
+                    entryCount++;
+                }
+                else
+                {
+                    Weights.WeightFront = 0;
+                }
+
+                if (Weights.WeightCenter.HasValue)
+                {
+                    entryCount++;
+                }
+                else
+                {
+                    Weights.WeightCenter = 0;
+                }
+
+                if (Weights.WeightBackR.HasValue)
+                {
+                    entryCount++;
+                }
+                else
+                {
+                    Weights.WeightBackR = 0;
+                }
+
+                if (Weights.WeightCenterR.HasValue)
+                {
+                    entryCount++;
+                }
+                else
+                {
+                    Weights.WeightCenterR = 0;
+                }
+
+                if (Weights.WeightFrontR.HasValue)
+                {
+                    entryCount++;
+                }
+                else
+                {
+                    Weights.WeightFrontR = 0;
+                }
+
+                if (!Weights.SampleSize.HasValue)
+                    Weights.SampleSize = 0;
+
+                double sum = Weights.WeightBack.Value + Weights.WeightCenter.Value + Weights.WeightFront.Value +
+                    Weights.WeightBackR.Value + Weights.WeightCenterR.Value + Weights.WeightFrontR.Value;
+
+                if (entryCount > 0 && Weights.SampleSize.Value > 0)
+                    Weights.WeightAverage = Math.Round(sum / entryCount / Weights.SampleSize.Value, 3);
+                else
+                    Weights.WeightAverage = 0;
+
+                omnioEntities en = new omnioEntities();
+                if (Weights.ID > 0)
+                    en.tbl_Weights.AddOrUpdate(Weights);
+                else
+                    en.tbl_Weights.Add(Weights);
+
+                en.SaveChanges();
+
+
+                return Weights;
+            }
+            catch (Exception e)
             {
                 string ex = e.ToString();
                 return null;
