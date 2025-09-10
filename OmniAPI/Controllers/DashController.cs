@@ -287,31 +287,152 @@ namespace OmniAPI.Controllers
         {
             try
             {
-               
+
                 Encryption ecn = new Encryption();
 
                 //  Weights.dateTime = Weights.dateTime.Value.ToLocalTime();
-                if (!Weights.WeightBack.HasValue)
+
+                double sum = 0;
+                int count = 0;
+
+                if (Weights.WeightBack.HasValue)
+                {
+                    sum += Weights.WeightBack.Value;
+                    count++;
+                }
+                else
                     Weights.WeightBack = 0;
 
-                if (!Weights.WeightFront.HasValue)
+                if (Weights.WeightFront.HasValue)
+                {
+                    sum += Weights.WeightFront.Value;
+                    count++;
+                }
+                else
                     Weights.WeightFront = 0;
 
-                if (!Weights.WeightCenter.HasValue)
+                if (Weights.WeightCenter.HasValue)
+                {
+                    sum += Weights.WeightCenter.Value;
+                    count++;
+                }
+                else
                     Weights.WeightCenter = 0;
 
+                if (!Weights.SampleSize.HasValue)
+                    Weights.SampleSize = 0;
 
-                double ave = Weights.WeightBack.Value + Weights.WeightCenter.Value + Weights.WeightFront.Value;
-                Weights.WeightAverage = Math.Round( ave/3,3);
+                if (Weights.SampleSize.Value > 0 && count > 0)
+                    Weights.WeightAverage = Math.Round(sum / (Weights.SampleSize.Value * count), 3);
+                else
+                    Weights.WeightAverage = 0;
 
                 omnioEntities en = new omnioEntities();
-                en.tbl_Weights.AddOrUpdate(Weights);
+                if (Weights.ID > 0)
+                    en.tbl_Weights.AddOrUpdate(Weights);
+                else
+                    en.tbl_Weights.Add(Weights);
                 en.SaveChanges();
 
 
                 return Weights;
             }
             catch(Exception e)
+            {
+                string ex = e.ToString();
+                return null;
+            }
+        }
+
+        [Route("updateWeights")]
+        [HttpPost]
+        // [Authorize]
+        public tbl_Weights updateWeights(tbl_Weights Weights)
+        {
+            try
+            {
+                // Sum provided readings, preserving nulls for missing values
+                double total = 0;
+                int count = 0;
+
+                if (Weights.WeightBack.HasValue)
+                {
+                    total += Weights.WeightBack.Value;
+                    count++;
+                }
+                else
+                {
+                    Weights.WeightBack = null;
+                }
+
+                if (Weights.WeightCenter.HasValue)
+                {
+                    total += Weights.WeightCenter.Value;
+                    count++;
+                }
+                else
+                {
+                    Weights.WeightCenter = null;
+                }
+
+                if (Weights.WeightFront.HasValue)
+                {
+                    total += Weights.WeightFront.Value;
+                    count++;
+                }
+                else
+                {
+                    Weights.WeightFront = null;
+                }
+
+                if (Weights.WeightBackR.HasValue)
+                {
+                    total += Weights.WeightBackR.Value;
+                    count++;
+                }
+                else
+                {
+                    Weights.WeightBackR = null;
+                }
+
+                if (Weights.WeightCenterR.HasValue)
+                {
+                    total += Weights.WeightCenterR.Value;
+                    count++;
+                }
+                else
+                {
+                    Weights.WeightCenterR = null;
+                }
+
+                if (Weights.WeightFrontR.HasValue)
+                {
+                    total += Weights.WeightFrontR.Value;
+                    count++;
+                }
+                else
+                {
+                    Weights.WeightFrontR = null;
+                }
+
+                double? sampleSize = Weights.SampleSize;
+
+                if (sampleSize.HasValue && sampleSize.Value > 0 && count > 0)
+                    Weights.WeightAverage = Math.Round(total / count / sampleSize.Value, 3);
+                else
+                    Weights.WeightAverage = null;
+
+                omnioEntities en = new omnioEntities();
+                if (Weights.ID > 0)
+                    en.tbl_Weights.AddOrUpdate(Weights);
+                else
+                    en.tbl_Weights.Add(Weights);
+
+                en.SaveChanges();
+
+                return Weights;
+            }
+            catch (Exception e)
             {
                 string ex = e.ToString();
                 return null;
