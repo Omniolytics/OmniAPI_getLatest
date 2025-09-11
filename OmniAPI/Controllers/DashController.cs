@@ -300,24 +300,18 @@ namespace OmniAPI.Controllers
                     sum += Weights.WeightBack.Value;
                     count++;
                 }
-                else
-                    Weights.WeightBack = 0;
 
                 if (Weights.WeightFront.HasValue)
                 {
                     sum += Weights.WeightFront.Value;
                     count++;
                 }
-                else
-                    Weights.WeightFront = 0;
 
                 if (Weights.WeightCenter.HasValue)
                 {
                     sum += Weights.WeightCenter.Value;
                     count++;
                 }
-                else
-                    Weights.WeightCenter = 0;
 
                 if (!Weights.SampleSize.HasValue)
                     Weights.SampleSize = 0;
@@ -362,48 +356,36 @@ namespace OmniAPI.Controllers
                     sum += Weights.WeightBack.Value;
                     count++;
                 }
-                else
-                    Weights.WeightBack = 0;
 
                 if (Weights.WeightFront.HasValue)
                 {
                     sum += Weights.WeightFront.Value;
                     count++;
                 }
-                else
-                    Weights.WeightFront = 0;
 
                 if (Weights.WeightCenter.HasValue)
                 {
                     sum += Weights.WeightCenter.Value;
                     count++;
                 }
-                else
-                    Weights.WeightCenter = 0;
 
                 if (Weights.WeightBackR.HasValue)
                 {
                     sum += Weights.WeightBackR.Value;
                     count++;
                 }
-                else
-                    Weights.WeightBackR = 0;
 
                 if (Weights.WeightCenterR.HasValue)
                 {
                     sum += Weights.WeightCenterR.Value;
                     count++;
                 }
-                else
-                    Weights.WeightCenterR = 0;
 
                 if (Weights.WeightFrontR.HasValue)
                 {
                     sum += Weights.WeightFrontR.Value;
                     count++;
                 }
-                else
-                    Weights.WeightFrontR = 0;
 
                 if (!Weights.SampleSize.HasValue)
                     Weights.SampleSize = 0;
