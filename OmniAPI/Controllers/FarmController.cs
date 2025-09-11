@@ -554,6 +554,45 @@ namespace OmniAPI.Controllers
             }
         }
 
+        [Route("getBroilerDevices")]
+        [HttpGet]
+        public List<string> getBroilerDevices()
+        {
+            try
+            {
+                omnioEntities en = new omnioEntities();
+                List<vw_DeviceDetails> details = en.vw_DeviceDetails.Where(x => x.DeviceID != "").ToList();
+
+                List<vw_DeviceDetails> detailsList = new List<vw_DeviceDetails>();
+
+                foreach (vw_DeviceDetails dd in details)
+                {
+                    if (detailsList.Exists(x => x.Name == dd.Name))
+                    {
+
+                    }
+                    else
+                    {
+                        DateTime latest = DateTime.Now;
+                        TimeSpan tp = latest.Subtract(dd.TImestamp.Value);
+
+                        if (tp.TotalHours > 2)
+                            dd.Unit = "Offline";
+                        else
+                            dd.Unit = "Online";
+
+                        detailsList.Add(dd);
+                    }
+                }
+
+                return detailsList.Select(x => x.DeviceID).ToList();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         [Route("getBriolerDetails/{briolerid}")]
         [HttpGet]
         public tbl_Briolers getBriolerDetails(int briolerid)
