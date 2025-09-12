@@ -554,38 +554,18 @@ namespace OmniAPI.Controllers
             }
         }
 
-        [Route("getBroilerDevices")]
+        [Route("getBroilerDevices/{broilerID}")]
         [HttpGet]
-        public List<string> getBroilerDevices()
+        public List<string> getBroilerDevices(int broilerID)
         {
             try
             {
                 omnioEntities en = new omnioEntities();
-                List<vw_DeviceDetails> details = en.vw_DeviceDetails.Where(x => x.DeviceID != "").ToList();
 
-                List<vw_DeviceDetails> detailsList = new List<vw_DeviceDetails>();
-
-                foreach (vw_DeviceDetails dd in details)
-                {
-                    if (detailsList.Exists(x => x.Name == dd.Name))
-                    {
-
-                    }
-                    else
-                    {
-                        DateTime latest = DateTime.Now;
-                        TimeSpan tp = latest.Subtract(dd.TImestamp.Value);
-
-                        if (tp.TotalHours > 2)
-                            dd.Unit = "Offline";
-                        else
-                            dd.Unit = "Online";
-
-                        detailsList.Add(dd);
-                    }
-                }
-
-                return detailsList.Select(x => x.DeviceID).ToList();
+                return en.tbl_Devices
+                         .Where(x => x.BriolerID == broilerID && x.DeviceID != null && x.DeviceID != "")
+                         .Select(x => x.DeviceID)
+                         .ToList();
             }
             catch
             {
