@@ -348,8 +348,11 @@ namespace OmniAPI.Controllers
 
                 Encryption ecn = new Encryption();
 
-                Weights.BroilerID = broilerID;
-                Weights.CycleID = cycleId;
+                if (!Weights.BroilerID.HasValue || Weights.BroilerID.Value == 0)
+                    Weights.BroilerID = broilerID;
+
+                if (!Weights.CycleID.HasValue || Weights.CycleID.Value == 0)
+                    Weights.CycleID = cycleId;
 
                 double sum = 0;
                 int count = 0;
