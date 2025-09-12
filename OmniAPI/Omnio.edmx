@@ -383,6 +383,7 @@
           </Key>
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BroilerID" Type="int" />
+          <Property Name="CycleID" Type="int" />
           <Property Name="WeightBack" Type="float" />
           <Property Name="WeightCenter" Type="float" />
           <Property Name="WeightFront" Type="float" />
@@ -1168,6 +1169,7 @@ FROM [dbo].[vw_DeviceDetails] AS [vw_DeviceDetails]</DefiningQuery>
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BroilerID" Type="Int32" />
+          <Property Name="CycleID" Type="Int32" />
           <Property Name="WeightBack" Type="Double" />
           <Property Name="WeightCenter" Type="Double" />
           <Property Name="WeightFront" Type="Double" />
@@ -1858,6 +1860,7 @@ FROM [dbo].[vw_DeviceDetails] AS [vw_DeviceDetails]</DefiningQuery>
                 <ScalarProperty Name="WeightFront" ColumnName="WeightFront" />
                 <ScalarProperty Name="WeightCenter" ColumnName="WeightCenter" />
                 <ScalarProperty Name="WeightBack" ColumnName="WeightBack" />
+                <ScalarProperty Name="CycleID" ColumnName="CycleID" />
                 <ScalarProperty Name="BroilerID" ColumnName="BroilerID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
