@@ -175,6 +175,23 @@ namespace OmniAPI.Controllers
             }
         }
 
+        [Route("getCatchData/{id}/{cycleId}")]
+        [HttpGet]
+        public List<tbl_catching> getCatchData(int id, int cycleId)
+        {
+            try
+            {
+                omnioEntities en = new omnioEntities();
+                List<tbl_catching> bs = en.tbl_catching.Where(x => x.broilerId == id && x.cycleId == cycleId).ToList();
+
+                return bs;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         [Route("getDOCData/{id}")]
         [HttpGet]
         public List<tbl_DOCTable> getDOCData(int id)
