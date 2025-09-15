@@ -16,6 +16,7 @@ namespace OmniAPI
     {
         public long ID { get; set; }
         public Nullable<int> BroilerID { get; set; }
+        public Nullable<int> cycleId { get; set; }
         public Nullable<double> WeightBack { get; set; }
         public Nullable<double> WeightCenter { get; set; }
         public Nullable<double> WeightFront { get; set; }
