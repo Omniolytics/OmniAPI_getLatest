@@ -19,5 +19,6 @@ namespace OmniAPI
         public Nullable<double> Feed { get; set; }
         public Nullable<double> WaterConsumption { get; set; }
         public Nullable<System.DateTime> DateTime { get; set; }
+        public Nullable<int> cycleId { get; set; }
     }
 }

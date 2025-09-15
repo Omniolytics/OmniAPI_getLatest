@@ -658,6 +658,27 @@ namespace OmniAPI.Controllers
             }
         }
 
+        [Route("getWaterFeedData/{id}/{cycleId}")]
+        [HttpGet]
+        // [Authorize]
+        public List<tbl_FeedWater> getWaterFeedData(int id, int cycleId)
+        {
+            try
+            {
+
+                omnioEntities en = new omnioEntities();
+                en.Configuration.LazyLoadingEnabled = false;
+                List<tbl_FeedWater> FeedWater = en.tbl_FeedWater.Where(x => x.broilerID == id && x.cycleId == cycleId).ToList();
+
+                return FeedWater;
+            }
+            catch (Exception e)
+            {
+                string str = e.ToString();
+                return null;
+            }
+        }
+
 
         [Route("AddUpdateFeedWater")]
         [HttpPost]

@@ -267,6 +267,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="broilerID" Type="int" />
+          <Property Name="cycleId" Type="int" />
           <Property Name="Feed" Type="float" />
           <Property Name="WaterConsumption" Type="float" />
           <Property Name="DateTime" Type="datetime" />
@@ -1089,6 +1090,7 @@ FROM [dbo].[vw_DeviceDetails] AS [vw_DeviceDetails]</DefiningQuery>
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="broilerID" Type="Int32" />
+          <Property Name="cycleId" Type="Int32" />
           <Property Name="Feed" Type="Double" />
           <Property Name="WaterConsumption" Type="Double" />
           <Property Name="DateTime" Type="DateTime" Precision="3" />
@@ -1773,6 +1775,7 @@ FROM [dbo].[vw_DeviceDetails] AS [vw_DeviceDetails]</DefiningQuery>
                 <ScalarProperty Name="WaterConsumption" ColumnName="WaterConsumption" />
                 <ScalarProperty Name="Feed" ColumnName="Feed" />
                 <ScalarProperty Name="broilerID" ColumnName="broilerID" />
+                <ScalarProperty Name="cycleId" ColumnName="cycleId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
