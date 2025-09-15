@@ -267,6 +267,23 @@ namespace OmniAPI.Controllers
             }
         }
 
+        [Route("getPlacementWeights/{id}/{cycleId}")]
+        [HttpGet]
+        public List<tbl_PlacementWeight> getPlacementWeights(int id, int cycleId)
+        {
+            try
+            {
+                omnioEntities en = new omnioEntities();
+                List<tbl_PlacementWeight> bs = en.tbl_PlacementWeight.Where(x => x.broilerId == id && x.cycleId == cycleId).ToList();
+
+                return bs;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
 
 
         [Route("updateBroilerSettings")]
