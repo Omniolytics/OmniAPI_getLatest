@@ -526,7 +526,22 @@ namespace OmniAPI.Controllers
                 double bird = (weight.totalBirdWeight.Value ) / weight.noOfBirdsPerBox.Value;
                 omnioEntities en = new omnioEntities();
 
-                en.tbl_PlacementWeight.AddOrUpdate(weight);             
+                var existing = en.tbl_PlacementWeight.FirstOrDefault(x => x.id == weight.id);
+                if (existing != null)
+                {
+                    existing.totalBirdWeight = weight.totalBirdWeight;
+                    existing.averageBox = weight.averageBox;
+                    existing.noOfBoxes = weight.noOfBoxes;
+                    existing.noOfBirdsPerBox = weight.noOfBirdsPerBox;
+                    existing.date = weight.date;
+                    existing.broilerId = weight.broilerId;
+                    existing.cycleId = weight.cycleId;
+                    existing.weightId = weight.weightId;
+                }
+                else
+                {
+                    en.tbl_PlacementWeight.Add(weight);
+                }
 
                 en.SaveChanges();
                 return true;

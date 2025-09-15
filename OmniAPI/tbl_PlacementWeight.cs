@@ -21,6 +21,7 @@ namespace OmniAPI
         public Nullable<int> noOfBirdsPerBox { get; set; }
         public Nullable<System.DateTime> date { get; set; }
         public Nullable<int> broilerId { get; set; }
+        public Nullable<int> cycleId { get; set; }
         public Nullable<long> weightId { get; set; }
     }
 }
