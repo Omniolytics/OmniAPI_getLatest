@@ -10,6 +10,7 @@ using System.Text;
 using System.IO;
 using System.Net.Mail;
 using System.Data.Entity.Migrations;
+using System.Web;
 using OmniAPI.Classes;
 
 
@@ -689,6 +690,16 @@ namespace OmniAPI.Controllers
             {
                 Encryption ecn = new Encryption();
 
+                var request = HttpContext.Current?.Request;
+                if (request != null)
+                {
+                    string cycleIdValue = request["cycleId"];
+                    if (!string.IsNullOrWhiteSpace(cycleIdValue) && int.TryParse(cycleIdValue, out int cycleId))
+                    {
+                        feedWater.cycleId = cycleId;
+                    }
+                }
+
                 //  Weights.dateTime = Weights.dateTime.Value.ToLocalTime();
                 if (!feedWater.Feed.HasValue)
                     feedWater.Feed = 0;
@@ -698,11 +709,28 @@ namespace OmniAPI.Controllers
 
 
                 omnioEntities en = new omnioEntities();
-                en.tbl_FeedWater.AddOrUpdate(feedWater);
+                tbl_FeedWater existing = null;
+                if (feedWater.ID > 0)
+                {
+                    existing = en.tbl_FeedWater.Find(feedWater.ID);
+                    if (existing != null)
+                    {
+                        existing.broilerID = feedWater.broilerID;
+                        existing.Feed = feedWater.Feed;
+                        existing.WaterConsumption = feedWater.WaterConsumption;
+                        existing.DateTime = feedWater.DateTime;
+                        existing.cycleId = feedWater.cycleId;
+                    }
+                }
+
+                if (existing == null)
+                {
+                    en.tbl_FeedWater.Add(feedWater);
+                }
                 en.SaveChanges();
 
 
-                return feedWater;
+                return existing ?? feedWater;
             }
             catch (Exception e)
             {
