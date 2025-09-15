@@ -338,15 +338,21 @@ namespace OmniAPI.Controllers
             }
         }
 
-        [Route("updateWeights")]
+        [Route("updateWeights/{broilerID}/{cycleId}")]
         [HttpPost]
         // [Authorize]
-        public tbl_Weights updateWeights(tbl_Weights Weights)
+        public tbl_Weights updateWeights(int broilerID, int cycleId, tbl_Weights Weights)
         {
             try
             {
 
                 Encryption ecn = new Encryption();
+
+                if (!Weights.BroilerID.HasValue || Weights.BroilerID.Value == 0)
+                    Weights.BroilerID = broilerID;
+
+                if (!Weights.CycleID.HasValue || Weights.CycleID.Value == 0)
+                    Weights.CycleID = cycleId;
 
                 double sum = 0;
                 int count = 0;
