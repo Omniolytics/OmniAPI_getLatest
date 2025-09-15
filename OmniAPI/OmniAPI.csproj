@@ -243,6 +243,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Classes\Encryption.cs" />
     <Compile Include="FarmDto.cs" />
+    <Compile Include="PlacementWeight.cs" />
     <Compile Include="Controllers\BroilerController.cs" />
     <Compile Include="Controllers\DashController.cs" />
     <Compile Include="Controllers\DeviceController.cs" />

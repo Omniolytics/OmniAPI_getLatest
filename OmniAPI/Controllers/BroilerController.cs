@@ -522,8 +522,8 @@ namespace OmniAPI.Controllers
         {
             try
             {
-              //  double calcboxes = weight.noOfBirdsPerBox.Value * weight.averageBox.Value;
-                double bird = (weight.totalBirdWeight.Value ) / weight.noOfBirdsPerBox.Value;
+                double bird = (weight.totalBirdWeight.Value) / weight.noOfBirdsPerBox.Value;
+                int boxes = Convert.ToInt32(bird);
                 omnioEntities en = new omnioEntities();
 
                 var existing = en.tbl_PlacementWeight.FirstOrDefault(x => x.id == weight.id);
