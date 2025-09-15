@@ -279,6 +279,29 @@ namespace OmniAPI.Controllers
             }
         }
 
+        [Route("getBroilerWeights/{id}/{cycleId}")]
+        [HttpGet]
+        // [Authorize]
+        public List<tbl_Weights> getBroilerWeights(int id, int cycleId)
+        {
+            try
+            {
+
+                omnioEntities en = new omnioEntities();
+                en.Configuration.LazyLoadingEnabled = false;
+
+                List<tbl_Weights> weights = en.tbl_Weights.Where(x => x.BroilerID == id && x.cycleId == cycleId).ToList();
+
+
+                return weights;
+            }
+            catch (Exception e)
+            {
+                string str = e.ToString();
+                return null;
+            }
+        }
+
 
         [Route("AddUpdateBroilerWeights")]
         [HttpPost]
