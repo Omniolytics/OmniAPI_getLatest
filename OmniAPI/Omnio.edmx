@@ -314,6 +314,7 @@
           <Property Name="noOfBirdsPerBox" Type="int" />
           <Property Name="date" Type="datetime" />
           <Property Name="broilerId" Type="int" />
+          <Property Name="cycleId" Type="int" />
           <Property Name="weightId" Type="bigint" />
         </EntityType>
         <EntityType Name="tbl_Systems">
@@ -1461,6 +1462,7 @@ FROM [dbo].[vw_DeviceDetails] AS [vw_DeviceDetails]</DefiningQuery>
           <Property Name="noOfBirdsPerBox" Type="Int32" />
           <Property Name="date" Type="DateTime" Precision="3" />
           <Property Name="broilerId" Type="Int32" />
+          <Property Name="cycleId" Type="Int32" />
           <Property Name="weightId" Type="Int64" />
         </EntityType>
         <EntityType Name="tbl_BroilerSettings">
@@ -1928,6 +1930,7 @@ FROM [dbo].[vw_DeviceDetails] AS [vw_DeviceDetails]</DefiningQuery>
             <EntityTypeMapping TypeName="omnioModel.tbl_PlacementWeight">
               <MappingFragment StoreEntitySet="tbl_PlacementWeight">
                 <ScalarProperty Name="weightId" ColumnName="weightId" />
+                <ScalarProperty Name="cycleId" ColumnName="cycleId" />
                 <ScalarProperty Name="broilerId" ColumnName="broilerId" />
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="noOfBirdsPerBox" ColumnName="noOfBirdsPerBox" />

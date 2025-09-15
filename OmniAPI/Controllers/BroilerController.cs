@@ -518,15 +518,28 @@ namespace OmniAPI.Controllers
 
         [Route("updateWeight")]
         [HttpPost]
-        public bool updateWeight(tbl_PlacementWeight weight)
+        public bool updateWeight(PlacementWeightDto weight)
         {
             try
             {
-              //  double calcboxes = weight.noOfBirdsPerBox.Value * weight.averageBox.Value;
-                double bird = (weight.totalBirdWeight.Value ) / weight.noOfBirdsPerBox.Value;
+                double bird = (weight.totalBirdWeight.Value) / weight.noOfBirdsPerBox.Value;
+                int boxes = Convert.ToInt32(bird);
                 omnioEntities en = new omnioEntities();
 
-                en.tbl_PlacementWeight.AddOrUpdate(weight);             
+                var entity = new tbl_PlacementWeight
+                {
+                    id = weight.id,
+                    totalBirdWeight = weight.totalBirdWeight,
+                    averageBox = weight.averageBox,
+                    noOfBoxes = boxes,
+                    noOfBirdsPerBox = weight.noOfBirdsPerBox,
+                    date = weight.date,
+                    broilerId = weight.facilityId,
+                    cycleId = weight.cycleId,
+                    weightId = weight.weightId
+                };
+
+                en.tbl_PlacementWeight.AddOrUpdate(entity);
 
                 en.SaveChanges();
                 return true;
