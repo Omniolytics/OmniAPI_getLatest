@@ -37,6 +37,7 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="briolerID" Type="int" />
+          <Property Name="cycleId" Type="int" />
           <Property Name="fatalities" Type="int" />
           <Property Name="dateTime" Type="datetime" />
           <Property Name="culls" Type="int" />
@@ -941,6 +942,7 @@ FROM [dbo].[vw_DeviceDetails] AS [vw_DeviceDetails]</DefiningQuery>
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="briolerID" Type="Int32" />
+          <Property Name="cycleId" Type="Int32" />
           <Property Name="fatalities" Type="Int32" />
           <Property Name="dateTime" Type="DateTime" Precision="3" />
           <Property Name="culls" Type="Int32" />
@@ -1636,6 +1638,7 @@ FROM [dbo].[vw_DeviceDetails] AS [vw_DeviceDetails]</DefiningQuery>
                 <ScalarProperty Name="dateTime" ColumnName="dateTime" />
                 <ScalarProperty Name="fatalities" ColumnName="fatalities" />
                 <ScalarProperty Name="briolerID" ColumnName="briolerID" />
+                <ScalarProperty Name="cycleId" ColumnName="cycleId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

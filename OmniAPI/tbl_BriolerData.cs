@@ -22,6 +22,7 @@ namespace OmniAPI
         public Nullable<double> weight { get; set; }
         public Nullable<int> eventCullsID { get; set; }
         public Nullable<int> eventMortalitiesID { get; set; }
+        public Nullable<int> cycleId { get; set; }
     
         public virtual tbl_CullsEvent tbl_CullsEvent { get; set; }
         public virtual tbl_MortalitiesEvent tbl_MortalitiesEvent { get; set; }

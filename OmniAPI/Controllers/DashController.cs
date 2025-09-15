@@ -158,6 +158,7 @@ namespace OmniAPI.Controllers
                         existing.fatalities = data.fatalities;
                         existing.dateTime = data.dateTime;
                         existing.culls = data.culls;
+                        existing.cycleId = data.cycleId;
                         existing.eventCullsID = data.eventCullsID;
                         existing.eventMortalitiesID = data.eventMortalitiesID;
                     }
