@@ -271,6 +271,14 @@ namespace OmniAPI.Controllers
         }
 
 
+        private static readonly string[] FloorTemperatureValueTypes = new[]
+        {
+            "Temperature",
+            "Floor Temp",
+            "Floor_Temp",
+            "Floor Temperature"
+        };
+
         private List<tbl_DeviceDataDetail> ExtractDataT(List<tbl_DeviceDataDetail> details)
         {
             try
@@ -283,7 +291,7 @@ namespace OmniAPI.Controllers
                 //batteryDetail.Value = Convert.ToDouble(dSW.d.BAT.Replace('.', '.'));
                 //batteryDetail.TImestamp = batteryDetail.TImestamp;
 
-                var ambientTempDetail = FindDetail(details, "Temperature", "Floor Temp", "Floor_Temp");
+                var ambientTempDetail = FindDetail(details, FloorTemperatureValueTypes);
                 //ambientTempDetail.Value = Convert.ToDouble(dSW.d.Temp.Replace('.', '.'));
                 //ambientTempDetail.TImestamp = ambientTempDetail.TImestamp;
 
@@ -460,7 +468,7 @@ namespace OmniAPI.Controllers
             try
             {
                 var batteryDetail = details.Find(x => x.ValueType == "Battery");
-                var ambientTempDetail = FindDetail(details, "Temperature", "Floor Temp", "Floor_Temp");
+                var ambientTempDetail = FindDetail(details, FloorTemperatureValueTypes);
 
                 T tData = new T
                 {
