@@ -283,7 +283,7 @@ namespace OmniAPI.Controllers
                 //batteryDetail.Value = Convert.ToDouble(dSW.d.BAT.Replace('.', '.'));
                 //batteryDetail.TImestamp = batteryDetail.TImestamp;
 
-                var ambientTempDetail = details.Find(x => x.ValueType == "Temperature" || x.ValueType == "Floor Temp");
+                var ambientTempDetail = FindDetail(details, "Temperature", "Floor Temp", "Floor_Temp");
                 //ambientTempDetail.Value = Convert.ToDouble(dSW.d.Temp.Replace('.', '.'));
                 //ambientTempDetail.TImestamp = ambientTempDetail.TImestamp;
 
@@ -349,6 +349,18 @@ namespace OmniAPI.Controllers
             //var ret = "No data";
             return null;
 
+        }
+
+        private tbl_DeviceDataDetail FindDetail(IEnumerable<tbl_DeviceDataDetail> details, params string[] valueTypes)
+        {
+            if (details == null || valueTypes == null || valueTypes.Length == 0)
+            {
+                return null;
+            }
+
+            return details.FirstOrDefault(detail =>
+                detail != null &&
+                valueTypes.Any(valueType => string.Equals(detail.ValueType, valueType, StringComparison.OrdinalIgnoreCase)));
         }
 
         private HttpResponseMessage ExtractRawDataSC(List<tbl_DeviceDataDetail> details, string id)
@@ -448,7 +460,7 @@ namespace OmniAPI.Controllers
             try
             {
                 var batteryDetail = details.Find(x => x.ValueType == "Battery");
-                var ambientTempDetail = details.Find(x => x.ValueType == "Temperature" || x.ValueType == "Floor Temp");
+                var ambientTempDetail = FindDetail(details, "Temperature", "Floor Temp", "Floor_Temp");
 
                 T tData = new T
                 {
