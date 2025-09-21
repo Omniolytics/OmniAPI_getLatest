@@ -102,7 +102,24 @@ namespace OmniAPI.Controllers
             {
                 omnioEntities en = new omnioEntities();
                 List<tbl_Feed> feed = en.tbl_Feed.Where(x => x.broilerId == id).ToList();
-                               
+
+                return feed;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        [Route("getFeed/{id}/{cycleId}")]
+        [HttpGet]
+        public List<tbl_Feed> getFeed(int id, int cycleId)
+        {
+            try
+            {
+                omnioEntities en = new omnioEntities();
+                List<tbl_Feed> feed = en.tbl_Feed.Where(x => x.broilerId == id && x.cycleId == cycleId).ToList();
+
                 return feed;
             }
             catch
