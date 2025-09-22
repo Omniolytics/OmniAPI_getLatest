@@ -23,6 +23,21 @@ namespace OmniAPI.Controllers
         public int? NoOfBirds { get; set; }
     }
 
+    public class DeviceDetailsDto
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int? BroilerID { get; set; }
+        public string BriolerName { get; set; }
+        public string BriolerDescription { get; set; }
+        public string FarmName { get; set; }
+        public string FarmDescription { get; set; }
+        public string DeviceID { get; set; }
+        public string DeviceType { get; set; }
+        public DateTime? TImestamp { get; set; }
+        public string Unit { get; set; }
+    }
+
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class FarmController : ApiController
     {
@@ -545,6 +560,68 @@ namespace OmniAPI.Controllers
 
                 
 
+
+                return detailsList;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        [Route("getDeviceDetails/{id}")]
+        [HttpGet]
+        public List<DeviceDetailsDto> getDeviceDetails(int id)
+        {
+            try
+            {
+                omnioEntities en = new omnioEntities();
+
+                var deviceDetails = (from detail in en.vw_DeviceDetails
+                                     join device in en.tbl_Devices on detail.DeviceID equals device.DeviceID
+                                     where detail.DeviceID != "" && device.BriolerID == id
+                                     select new { Detail = detail, BroilerID = device.BriolerID }).ToList();
+
+                List<DeviceDetailsDto> detailsList = new List<DeviceDetailsDto>();
+
+                foreach (var item in deviceDetails)
+                {
+                    vw_DeviceDetails detail = item.Detail;
+
+                    if (detailsList.Exists(x => x.Name == detail.Name))
+                    {
+                        continue;
+                    }
+
+                    string status = "Offline";
+
+                    if (detail.TImestamp.HasValue)
+                    {
+                        DateTime latest = DateTime.Now;
+                        TimeSpan tp = latest.Subtract(detail.TImestamp.Value);
+
+                        if (tp.TotalHours <= 2)
+                        {
+                            status = "Online";
+                        }
+                    }
+
+                    DeviceDetailsDto dto = new DeviceDetailsDto();
+
+                    dto.Name = detail.Name;
+                    dto.Description = detail.Description;
+                    dto.BroilerID = item.BroilerID;
+                    dto.BriolerName = detail.BriolerName;
+                    dto.BriolerDescription = detail.BriolerDescription;
+                    dto.FarmName = detail.FarmName;
+                    dto.FarmDescription = detail.FarmDescription;
+                    dto.DeviceID = detail.DeviceID;
+                    dto.DeviceType = detail.DeviceType;
+                    dto.TImestamp = detail.TImestamp;
+                    dto.Unit = status;
+
+                    detailsList.Add(dto);
+                }
 
                 return detailsList;
             }
