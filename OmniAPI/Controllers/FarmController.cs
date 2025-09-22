@@ -11,6 +11,7 @@ using System.IO;
 using System.Net.Mail;
 using System.Data.Entity.Migrations;
 using OmniAPI.Classes;
+using Newtonsoft.Json;
 
 namespace OmniAPI.Controllers
 {
@@ -36,6 +37,44 @@ namespace OmniAPI.Controllers
         public string DeviceType { get; set; }
         public DateTime? TImestamp { get; set; }
         public string Unit { get; set; }
+        [JsonProperty("device_limits", NullValueHandling = NullValueHandling.Ignore)]
+        public List<DeviceLimitDto> DeviceLimits { get; set; }
+    }
+
+    public class DeviceLimitDto
+    {
+        [JsonProperty("DeviceDataID")]
+        public long DeviceDataID { get; set; }
+
+        [JsonProperty("ValueType")]
+        public string ValueType { get; set; }
+
+        [JsonProperty("HighLimit")]
+        public double? HighLimit { get; set; }
+
+        [JsonProperty("LowLimit")]
+        public double? LowLimit { get; set; }
+
+        [JsonProperty("ThresholdEnabled")]
+        public bool? ThresholdEnabled { get; set; }
+
+        [JsonProperty("PrimaryContact")]
+        public string PrimaryContact { get; set; }
+
+        [JsonProperty("SecondaryContact")]
+        public string SecondaryContact { get; set; }
+
+        [JsonProperty("SecondaryContactDelay")]
+        public int? SecondaryContactDelay { get; set; }
+
+        [JsonProperty("FuzzyLimits")]
+        public bool? FuzzyLimits { get; set; }
+
+        [JsonProperty("Fuzzy_Low")]
+        public double? FuzzyLow { get; set; }
+
+        [JsonProperty("Fuzzy_High")]
+        public double? FuzzyHigh { get; set; }
     }
 
     [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -629,6 +668,108 @@ namespace OmniAPI.Controllers
             {
                 return null;
             }
+        }
+
+        [Route("getDeviceDetails/{id}/{deviceID}")]
+        [HttpGet]
+        public List<DeviceDetailsDto> getDeviceDetails(int id, string deviceID)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(deviceID))
+                {
+                    return new List<DeviceDetailsDto>();
+                }
+
+                string trimmedDeviceId = deviceID.Trim();
+
+                using (omnioEntities en = new omnioEntities())
+                {
+                    var deviceDetails = (from detail in en.vw_DeviceDetails
+                                         join device in en.tbl_Devices on detail.DeviceID equals device.DeviceID
+                                         where detail.DeviceID != "" && device.BriolerID == id && detail.DeviceID == trimmedDeviceId
+                                         select new { Detail = detail, BroilerID = device.BriolerID }).ToList();
+
+                    List<DeviceDetailsDto> detailsList = new List<DeviceDetailsDto>();
+
+                    foreach (var item in deviceDetails)
+                    {
+                        vw_DeviceDetails detail = item.Detail;
+
+                        if (detailsList.Exists(x => x.DeviceID == detail.DeviceID))
+                        {
+                            continue;
+                        }
+
+                        string status = "Offline";
+
+                        if (detail.TImestamp.HasValue)
+                        {
+                            DateTime latest = DateTime.Now;
+                            TimeSpan tp = latest.Subtract(detail.TImestamp.Value);
+
+                            if (tp.TotalHours <= 2)
+                            {
+                                status = "Online";
+                            }
+                        }
+
+                        DeviceDetailsDto dto = new DeviceDetailsDto
+                        {
+                            Name = detail.Name,
+                            Description = detail.Description,
+                            BroilerID = item.BroilerID,
+                            BriolerName = detail.BriolerName,
+                            BriolerDescription = detail.BriolerDescription,
+                            FarmName = detail.FarmName,
+                            FarmDescription = detail.FarmDescription,
+                            DeviceID = detail.DeviceID,
+                            DeviceType = detail.DeviceType,
+                            TImestamp = detail.TImestamp,
+                            Unit = status,
+                            DeviceLimits = GetDeviceLimits(en, detail.DeviceID)
+                        };
+
+                        detailsList.Add(dto);
+                    }
+
+                    return detailsList;
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private List<DeviceLimitDto> GetDeviceLimits(omnioEntities context, string deviceId)
+        {
+            if (string.IsNullOrWhiteSpace(deviceId))
+            {
+                return new List<DeviceLimitDto>();
+            }
+
+            string trimmedDeviceId = deviceId.Trim();
+
+            const string deviceLimitsQuery = @"
+SELECT
+    d.ID AS DeviceDataID,
+    d.ValueType,
+    l.HighLimit,
+    l.LowLimit,
+    l.ThresholdEnabled,
+    l.PrimaryContact,
+    l.SecondaryContact,
+    l.SecondaryContactDelay,
+    l.FuzzyLimits,
+    l.Fuzzy_Low AS FuzzyLow,
+    l.Fuzzy_High AS FuzzyHigh
+FROM tbl_DeviceDataDetail AS d
+LEFT JOIN tbl_DeviceLimits AS l ON d.ID = l.DeviceDataID
+WHERE d.DeviceID = @p0
+ORDER BY d.ValueType";
+
+            return context.Database.SqlQuery<DeviceLimitDto>(deviceLimitsQuery, trimmedDeviceId).ToList();
         }
 
         [Route("getBroilerDevices/{broilerID}")]
