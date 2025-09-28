@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using System.Data.SqlClient;
 using OmniAPI.Models;
 
 namespace OmniAPI.Controllers
@@ -136,11 +137,21 @@ namespace OmniAPI.Controllers
         {
             try
             {
-                omnioEntities en = new omnioEntities();
-                string query = "SELECT KPI, DeviationP, Enabled, PrimaryContact, SecondaryContact, Delay FROM tbl_KpiNotifications WHERE BroilerID = @p0";
-                List<KpiNotificationDto> notifications = en.Database.SqlQuery<KpiNotificationDto>(query, id).ToList();
+                using (omnioEntities en = new omnioEntities())
+                {
+                    const string query = "SELECT KPI, DeviationP, Enabled, PrimaryContact, SecondaryContact, Delay FROM dbo.tbl_KpiNotifications WHERE BroilerID = @broilerId";
+                    SqlParameter broilerIdParameter = new SqlParameter("@broilerId", id);
+                    List<KpiNotificationDto> notifications = en.Database.SqlQuery<KpiNotificationDto>(query, broilerIdParameter).ToList();
 
-                return notifications;
+                    if (!notifications.Any())
+                    {
+                        const string fallbackQuery = "SELECT KPI, DeviationP, Enabled, PrimaryContact, SecondaryContact, Delay FROM dbo.tbl_KpiNotifications WHERE CAST(BroilerID AS NVARCHAR(50)) = @broilerId";
+                        SqlParameter fallbackParameter = new SqlParameter("@broilerId", id.ToString());
+                        notifications = en.Database.SqlQuery<KpiNotificationDto>(fallbackQuery, fallbackParameter).ToList();
+                    }
+
+                    return notifications;
+                }
             }
             catch
             {
