@@ -5,7 +5,9 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using OmniAPI.Models;
 
 namespace OmniAPI.Controllers
 {
@@ -121,6 +123,24 @@ namespace OmniAPI.Controllers
                 List<tbl_Feed> feed = en.tbl_Feed.Where(x => x.broilerId == id && x.cycleId == cycleId).ToList();
 
                 return feed;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        [Route("getKpiNotifications/{id}")]
+        [HttpGet]
+        public List<KpiNotificationDto> getKpiNotifications(int id)
+        {
+            try
+            {
+                omnioEntities en = new omnioEntities();
+                string query = "SELECT KPI, DeviationP, Enabled, PrimaryContact, SecondaryContact, Delay FROM tbl_KpiNotifications WHERE BroilerID = @p0";
+                List<KpiNotificationDto> notifications = en.Database.SqlQuery<KpiNotificationDto>(query, id).ToList();
+
+                return notifications;
             }
             catch
             {
