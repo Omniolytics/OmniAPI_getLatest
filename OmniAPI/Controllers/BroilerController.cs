@@ -21,13 +21,13 @@ namespace OmniAPI.Controllers
 
         [Route("getHatcheryData/{id}")]
         [HttpGet]
-        public List<tbl_DOC>  getHatcheryData(int id)
+        public List<tbl_DOC> getHatcheryData(int id)
         {
             try
             {
                 omnioEntities en = new omnioEntities();
-                List<tbl_DOC> hatch =   en.tbl_DOC.Where(x => x.broilerId == id).ToList();
-              //  int max = hatch.Max(x => x.id);
+                List<tbl_DOC> hatch = en.tbl_DOC.Where(x => x.broilerId == id).ToList();
+                //  int max = hatch.Max(x => x.id);
 
 
                 return hatch;
@@ -45,7 +45,7 @@ namespace OmniAPI.Controllers
         {
             try
             {
-               
+
 
                 omnioEntities en = new omnioEntities();
 
@@ -86,7 +86,7 @@ namespace OmniAPI.Controllers
             try
             {
                 omnioEntities en = new omnioEntities();
-                List<tbl_Cycles> cylces = en.tbl_Cycles.Where( x=> x.broilerid == id).ToList();
+                List<tbl_Cycles> cylces = en.tbl_Cycles.Where(x => x.broilerid == id).ToList();
 
 
 
@@ -160,6 +160,77 @@ namespace OmniAPI.Controllers
             }
         }
 
+        [Route("updateKpiNotifications/{id}")]
+        [HttpPost]
+        public int updateKpiNotifications(int id, KpiNotificationUpdateRequest request)
+        {
+            if (request == null || string.IsNullOrWhiteSpace(request.Kpi))
+            {
+                return 0;
+            }
+
+            try
+            {
+                using (omnioEntities en = new omnioEntities())
+                {
+                    string trimmedKpi = request.Kpi.Trim();
+                    string primaryContactValue = NormalizeContactValue(request.PrimaryContact);
+                    string secondaryContactValue = NormalizeContactValue(request.SecondaryContact);
+
+                    SqlParameter[] updateParameters = new[]
+                    {
+                        new SqlParameter("@BroilerId", id),
+                        new SqlParameter("@BroilerIdText", id.ToString()),
+                        new SqlParameter("@KPI", trimmedKpi),
+                        new SqlParameter("@DeviationP", (object)request.DeviationP ?? DBNull.Value),
+                        new SqlParameter("@Enabled", (object)request.Enabled ?? DBNull.Value),
+                        CreateContactParameter("@PrimaryContact", primaryContactValue),
+                        CreateContactParameter("@SecondaryContact", secondaryContactValue),
+                        new SqlParameter("@Delay", (object)request.Delay ?? DBNull.Value)
+                    };
+
+                    const string updateQuery = @"UPDATE dbo.tbl_KpiNotifications
+                                                 SET BroilerID = @BroilerId,
+                                                     KPI = @KPI,
+                                                     DeviationP = @DeviationP,
+                                                     Enabled = @Enabled,
+                                                     PrimaryContact = @PrimaryContact,
+                                                     SecondaryContact = @SecondaryContact,
+                                                     Delay = @Delay
+                                                 WHERE (BroilerID = @BroilerId OR CAST(BroilerID AS NVARCHAR(50)) = @BroilerIdText)
+                                                   AND KPI = @KPI;";
+
+                    int rowsAffected = en.Database.ExecuteSqlCommand(updateQuery, updateParameters);
+
+                    if (rowsAffected > 0)
+                    {
+                        return rowsAffected;
+                    }
+
+                    SqlParameter[] insertParameters = new[]
+                    {
+                        new SqlParameter("@BroilerId", id),
+                        new SqlParameter("@KPI", trimmedKpi),
+                        new SqlParameter("@DeviationP", (object)request.DeviationP ?? DBNull.Value),
+                        new SqlParameter("@Enabled", (object)request.Enabled ?? DBNull.Value),
+                        CreateContactParameter("@PrimaryContact", primaryContactValue),
+                        CreateContactParameter("@SecondaryContact", secondaryContactValue),
+                        new SqlParameter("@Delay", (object)request.Delay ?? DBNull.Value)
+                    };
+
+                    const string insertQuery = @"INSERT INTO dbo.tbl_KpiNotifications (BroilerID, KPI, DeviationP, Enabled, PrimaryContact, SecondaryContact, Delay)
+                                                 VALUES (@BroilerId, @KPI, @DeviationP, @Enabled, @PrimaryContact, @SecondaryContact, @Delay);
+                                                 SELECT CAST(SCOPE_IDENTITY() AS INT);";
+
+                    return en.Database.SqlQuery<int>(insertQuery, insertParameters).FirstOrDefault();
+                }
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
         [Route("updateKpiNotifications")]
         [HttpPost]
         public int updateKpiNotifications(KpiNotificationUpdateRequest request)
@@ -175,12 +246,9 @@ namespace OmniAPI.Controllers
                 {
                     if (request.Id.HasValue)
                     {
-<<<<<<< HEAD
-=======
                         string primaryContactValue = NormalizeContactValue(request.PrimaryContact);
                         string secondaryContactValue = NormalizeContactValue(request.SecondaryContact);
 
->>>>>>> origin/codex/add-endpoint-to-update-kpi-notifications-fulbow
                         SqlParameter[] updateParameters = new[]
                         {
                             new SqlParameter("@Id", request.Id.Value),
@@ -188,13 +256,8 @@ namespace OmniAPI.Controllers
                             new SqlParameter("@KPI", (object)request.Kpi?.Trim() ?? DBNull.Value),
                             new SqlParameter("@DeviationP", (object)request.DeviationP ?? DBNull.Value),
                             new SqlParameter("@Enabled", (object)request.Enabled ?? DBNull.Value),
-<<<<<<< HEAD
-                            new SqlParameter("@PrimaryContact", (object)request.PrimaryContact ?? DBNull.Value),
-                            new SqlParameter("@SecondaryContact", (object)request.SecondaryContact ?? DBNull.Value),
-=======
                             CreateContactParameter("@PrimaryContact", primaryContactValue),
                             CreateContactParameter("@SecondaryContact", secondaryContactValue),
->>>>>>> origin/codex/add-endpoint-to-update-kpi-notifications-fulbow
                             new SqlParameter("@Delay", (object)request.Delay ?? DBNull.Value)
                         };
 
@@ -217,25 +280,17 @@ namespace OmniAPI.Controllers
                             return 0;
                         }
 
-<<<<<<< HEAD
-=======
                         string primaryContactValue = NormalizeContactValue(request.PrimaryContact);
                         string secondaryContactValue = NormalizeContactValue(request.SecondaryContact);
 
->>>>>>> origin/codex/add-endpoint-to-update-kpi-notifications-fulbow
                         SqlParameter[] insertParameters = new[]
                         {
                             new SqlParameter("@BroilerId", request.BroilerId.Value),
                             new SqlParameter("@KPI", (object)request.Kpi?.Trim() ?? DBNull.Value),
                             new SqlParameter("@DeviationP", (object)request.DeviationP ?? DBNull.Value),
                             new SqlParameter("@Enabled", (object)request.Enabled ?? DBNull.Value),
-<<<<<<< HEAD
-                            new SqlParameter("@PrimaryContact", (object)request.PrimaryContact ?? DBNull.Value),
-                            new SqlParameter("@SecondaryContact", (object)request.SecondaryContact ?? DBNull.Value),
-=======
                             CreateContactParameter("@PrimaryContact", primaryContactValue),
                             CreateContactParameter("@SecondaryContact", secondaryContactValue),
->>>>>>> origin/codex/add-endpoint-to-update-kpi-notifications-fulbow
                             new SqlParameter("@Delay", (object)request.Delay ?? DBNull.Value)
                         };
 
@@ -253,8 +308,6 @@ namespace OmniAPI.Controllers
             }
         }
 
-<<<<<<< HEAD
-=======
         private static SqlParameter CreateContactParameter(string name, string value)
         {
             SqlParameter parameter = new SqlParameter(name, SqlDbType.VarChar, 16)
@@ -276,17 +329,16 @@ namespace OmniAPI.Controllers
             return trimmed.Length > 16 ? trimmed.Substring(0, 16) : trimmed;
         }
 
->>>>>>> origin/codex/add-endpoint-to-update-kpi-notifications-fulbow
         [Route("getActData/{id}/{cycleId}")]
         [HttpGet]
-        public List<tbl_activities> getActData(int id,int cycleId)
+        public List<tbl_activities> getActData(int id, int cycleId)
         {
             try
             {
                 omnioEntities en = new omnioEntities();
                 List<tbl_activities> activities = en.tbl_activities.Where(x => x.broilerId == id && x.cycleId == cycleId).ToList();
 
-                for(int i = 0; i < activities.Count; i++)
+                for (int i = 0; i < activities.Count; i++)
                 {
 
                     if (activities[i].startDate.HasValue)
@@ -365,8 +417,8 @@ namespace OmniAPI.Controllers
             try
             {
                 omnioEntities en = new omnioEntities();
-                List < tbl_DOCTable> bs = en.tbl_DOCTable.Where(x => x.broilerId == id).ToList();
-                               
+                List<tbl_DOCTable> bs = en.tbl_DOCTable.Where(x => x.broilerId == id).ToList();
+
                 return bs;
             }
 
@@ -527,7 +579,7 @@ namespace OmniAPI.Controllers
         {
             try
             {
-                bs.sid_1 = bs.sid_1 ??  "0";
+                bs.sid_1 = bs.sid_1 ?? "0";
                 bs.sid_2 = bs.sid_2 ?? "0";
                 bs.sid_3 = bs.sid_3 ?? "0";
                 bs.sid_4 = bs.sid_4 ?? "0";
@@ -537,7 +589,7 @@ namespace OmniAPI.Controllers
                 en.SaveChanges();
                 return bs.id;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 string s = e.ToString();
                 return 0;
@@ -761,8 +813,8 @@ namespace OmniAPI.Controllers
             {
                 omnioEntities en = new omnioEntities();
                 tbl_PlacementWeight f = en.tbl_PlacementWeight.Find(cycles.id);
-             
-            
+
+
                 en.tbl_PlacementWeight.Remove(f);
                 en.SaveChanges();
                 return true;
