@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Data.SqlClient;
@@ -174,6 +175,12 @@ namespace OmniAPI.Controllers
                 {
                     if (request.Id.HasValue)
                     {
+<<<<<<< HEAD
+=======
+                        string primaryContactValue = NormalizeContactValue(request.PrimaryContact);
+                        string secondaryContactValue = NormalizeContactValue(request.SecondaryContact);
+
+>>>>>>> origin/codex/add-endpoint-to-update-kpi-notifications-fulbow
                         SqlParameter[] updateParameters = new[]
                         {
                             new SqlParameter("@Id", request.Id.Value),
@@ -181,8 +188,13 @@ namespace OmniAPI.Controllers
                             new SqlParameter("@KPI", (object)request.Kpi?.Trim() ?? DBNull.Value),
                             new SqlParameter("@DeviationP", (object)request.DeviationP ?? DBNull.Value),
                             new SqlParameter("@Enabled", (object)request.Enabled ?? DBNull.Value),
+<<<<<<< HEAD
                             new SqlParameter("@PrimaryContact", (object)request.PrimaryContact ?? DBNull.Value),
                             new SqlParameter("@SecondaryContact", (object)request.SecondaryContact ?? DBNull.Value),
+=======
+                            CreateContactParameter("@PrimaryContact", primaryContactValue),
+                            CreateContactParameter("@SecondaryContact", secondaryContactValue),
+>>>>>>> origin/codex/add-endpoint-to-update-kpi-notifications-fulbow
                             new SqlParameter("@Delay", (object)request.Delay ?? DBNull.Value)
                         };
 
@@ -205,14 +217,25 @@ namespace OmniAPI.Controllers
                             return 0;
                         }
 
+<<<<<<< HEAD
+=======
+                        string primaryContactValue = NormalizeContactValue(request.PrimaryContact);
+                        string secondaryContactValue = NormalizeContactValue(request.SecondaryContact);
+
+>>>>>>> origin/codex/add-endpoint-to-update-kpi-notifications-fulbow
                         SqlParameter[] insertParameters = new[]
                         {
                             new SqlParameter("@BroilerId", request.BroilerId.Value),
                             new SqlParameter("@KPI", (object)request.Kpi?.Trim() ?? DBNull.Value),
                             new SqlParameter("@DeviationP", (object)request.DeviationP ?? DBNull.Value),
                             new SqlParameter("@Enabled", (object)request.Enabled ?? DBNull.Value),
+<<<<<<< HEAD
                             new SqlParameter("@PrimaryContact", (object)request.PrimaryContact ?? DBNull.Value),
                             new SqlParameter("@SecondaryContact", (object)request.SecondaryContact ?? DBNull.Value),
+=======
+                            CreateContactParameter("@PrimaryContact", primaryContactValue),
+                            CreateContactParameter("@SecondaryContact", secondaryContactValue),
+>>>>>>> origin/codex/add-endpoint-to-update-kpi-notifications-fulbow
                             new SqlParameter("@Delay", (object)request.Delay ?? DBNull.Value)
                         };
 
@@ -230,6 +253,30 @@ namespace OmniAPI.Controllers
             }
         }
 
+<<<<<<< HEAD
+=======
+        private static SqlParameter CreateContactParameter(string name, string value)
+        {
+            SqlParameter parameter = new SqlParameter(name, SqlDbType.VarChar, 16)
+            {
+                Value = (object)value ?? DBNull.Value
+            };
+
+            return parameter;
+        }
+
+        private static string NormalizeContactValue(string contact)
+        {
+            if (string.IsNullOrWhiteSpace(contact))
+            {
+                return null;
+            }
+
+            string trimmed = contact.Trim();
+            return trimmed.Length > 16 ? trimmed.Substring(0, 16) : trimmed;
+        }
+
+>>>>>>> origin/codex/add-endpoint-to-update-kpi-notifications-fulbow
         [Route("getActData/{id}/{cycleId}")]
         [HttpGet]
         public List<tbl_activities> getActData(int id,int cycleId)
