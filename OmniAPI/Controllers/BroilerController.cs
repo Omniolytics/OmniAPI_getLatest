@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Data.SqlClient;
@@ -157,6 +158,104 @@ namespace OmniAPI.Controllers
             {
                 return null;
             }
+        }
+
+        [Route("updateKpiNotifications")]
+        [HttpPost]
+        public int updateKpiNotifications(KpiNotificationUpdateRequest request)
+        {
+            if (request == null || string.IsNullOrWhiteSpace(request.Kpi))
+            {
+                return 0;
+            }
+
+            try
+            {
+                using (omnioEntities en = new omnioEntities())
+                {
+                    if (request.Id.HasValue)
+                    {
+                        string primaryContactValue = NormalizeContactValue(request.PrimaryContact);
+                        string secondaryContactValue = NormalizeContactValue(request.SecondaryContact);
+
+                        SqlParameter[] updateParameters = new[]
+                        {
+                            new SqlParameter("@Id", request.Id.Value),
+                            new SqlParameter("@BroilerId", (object)request.BroilerId ?? DBNull.Value),
+                            new SqlParameter("@KPI", (object)request.Kpi?.Trim() ?? DBNull.Value),
+                            new SqlParameter("@DeviationP", (object)request.DeviationP ?? DBNull.Value),
+                            new SqlParameter("@Enabled", (object)request.Enabled ?? DBNull.Value),
+                            CreateContactParameter("@PrimaryContact", primaryContactValue),
+                            CreateContactParameter("@SecondaryContact", secondaryContactValue),
+                            new SqlParameter("@Delay", (object)request.Delay ?? DBNull.Value)
+                        };
+
+                        const string updateQuery = @"UPDATE dbo.tbl_KpiNotifications
+                                                     SET BroilerID = @BroilerId,
+                                                         KPI = @KPI,
+                                                         DeviationP = @DeviationP,
+                                                         Enabled = @Enabled,
+                                                         PrimaryContact = @PrimaryContact,
+                                                         SecondaryContact = @SecondaryContact,
+                                                         Delay = @Delay
+                                                     WHERE id = @Id";
+
+                        return en.Database.ExecuteSqlCommand(updateQuery, updateParameters);
+                    }
+                    else
+                    {
+                        if (!request.BroilerId.HasValue)
+                        {
+                            return 0;
+                        }
+
+                        string primaryContactValue = NormalizeContactValue(request.PrimaryContact);
+                        string secondaryContactValue = NormalizeContactValue(request.SecondaryContact);
+
+                        SqlParameter[] insertParameters = new[]
+                        {
+                            new SqlParameter("@BroilerId", request.BroilerId.Value),
+                            new SqlParameter("@KPI", (object)request.Kpi?.Trim() ?? DBNull.Value),
+                            new SqlParameter("@DeviationP", (object)request.DeviationP ?? DBNull.Value),
+                            new SqlParameter("@Enabled", (object)request.Enabled ?? DBNull.Value),
+                            CreateContactParameter("@PrimaryContact", primaryContactValue),
+                            CreateContactParameter("@SecondaryContact", secondaryContactValue),
+                            new SqlParameter("@Delay", (object)request.Delay ?? DBNull.Value)
+                        };
+
+                        const string insertQuery = @"INSERT INTO dbo.tbl_KpiNotifications (BroilerID, KPI, DeviationP, Enabled, PrimaryContact, SecondaryContact, Delay)
+                                                     VALUES (@BroilerId, @KPI, @DeviationP, @Enabled, @PrimaryContact, @SecondaryContact, @Delay);
+                                                     SELECT CAST(SCOPE_IDENTITY() AS INT);";
+
+                        return en.Database.SqlQuery<int>(insertQuery, insertParameters).FirstOrDefault();
+                    }
+                }
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        private static SqlParameter CreateContactParameter(string name, string value)
+        {
+            SqlParameter parameter = new SqlParameter(name, SqlDbType.VarChar, 16)
+            {
+                Value = (object)value ?? DBNull.Value
+            };
+
+            return parameter;
+        }
+
+        private static string NormalizeContactValue(string contact)
+        {
+            if (string.IsNullOrWhiteSpace(contact))
+            {
+                return null;
+            }
+
+            string trimmed = contact.Trim();
+            return trimmed.Length > 16 ? trimmed.Substring(0, 16) : trimmed;
         }
 
         [Route("getActData/{id}/{cycleId}")]

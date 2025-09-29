@@ -289,6 +289,7 @@
       <DependentUpon>liveData.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\KpiNotificationDto.cs" />
+    <Compile Include="Models\KpiNotificationUpdateRequest.cs" />
     <Compile Include="Omnio.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

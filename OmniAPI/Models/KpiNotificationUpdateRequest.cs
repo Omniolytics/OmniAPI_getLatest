@@ -1,8 +1,12 @@
+using System;
+
 namespace OmniAPI.Models
 {
-    public class KpiNotificationDto
+    public class KpiNotificationUpdateRequest
     {
-        public string KPI { get; set; }
+        public int? Id { get; set; }
+        public int? BroilerId { get; set; }
+        public string Kpi { get; set; }
         public int? DeviationP { get; set; }
         public bool? Enabled { get; set; }
         public string PrimaryContact { get; set; }
