@@ -159,6 +159,69 @@ namespace OmniAPI.Controllers
             }
         }
 
+        [Route("updateKpiNotifications/{id}")]
+        [HttpPost]
+        public int updateKpiNotifications(int id, KpiNotificationUpdateRequest request)
+        {
+            if (request == null || string.IsNullOrWhiteSpace(request.Kpi))
+            {
+                return 0;
+            }
+
+            try
+            {
+                using (omnioEntities en = new omnioEntities())
+                {
+                    SqlParameter[] baseParameters = new[]
+                    {
+                        new SqlParameter("@BroilerId", id),
+                        new SqlParameter("@KPI", (object)request.Kpi?.Trim() ?? DBNull.Value),
+                        new SqlParameter("@DeviationP", (object)request.DeviationP ?? DBNull.Value),
+                        new SqlParameter("@Enabled", (object)request.Enabled ?? DBNull.Value),
+                        new SqlParameter("@PrimaryContact", (object)request.PrimaryContact ?? DBNull.Value),
+                        new SqlParameter("@SecondaryContact", (object)request.SecondaryContact ?? DBNull.Value),
+                        new SqlParameter("@Delay", (object)request.Delay ?? DBNull.Value)
+                    };
+
+                    const string updateQuery = @"UPDATE dbo.tbl_KpiNotifications
+                                                 SET BroilerID = @BroilerId,
+                                                     DeviationP = @DeviationP,
+                                                     Enabled = @Enabled,
+                                                     PrimaryContact = @PrimaryContact,
+                                                     SecondaryContact = @SecondaryContact,
+                                                     Delay = @Delay
+                                                 WHERE KPI = @KPI AND BroilerID = @BroilerId";
+
+                    int rowsAffected = en.Database.ExecuteSqlCommand(updateQuery, baseParameters);
+
+                    if (rowsAffected == 0)
+                    {
+                        List<SqlParameter> fallbackParameters = new List<SqlParameter>(baseParameters)
+                        {
+                            new SqlParameter("@BroilerIdString", id.ToString())
+                        };
+
+                        const string fallbackUpdateQuery = @"UPDATE dbo.tbl_KpiNotifications
+                                                             SET BroilerID = @BroilerId,
+                                                                 DeviationP = @DeviationP,
+                                                                 Enabled = @Enabled,
+                                                                 PrimaryContact = @PrimaryContact,
+                                                                 SecondaryContact = @SecondaryContact,
+                                                                 Delay = @Delay
+                                                             WHERE KPI = @KPI AND CAST(BroilerID AS NVARCHAR(50)) = @BroilerIdString";
+
+                        rowsAffected = en.Database.ExecuteSqlCommand(fallbackUpdateQuery, fallbackParameters.ToArray());
+                    }
+
+                    return rowsAffected;
+                }
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
         [Route("getActData/{id}/{cycleId}")]
         [HttpGet]
         public List<tbl_activities> getActData(int id,int cycleId)
