@@ -159,9 +159,9 @@ namespace OmniAPI.Controllers
             }
         }
 
-        [Route("updateKpiNotifications/{id}")]
+        [Route("updateKpiNotifications")]
         [HttpPost]
-        public int updateKpiNotifications(int id, KpiNotificationUpdateRequest request)
+        public int updateKpiNotifications(KpiNotificationUpdateRequest request)
         {
             if (request == null || string.IsNullOrWhiteSpace(request.Kpi))
             {
@@ -172,48 +172,56 @@ namespace OmniAPI.Controllers
             {
                 using (omnioEntities en = new omnioEntities())
                 {
-                    SqlParameter[] baseParameters = new[]
+                    if (request.Id.HasValue)
                     {
-                        new SqlParameter("@BroilerId", id),
-                        new SqlParameter("@KPI", (object)request.Kpi?.Trim() ?? DBNull.Value),
-                        new SqlParameter("@DeviationP", (object)request.DeviationP ?? DBNull.Value),
-                        new SqlParameter("@Enabled", (object)request.Enabled ?? DBNull.Value),
-                        new SqlParameter("@PrimaryContact", (object)request.PrimaryContact ?? DBNull.Value),
-                        new SqlParameter("@SecondaryContact", (object)request.SecondaryContact ?? DBNull.Value),
-                        new SqlParameter("@Delay", (object)request.Delay ?? DBNull.Value)
-                    };
-
-                    const string updateQuery = @"UPDATE dbo.tbl_KpiNotifications
-                                                 SET BroilerID = @BroilerId,
-                                                     DeviationP = @DeviationP,
-                                                     Enabled = @Enabled,
-                                                     PrimaryContact = @PrimaryContact,
-                                                     SecondaryContact = @SecondaryContact,
-                                                     Delay = @Delay
-                                                 WHERE KPI = @KPI AND BroilerID = @BroilerId";
-
-                    int rowsAffected = en.Database.ExecuteSqlCommand(updateQuery, baseParameters);
-
-                    if (rowsAffected == 0)
-                    {
-                        List<SqlParameter> fallbackParameters = new List<SqlParameter>(baseParameters)
+                        SqlParameter[] updateParameters = new[]
                         {
-                            new SqlParameter("@BroilerIdString", id.ToString())
+                            new SqlParameter("@Id", request.Id.Value),
+                            new SqlParameter("@BroilerId", (object)request.BroilerId ?? DBNull.Value),
+                            new SqlParameter("@KPI", (object)request.Kpi?.Trim() ?? DBNull.Value),
+                            new SqlParameter("@DeviationP", (object)request.DeviationP ?? DBNull.Value),
+                            new SqlParameter("@Enabled", (object)request.Enabled ?? DBNull.Value),
+                            new SqlParameter("@PrimaryContact", (object)request.PrimaryContact ?? DBNull.Value),
+                            new SqlParameter("@SecondaryContact", (object)request.SecondaryContact ?? DBNull.Value),
+                            new SqlParameter("@Delay", (object)request.Delay ?? DBNull.Value)
                         };
 
-                        const string fallbackUpdateQuery = @"UPDATE dbo.tbl_KpiNotifications
-                                                             SET BroilerID = @BroilerId,
-                                                                 DeviationP = @DeviationP,
-                                                                 Enabled = @Enabled,
-                                                                 PrimaryContact = @PrimaryContact,
-                                                                 SecondaryContact = @SecondaryContact,
-                                                                 Delay = @Delay
-                                                             WHERE KPI = @KPI AND CAST(BroilerID AS NVARCHAR(50)) = @BroilerIdString";
+                        const string updateQuery = @"UPDATE dbo.tbl_KpiNotifications
+                                                     SET BroilerID = @BroilerId,
+                                                         KPI = @KPI,
+                                                         DeviationP = @DeviationP,
+                                                         Enabled = @Enabled,
+                                                         PrimaryContact = @PrimaryContact,
+                                                         SecondaryContact = @SecondaryContact,
+                                                         Delay = @Delay
+                                                     WHERE id = @Id";
 
-                        rowsAffected = en.Database.ExecuteSqlCommand(fallbackUpdateQuery, fallbackParameters.ToArray());
+                        return en.Database.ExecuteSqlCommand(updateQuery, updateParameters);
                     }
+                    else
+                    {
+                        if (!request.BroilerId.HasValue)
+                        {
+                            return 0;
+                        }
 
-                    return rowsAffected;
+                        SqlParameter[] insertParameters = new[]
+                        {
+                            new SqlParameter("@BroilerId", request.BroilerId.Value),
+                            new SqlParameter("@KPI", (object)request.Kpi?.Trim() ?? DBNull.Value),
+                            new SqlParameter("@DeviationP", (object)request.DeviationP ?? DBNull.Value),
+                            new SqlParameter("@Enabled", (object)request.Enabled ?? DBNull.Value),
+                            new SqlParameter("@PrimaryContact", (object)request.PrimaryContact ?? DBNull.Value),
+                            new SqlParameter("@SecondaryContact", (object)request.SecondaryContact ?? DBNull.Value),
+                            new SqlParameter("@Delay", (object)request.Delay ?? DBNull.Value)
+                        };
+
+                        const string insertQuery = @"INSERT INTO dbo.tbl_KpiNotifications (BroilerID, KPI, DeviationP, Enabled, PrimaryContact, SecondaryContact, Delay)
+                                                     VALUES (@BroilerId, @KPI, @DeviationP, @Enabled, @PrimaryContact, @SecondaryContact, @Delay);
+                                                     SELECT CAST(SCOPE_IDENTITY() AS INT);";
+
+                        return en.Database.SqlQuery<int>(insertQuery, insertParameters).FirstOrDefault();
+                    }
                 }
             }
             catch
