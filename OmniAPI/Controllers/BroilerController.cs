@@ -140,13 +140,13 @@ namespace OmniAPI.Controllers
             {
                 using (omnioEntities en = new omnioEntities())
                 {
-                    const string query = "SELECT KPI, DeviationP, Enabled, PrimaryContact, SecondaryContact, Delay FROM dbo.tbl_KpiNotifications WHERE BroilerID = @broilerId";
+                    const string query = "SELECT Id, BroilerID AS BroilerId, KPI, DeviationP, Enabled, PrimaryContact, SecondaryContact, Delay FROM dbo.tbl_KpiNotifications WHERE BroilerID = @broilerId";
                     SqlParameter broilerIdParameter = new SqlParameter("@broilerId", id);
                     List<KpiNotificationDto> notifications = en.Database.SqlQuery<KpiNotificationDto>(query, broilerIdParameter).ToList();
 
                     if (!notifications.Any())
                     {
-                        const string fallbackQuery = "SELECT KPI, DeviationP, Enabled, PrimaryContact, SecondaryContact, Delay FROM dbo.tbl_KpiNotifications WHERE CAST(BroilerID AS NVARCHAR(50)) = @broilerId";
+                        const string fallbackQuery = "SELECT Id, TRY_CAST(BroilerID AS INT) AS BroilerId, KPI, DeviationP, Enabled, PrimaryContact, SecondaryContact, Delay FROM dbo.tbl_KpiNotifications WHERE CAST(BroilerID AS NVARCHAR(50)) = @broilerId";
                         SqlParameter fallbackParameter = new SqlParameter("@broilerId", id.ToString());
                         notifications = en.Database.SqlQuery<KpiNotificationDto>(fallbackQuery, fallbackParameter).ToList();
                     }
