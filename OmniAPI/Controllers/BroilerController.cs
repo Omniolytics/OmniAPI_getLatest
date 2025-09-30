@@ -160,17 +160,36 @@ namespace OmniAPI.Controllers
             }
         }
 
-        [Route("getActNotifications/{broilerId:int}")]
+        [Route("getActNotifications/{id}")]
         [HttpGet]
-        public List<ActNotificationDto> getActNotifications(int broilerId)
+        public List<ActNotificationDto> getActNotifications(string id)
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(id))
+                {
+                    return new List<ActNotificationDto>();
+                }
+
                 using (omnioEntities en = new omnioEntities())
                 {
-                    const string query = "SELECT Id, Act, Completed, CompletedNotMet, NotCompleted, PrimaryContact, SecondaryContact, Delay, BroilerID AS BroilerId FROM dbo.tbl_ActNotifications WHERE BroilerID = @broilerId";
-                    SqlParameter broilerIdParameter = new SqlParameter("@broilerId", broilerId);
-                    return en.Database.SqlQuery<ActNotificationDto>(query, broilerIdParameter).ToList();
+                    List<ActNotificationDto> notifications = new List<ActNotificationDto>();
+
+                    if (int.TryParse(id, out int broilerId))
+                    {
+                        const string intQuery = "SELECT Id, Act, Completed, CompletedNotMet, NotCompleted, PrimaryContact, SecondaryContact, Delay, BroilerID AS BroilerId FROM dbo.tbl_ActNotifications WHERE BroilerID = @broilerId";
+                        SqlParameter broilerIdParameter = new SqlParameter("@broilerId", broilerId);
+                        notifications = en.Database.SqlQuery<ActNotificationDto>(intQuery, broilerIdParameter).ToList();
+
+                        if (notifications.Any())
+                        {
+                            return notifications;
+                        }
+                    }
+
+                    const string fallbackQuery = "SELECT Id, Act, Completed, CompletedNotMet, NotCompleted, PrimaryContact, SecondaryContact, Delay, TRY_CAST(BroilerID AS INT) AS BroilerId FROM dbo.tbl_ActNotifications WHERE CAST(BroilerID AS NVARCHAR(50)) = @broilerId";
+                    SqlParameter fallbackParameter = new SqlParameter("@broilerId", id);
+                    return en.Database.SqlQuery<ActNotificationDto>(fallbackQuery, fallbackParameter).ToList();
                 }
             }
             catch
