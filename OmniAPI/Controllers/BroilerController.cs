@@ -215,6 +215,88 @@ namespace OmniAPI.Controllers
             }
         }
 
+        [Route("updateActNotifications")]
+        [HttpPost]
+        public int updateActNotifications(ActNotificationUpdateRequest request)
+        {
+            if (request == null)
+            {
+                return 0;
+            }
+
+            try
+            {
+                using (omnioEntities en = new omnioEntities())
+                {
+                    string trimmedAct = request.Act?.Trim();
+                    string primaryContactValue = NormalizeContactValue(request.PrimaryContact);
+                    string secondaryContactValue = NormalizeContactValue(request.SecondaryContact);
+
+                    bool completedValue = request.Completed ?? false;
+                    bool conditionsNotMetValue = request.ConditionsNotMet ?? false;
+                    bool notCompletedValue = request.NotCompleted ?? false;
+                    object delayValue = request.Delay.HasValue ? (object)request.Delay.Value : DBNull.Value;
+                    object broilerIdValue = request.BroilerId.HasValue ? (object)request.BroilerId.Value : DBNull.Value;
+
+                    if (request.Id.HasValue)
+                    {
+                        SqlParameter[] updateParameters = new[]
+                        {
+                            new SqlParameter("@Id", request.Id.Value),
+                            new SqlParameter("@Act", (object)trimmedAct ?? DBNull.Value),
+                            new SqlParameter("@Completed", completedValue),
+                            new SqlParameter("@ConditionsNotMet", conditionsNotMetValue),
+                            new SqlParameter("@NotCompleted", notCompletedValue),
+                            CreateContactParameter("@PrimaryContact", primaryContactValue),
+                            CreateContactParameter("@SecondaryContact", secondaryContactValue),
+                            new SqlParameter("@Delay", delayValue),
+                            new SqlParameter("@BroilerId", broilerIdValue)
+                        };
+
+                        const string updateQuery = @"UPDATE dbo.tbl_ActNotifications
+                                                     SET Act = @Act,
+                                                         Completed = @Completed,
+                                                         ConditionsNotMet = @ConditionsNotMet,
+                                                         NotCompleted = @NotCompleted,
+                                                         PrimaryContact = @PrimaryContact,
+                                                         SecondaryContact = @SecondaryContact,
+                                                         Delay = @Delay,
+                                                         BroilerID = @BroilerId
+                                                     WHERE Id = @Id";
+
+                        return en.Database.ExecuteSqlCommand(updateQuery, updateParameters);
+                    }
+
+                    if (!request.BroilerId.HasValue)
+                    {
+                        return 0;
+                    }
+
+                    SqlParameter[] insertParameters = new[]
+                    {
+                        new SqlParameter("@Act", (object)trimmedAct ?? DBNull.Value),
+                        new SqlParameter("@Completed", completedValue),
+                        new SqlParameter("@ConditionsNotMet", conditionsNotMetValue),
+                        new SqlParameter("@NotCompleted", notCompletedValue),
+                        CreateContactParameter("@PrimaryContact", primaryContactValue),
+                        CreateContactParameter("@SecondaryContact", secondaryContactValue),
+                        new SqlParameter("@Delay", delayValue),
+                        new SqlParameter("@BroilerId", request.BroilerId.Value)
+                    };
+
+                    const string insertQuery = @"INSERT INTO dbo.tbl_ActNotifications (Act, Completed, ConditionsNotMet, NotCompleted, PrimaryContact, SecondaryContact, Delay, BroilerID)
+                                                 VALUES (@Act, @Completed, @ConditionsNotMet, @NotCompleted, @PrimaryContact, @SecondaryContact, @Delay, @BroilerId);
+                                                 SELECT CAST(SCOPE_IDENTITY() AS INT);";
+
+                    return en.Database.SqlQuery<int>(insertQuery, insertParameters).FirstOrDefault();
+                }
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
         [Route("updateKpiNotifications/{id}")]
         [HttpPost]
         public int updateKpiNotifications(int id, KpiNotificationUpdateRequest request)
