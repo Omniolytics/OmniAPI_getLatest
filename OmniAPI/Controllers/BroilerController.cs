@@ -193,6 +193,28 @@ namespace OmniAPI.Controllers
             }
         }
 
+        [Route("getActNotifications")]
+        [HttpGet]
+        public List<ActNotificationDto> getActNotifications()
+        {
+            try
+            {
+                using (omnioEntities en = new omnioEntities())
+                {
+                    const string query =
+                        "SELECT Id, Act, Completed, ConditionsNotMet, NotCompleted, PrimaryContact, SecondaryContact, Delay, BroilerID FROM dbo.tbl_ActNotifications";
+
+                    return en.Database
+                        .SqlQuery<ActNotificationDto>(query)
+                        .ToList();
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         [Route("updateKpiNotifications/{id}")]
         [HttpPost]
         public int updateKpiNotifications(int id, KpiNotificationUpdateRequest request)
