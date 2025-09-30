@@ -160,9 +160,9 @@ namespace OmniAPI.Controllers
             }
         }
 
-        [Route("getActNotifications/{broilerId:int}")]
+        [Route("getActNotifications/{id}")]
         [HttpGet]
-        public IHttpActionResult getActNotifications(int broilerId)
+        public List<ActNotificationDto> getActNotifications(int id)
         {
             try
             {
@@ -171,21 +171,25 @@ namespace OmniAPI.Controllers
                     const string query =
                         "SELECT Id, Act, Completed, CompletedNotMet, NotCompleted, PrimaryContact, SecondaryContact, Delay, BroilerID FROM dbo.tbl_ActNotifications WHERE BroilerID = @broilerId";
 
-                    SqlParameter broilerIdParameter = new SqlParameter("@broilerId", SqlDbType.Int)
-                    {
-                        Value = broilerId
-                    };
-
+                    SqlParameter broilerIdParameter = new SqlParameter("@broilerId", id);
                     List<ActNotificationDto> notifications = en.Database
                         .SqlQuery<ActNotificationDto>(query, broilerIdParameter)
                         .ToList();
 
-                    return Ok(notifications);
+                    if (!notifications.Any())
+                    {
+                        const string fallbackQuery =
+                            "SELECT Id, Act, Completed, CompletedNotMet, NotCompleted, PrimaryContact, SecondaryContact, Delay, TRY_CAST(BroilerID AS INT) AS BroilerID FROM dbo.tbl_ActNotifications WHERE CAST(BroilerID AS NVARCHAR(50)) = @broilerId";
+                        SqlParameter fallbackParameter = new SqlParameter("@broilerId", id.ToString());
+                        notifications = en.Database.SqlQuery<ActNotificationDto>(fallbackQuery, fallbackParameter).ToList();
+                    }
+
+                    return notifications;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                return InternalServerError(ex);
+                return null;
             }
         }
 
