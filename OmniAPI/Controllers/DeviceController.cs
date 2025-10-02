@@ -19,41 +19,156 @@ namespace OmniAPI.Controllers
 {
     public class DeviceLimitUpdateRequest
     {
-<<<<<<< HEAD
-=======
-        [JsonProperty("deviceDataID")]
-        public long? DeviceDataID { get; set; }
+        private long? _deviceDataID;
+        private double? _highLimit;
+        private double? _lowLimit;
+        private bool? _thresholdEnabled;
+        private string _primaryContact;
+        private string _secondaryContact;
+        private int? _secondaryContactDelay;
+        private bool? _fuzzyLimits;
+        private double? _fuzzyLow;
+        private double? _fuzzyHigh;
 
->>>>>>> origin/codex/add-post-endpoint-for-/updatedevice/devicedataid-xe5ak7
+        [JsonProperty("deviceDataID")]
+        public long? DeviceDataID
+        {
+            get => _deviceDataID;
+            set
+            {
+                _deviceDataID = value;
+                DeviceDataIDProvided = true;
+            }
+        }
+
+        [JsonIgnore]
+        public bool DeviceDataIDProvided { get; private set; }
+
         [JsonProperty("highLimit")]
-        public double? HighLimit { get; set; }
+        public double? HighLimit
+        {
+            get => _highLimit;
+            set
+            {
+                _highLimit = value;
+                HighLimitProvided = true;
+            }
+        }
+
+        [JsonIgnore]
+        public bool HighLimitProvided { get; private set; }
 
         [JsonProperty("lowLimit")]
-        public double? LowLimit { get; set; }
+        public double? LowLimit
+        {
+            get => _lowLimit;
+            set
+            {
+                _lowLimit = value;
+                LowLimitProvided = true;
+            }
+        }
+
+        [JsonIgnore]
+        public bool LowLimitProvided { get; private set; }
 
         [JsonProperty("thresholdEnabled")]
-        public bool? ThresholdEnabled { get; set; }
+        public bool? ThresholdEnabled
+        {
+            get => _thresholdEnabled;
+            set
+            {
+                _thresholdEnabled = value;
+                ThresholdEnabledProvided = true;
+            }
+        }
+
+        [JsonIgnore]
+        public bool ThresholdEnabledProvided { get; private set; }
 
         [JsonProperty("primaryContact")]
-        public string PrimaryContact { get; set; }
+        public string PrimaryContact
+        {
+            get => _primaryContact;
+            set
+            {
+                _primaryContact = value;
+                PrimaryContactProvided = true;
+            }
+        }
+
+        [JsonIgnore]
+        public bool PrimaryContactProvided { get; private set; }
 
         [JsonProperty("secondaryContact")]
-        public string SecondaryContact { get; set; }
+        public string SecondaryContact
+        {
+            get => _secondaryContact;
+            set
+            {
+                _secondaryContact = value;
+                SecondaryContactProvided = true;
+            }
+        }
+
+        [JsonIgnore]
+        public bool SecondaryContactProvided { get; private set; }
 
         [JsonProperty("secondaryContactDelay")]
-        public int? SecondaryContactDelay { get; set; }
+        public int? SecondaryContactDelay
+        {
+            get => _secondaryContactDelay;
+            set
+            {
+                _secondaryContactDelay = value;
+                SecondaryContactDelayProvided = true;
+            }
+        }
+
+        [JsonIgnore]
+        public bool SecondaryContactDelayProvided { get; private set; }
 
         [JsonProperty("fuzzyLimits")]
-        public bool? FuzzyLimits { get; set; }
-<<<<<<< HEAD
-=======
+        public bool? FuzzyLimits
+        {
+            get => _fuzzyLimits;
+            set
+            {
+                _fuzzyLimits = value;
+                FuzzyLimitsProvided = true;
+            }
+        }
+
+        [JsonIgnore]
+        public bool FuzzyLimitsProvided { get; private set; }
 
         [JsonProperty("fuzzy_Low")]
-        public double? FuzzyLow { get; set; }
+        public double? FuzzyLow
+        {
+            get => _fuzzyLow;
+            set
+            {
+                _fuzzyLow = value;
+                FuzzyLowProvided = true;
+            }
+        }
+
+        [JsonIgnore]
+        public bool FuzzyLowProvided { get; private set; }
 
         [JsonProperty("fuzzy_High")]
-        public double? FuzzyHigh { get; set; }
->>>>>>> origin/codex/add-post-endpoint-for-/updatedevice/devicedataid-xe5ak7
+        public double? FuzzyHigh
+        {
+            get => _fuzzyHigh;
+            set
+            {
+                _fuzzyHigh = value;
+                FuzzyHighProvided = true;
+            }
+        }
+
+        [JsonIgnore]
+        public bool FuzzyHighProvided { get; private set; }
     }
 
     [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -157,58 +272,85 @@ namespace OmniAPI.Controllers
                 return false;
             }
 
-<<<<<<< HEAD
-=======
-            if (limits.DeviceDataID.HasValue && limits.DeviceDataID.Value != deviceDataID)
+            if (limits.DeviceDataIDProvided)
             {
-                return false;
+                if (!limits.DeviceDataID.HasValue || limits.DeviceDataID.Value != deviceDataID)
+                {
+                    return false;
+                }
             }
 
->>>>>>> origin/codex/add-post-endpoint-for-/updatedevice/devicedataid-xe5ak7
             try
             {
                 using (omnioEntities en = new omnioEntities())
                 {
-                    const string updateSql = @"UPDATE tbl_DeviceLimits
-<<<<<<< HEAD
-SET HighLimit = @HighLimit,
-    LowLimit = @LowLimit,
-    ThresholdEnabled = @ThresholdEnabled,
-    PrimaryContact = @PrimaryContact,
-    SecondaryContact = @SecondaryContact,
-    SecondaryContactDelay = @SecondaryContactDelay,
-    FuzzyLimits = @FuzzyLimits
-=======
-SET HighLimit = COALESCE(@HighLimit, HighLimit),
-    LowLimit = COALESCE(@LowLimit, LowLimit),
-    ThresholdEnabled = COALESCE(@ThresholdEnabled, ThresholdEnabled),
-    PrimaryContact = COALESCE(@PrimaryContact, PrimaryContact),
-    SecondaryContact = COALESCE(@SecondaryContact, SecondaryContact),
-    SecondaryContactDelay = COALESCE(@SecondaryContactDelay, SecondaryContactDelay),
-    FuzzyLimits = COALESCE(@FuzzyLimits, FuzzyLimits),
-    Fuzzy_Low = COALESCE(@FuzzyLow, Fuzzy_Low),
-    Fuzzy_High = COALESCE(@FuzzyHigh, Fuzzy_High)
->>>>>>> origin/codex/add-post-endpoint-for-/updatedevice/devicedataid-xe5ak7
-WHERE DeviceDataID = @DeviceDataID";
+                    List<string> assignments = new List<string>();
+                    List<SqlParameter> parameters = new List<SqlParameter>();
 
-                    SqlParameter[] parameters = new[]
+                    if (limits.HighLimitProvided)
                     {
-                        CreateSqlParameter("@HighLimit", SqlDbType.Float, limits.HighLimit),
-                        CreateSqlParameter("@LowLimit", SqlDbType.Float, limits.LowLimit),
-                        CreateSqlParameter("@ThresholdEnabled", SqlDbType.Bit, limits.ThresholdEnabled),
-                        CreateSqlParameter("@PrimaryContact", SqlDbType.VarChar, limits.PrimaryContact, 100),
-                        CreateSqlParameter("@SecondaryContact", SqlDbType.VarChar, limits.SecondaryContact, 100),
-                        CreateSqlParameter("@SecondaryContactDelay", SqlDbType.Int, limits.SecondaryContactDelay),
-                        CreateSqlParameter("@FuzzyLimits", SqlDbType.Bit, limits.FuzzyLimits),
-<<<<<<< HEAD
-=======
-                        CreateSqlParameter("@FuzzyLow", SqlDbType.Float, limits.FuzzyLow),
-                        CreateSqlParameter("@FuzzyHigh", SqlDbType.Float, limits.FuzzyHigh),
->>>>>>> origin/codex/add-post-endpoint-for-/updatedevice/devicedataid-xe5ak7
-                        CreateSqlParameter("@DeviceDataID", SqlDbType.BigInt, deviceDataID)
-                    };
+                        assignments.Add("HighLimit = @HighLimit");
+                        parameters.Add(CreateSqlParameter("@HighLimit", SqlDbType.Float, limits.HighLimit));
+                    }
 
-                    int rowsAffected = en.Database.ExecuteSqlCommand(updateSql, parameters);
+                    if (limits.LowLimitProvided)
+                    {
+                        assignments.Add("LowLimit = @LowLimit");
+                        parameters.Add(CreateSqlParameter("@LowLimit", SqlDbType.Float, limits.LowLimit));
+                    }
+
+                    if (limits.ThresholdEnabledProvided)
+                    {
+                        assignments.Add("ThresholdEnabled = @ThresholdEnabled");
+                        parameters.Add(CreateSqlParameter("@ThresholdEnabled", SqlDbType.Bit, limits.ThresholdEnabled));
+                    }
+
+                    if (limits.PrimaryContactProvided)
+                    {
+                        assignments.Add("PrimaryContact = @PrimaryContact");
+                        parameters.Add(CreateSqlParameter("@PrimaryContact", SqlDbType.VarChar, limits.PrimaryContact, 100));
+                    }
+
+                    if (limits.SecondaryContactProvided)
+                    {
+                        assignments.Add("SecondaryContact = @SecondaryContact");
+                        parameters.Add(CreateSqlParameter("@SecondaryContact", SqlDbType.VarChar, limits.SecondaryContact, 100));
+                    }
+
+                    if (limits.SecondaryContactDelayProvided)
+                    {
+                        assignments.Add("SecondaryContactDelay = @SecondaryContactDelay");
+                        parameters.Add(CreateSqlParameter("@SecondaryContactDelay", SqlDbType.Int, limits.SecondaryContactDelay));
+                    }
+
+                    if (limits.FuzzyLimitsProvided)
+                    {
+                        assignments.Add("FuzzyLimits = @FuzzyLimits");
+                        parameters.Add(CreateSqlParameter("@FuzzyLimits", SqlDbType.Bit, limits.FuzzyLimits));
+                    }
+
+                    if (limits.FuzzyLowProvided)
+                    {
+                        assignments.Add("Fuzzy_Low = @FuzzyLow");
+                        parameters.Add(CreateSqlParameter("@FuzzyLow", SqlDbType.Float, limits.FuzzyLow));
+                    }
+
+                    if (limits.FuzzyHighProvided)
+                    {
+                        assignments.Add("Fuzzy_High = @FuzzyHigh");
+                        parameters.Add(CreateSqlParameter("@FuzzyHigh", SqlDbType.Float, limits.FuzzyHigh));
+                    }
+
+                    if (!assignments.Any())
+                    {
+                        return true;
+                    }
+
+                    string updateSql = $"UPDATE tbl_DeviceLimits SET {string.Join(", ", assignments)} WHERE DeviceDataID = @DeviceDataID";
+
+                    parameters.Add(CreateSqlParameter("@DeviceDataID", SqlDbType.BigInt, deviceDataID));
+
+                    int rowsAffected = en.Database.ExecuteSqlCommand(updateSql, parameters.ToArray());
 
                     return rowsAffected > 0;
                 }
