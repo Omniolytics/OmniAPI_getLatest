@@ -284,42 +284,73 @@ namespace OmniAPI.Controllers
             {
                 using (omnioEntities en = new omnioEntities())
                 {
-                    const string updateSql = @"UPDATE tbl_DeviceLimits
-SET HighLimit = CASE WHEN @HighLimitProvided = 1 THEN @HighLimit ELSE HighLimit END,
-    LowLimit = CASE WHEN @LowLimitProvided = 1 THEN @LowLimit ELSE LowLimit END,
-    ThresholdEnabled = CASE WHEN @ThresholdEnabledProvided = 1 THEN @ThresholdEnabled ELSE ThresholdEnabled END,
-    PrimaryContact = CASE WHEN @PrimaryContactProvided = 1 THEN @PrimaryContact ELSE PrimaryContact END,
-    SecondaryContact = CASE WHEN @SecondaryContactProvided = 1 THEN @SecondaryContact ELSE SecondaryContact END,
-    SecondaryContactDelay = CASE WHEN @SecondaryContactDelayProvided = 1 THEN @SecondaryContactDelay ELSE SecondaryContactDelay END,
-    FuzzyLimits = CASE WHEN @FuzzyLimitsProvided = 1 THEN @FuzzyLimits ELSE FuzzyLimits END,
-    Fuzzy_Low = CASE WHEN @FuzzyLowProvided = 1 THEN @FuzzyLow ELSE Fuzzy_Low END,
-    Fuzzy_High = CASE WHEN @FuzzyHighProvided = 1 THEN @FuzzyHigh ELSE Fuzzy_High END
-WHERE DeviceDataID = @DeviceDataID";
+                    List<string> assignments = new List<string>();
+                    List<SqlParameter> parameters = new List<SqlParameter>();
 
-                    SqlParameter[] parameters = new[]
+                    if (limits.HighLimitProvided)
                     {
-                        CreateSqlParameter("@HighLimit", SqlDbType.Float, limits.HighLimit),
-                        CreateSqlParameter("@HighLimitProvided", SqlDbType.Bit, limits.HighLimitProvided),
-                        CreateSqlParameter("@LowLimit", SqlDbType.Float, limits.LowLimit),
-                        CreateSqlParameter("@LowLimitProvided", SqlDbType.Bit, limits.LowLimitProvided),
-                        CreateSqlParameter("@ThresholdEnabled", SqlDbType.Bit, limits.ThresholdEnabled),
-                        CreateSqlParameter("@ThresholdEnabledProvided", SqlDbType.Bit, limits.ThresholdEnabledProvided),
-                        CreateSqlParameter("@PrimaryContact", SqlDbType.VarChar, limits.PrimaryContact, 100),
-                        CreateSqlParameter("@PrimaryContactProvided", SqlDbType.Bit, limits.PrimaryContactProvided),
-                        CreateSqlParameter("@SecondaryContact", SqlDbType.VarChar, limits.SecondaryContact, 100),
-                        CreateSqlParameter("@SecondaryContactProvided", SqlDbType.Bit, limits.SecondaryContactProvided),
-                        CreateSqlParameter("@SecondaryContactDelay", SqlDbType.Int, limits.SecondaryContactDelay),
-                        CreateSqlParameter("@SecondaryContactDelayProvided", SqlDbType.Bit, limits.SecondaryContactDelayProvided),
-                        CreateSqlParameter("@FuzzyLimits", SqlDbType.Bit, limits.FuzzyLimits),
-                        CreateSqlParameter("@FuzzyLimitsProvided", SqlDbType.Bit, limits.FuzzyLimitsProvided),
-                        CreateSqlParameter("@FuzzyLow", SqlDbType.Float, limits.FuzzyLow),
-                        CreateSqlParameter("@FuzzyLowProvided", SqlDbType.Bit, limits.FuzzyLowProvided),
-                        CreateSqlParameter("@FuzzyHigh", SqlDbType.Float, limits.FuzzyHigh),
-                        CreateSqlParameter("@FuzzyHighProvided", SqlDbType.Bit, limits.FuzzyHighProvided),
-                        CreateSqlParameter("@DeviceDataID", SqlDbType.BigInt, deviceDataID)
-                    };
+                        assignments.Add("HighLimit = @HighLimit");
+                        parameters.Add(CreateSqlParameter("@HighLimit", SqlDbType.Float, limits.HighLimit));
+                    }
 
-                    int rowsAffected = en.Database.ExecuteSqlCommand(updateSql, parameters);
+                    if (limits.LowLimitProvided)
+                    {
+                        assignments.Add("LowLimit = @LowLimit");
+                        parameters.Add(CreateSqlParameter("@LowLimit", SqlDbType.Float, limits.LowLimit));
+                    }
+
+                    if (limits.ThresholdEnabledProvided)
+                    {
+                        assignments.Add("ThresholdEnabled = @ThresholdEnabled");
+                        parameters.Add(CreateSqlParameter("@ThresholdEnabled", SqlDbType.Bit, limits.ThresholdEnabled));
+                    }
+
+                    if (limits.PrimaryContactProvided)
+                    {
+                        assignments.Add("PrimaryContact = @PrimaryContact");
+                        parameters.Add(CreateSqlParameter("@PrimaryContact", SqlDbType.VarChar, limits.PrimaryContact, 100));
+                    }
+
+                    if (limits.SecondaryContactProvided)
+                    {
+                        assignments.Add("SecondaryContact = @SecondaryContact");
+                        parameters.Add(CreateSqlParameter("@SecondaryContact", SqlDbType.VarChar, limits.SecondaryContact, 100));
+                    }
+
+                    if (limits.SecondaryContactDelayProvided)
+                    {
+                        assignments.Add("SecondaryContactDelay = @SecondaryContactDelay");
+                        parameters.Add(CreateSqlParameter("@SecondaryContactDelay", SqlDbType.Int, limits.SecondaryContactDelay));
+                    }
+
+                    if (limits.FuzzyLimitsProvided)
+                    {
+                        assignments.Add("FuzzyLimits = @FuzzyLimits");
+                        parameters.Add(CreateSqlParameter("@FuzzyLimits", SqlDbType.Bit, limits.FuzzyLimits));
+                    }
+
+                    if (limits.FuzzyLowProvided)
+                    {
+                        assignments.Add("Fuzzy_Low = @FuzzyLow");
+                        parameters.Add(CreateSqlParameter("@FuzzyLow", SqlDbType.Float, limits.FuzzyLow));
+                    }
+
+                    if (limits.FuzzyHighProvided)
+                    {
+                        assignments.Add("Fuzzy_High = @FuzzyHigh");
+                        parameters.Add(CreateSqlParameter("@FuzzyHigh", SqlDbType.Float, limits.FuzzyHigh));
+                    }
+
+                    if (!assignments.Any())
+                    {
+                        return true;
+                    }
+
+                    string updateSql = $"UPDATE tbl_DeviceLimits SET {string.Join(", ", assignments)} WHERE DeviceDataID = @DeviceDataID";
+
+                    parameters.Add(CreateSqlParameter("@DeviceDataID", SqlDbType.BigInt, deviceDataID));
+
+                    int rowsAffected = en.Database.ExecuteSqlCommand(updateSql, parameters.ToArray());
 
                     return rowsAffected > 0;
                 }
