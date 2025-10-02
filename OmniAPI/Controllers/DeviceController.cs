@@ -19,150 +19,35 @@ namespace OmniAPI.Controllers
 {
     public class DeviceLimitUpdateRequest
     {
-<<<<<<< HEAD
         [JsonProperty("deviceDataID")]
         public long? DeviceDataID { get; set; }
-=======
-        private long? _deviceDataID;
-        private double? _highLimit;
-        private double? _lowLimit;
-        private bool? _thresholdEnabled;
-        private string _primaryContact;
-        private string _secondaryContact;
-        private int? _secondaryContactDelay;
-        private bool? _fuzzyLimits;
-        private double? _fuzzyLow;
-        private double? _fuzzyHigh;
-
-        public bool DeviceDataIDProvided { get; private set; }
-        public bool HighLimitProvided { get; private set; }
-        public bool LowLimitProvided { get; private set; }
-        public bool ThresholdEnabledProvided { get; private set; }
-        public bool PrimaryContactProvided { get; private set; }
-        public bool SecondaryContactProvided { get; private set; }
-        public bool SecondaryContactDelayProvided { get; private set; }
-        public bool FuzzyLimitsProvided { get; private set; }
-        public bool FuzzyLowProvided { get; private set; }
-        public bool FuzzyHighProvided { get; private set; }
-
-        [JsonProperty("deviceDataID")]
-        public long? DeviceDataID
-        {
-            get => _deviceDataID;
-            set
-            {
-                DeviceDataIDProvided = true;
-                _deviceDataID = value;
-            }
-        }
->>>>>>> origin/codex/add-backing-fields-and-flags-in-devicelimitupdaterequest
 
         [JsonProperty("highLimit")]
-        public double? HighLimit
-        {
-            get => _highLimit;
-            set
-            {
-                HighLimitProvided = true;
-                _highLimit = value;
-            }
-        }
+        public double? HighLimit { get; set; }
 
         [JsonProperty("lowLimit")]
-        public double? LowLimit
-        {
-            get => _lowLimit;
-            set
-            {
-                LowLimitProvided = true;
-                _lowLimit = value;
-            }
-        }
+        public double? LowLimit { get; set; }
 
         [JsonProperty("thresholdEnabled")]
-        public bool? ThresholdEnabled
-        {
-            get => _thresholdEnabled;
-            set
-            {
-                ThresholdEnabledProvided = true;
-                _thresholdEnabled = value;
-            }
-        }
+        public bool? ThresholdEnabled { get; set; }
 
         [JsonProperty("primaryContact")]
-        public string PrimaryContact
-        {
-            get => _primaryContact;
-            set
-            {
-                PrimaryContactProvided = true;
-                _primaryContact = value;
-            }
-        }
+        public string PrimaryContact { get; set; }
 
         [JsonProperty("secondaryContact")]
-        public string SecondaryContact
-        {
-            get => _secondaryContact;
-            set
-            {
-                SecondaryContactProvided = true;
-                _secondaryContact = value;
-            }
-        }
+        public string SecondaryContact { get; set; }
 
         [JsonProperty("secondaryContactDelay")]
-        public int? SecondaryContactDelay
-        {
-            get => _secondaryContactDelay;
-            set
-            {
-                SecondaryContactDelayProvided = true;
-                _secondaryContactDelay = value;
-            }
-        }
+        public int? SecondaryContactDelay { get; set; }
 
         [JsonProperty("fuzzyLimits")]
-<<<<<<< HEAD
         public bool? FuzzyLimits { get; set; }
-=======
-        public bool? FuzzyLimits
-        {
-            get => _fuzzyLimits;
-            set
-            {
-                FuzzyLimitsProvided = true;
-                _fuzzyLimits = value;
-            }
-        }
->>>>>>> origin/codex/add-backing-fields-and-flags-in-devicelimitupdaterequest
 
         [JsonProperty("fuzzy_Low")]
-        public double? FuzzyLow
-        {
-            get => _fuzzyLow;
-            set
-            {
-                FuzzyLowProvided = true;
-                _fuzzyLow = value;
-            }
-        }
+        public double? FuzzyLow { get; set; }
 
         [JsonProperty("fuzzy_High")]
-<<<<<<< HEAD
         public double? FuzzyHigh { get; set; }
-=======
-        public double? FuzzyHigh
-        {
-            get => _fuzzyHigh;
-            set
-            {
-                FuzzyHighProvided = true;
-                _fuzzyHigh = value;
-            }
-        }
->>>>>>> origin/codex/add-backing-fields-and-flags-in-devicelimitupdaterequest
     }
 
     [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -266,11 +151,7 @@ namespace OmniAPI.Controllers
                 return false;
             }
 
-<<<<<<< HEAD
             if (limits.DeviceDataID.HasValue && limits.DeviceDataID.Value != deviceDataID)
-=======
-            if (limits.DeviceDataIDProvided && limits.DeviceDataID.HasValue && limits.DeviceDataID.Value != deviceDataID)
->>>>>>> origin/codex/add-backing-fields-and-flags-in-devicelimitupdaterequest
             {
                 return false;
             }
@@ -280,7 +161,6 @@ namespace OmniAPI.Controllers
                 using (omnioEntities en = new omnioEntities())
                 {
                     const string updateSql = @"UPDATE tbl_DeviceLimits
-<<<<<<< HEAD
 SET HighLimit = COALESCE(@HighLimit, HighLimit),
     LowLimit = COALESCE(@LowLimit, LowLimit),
     ThresholdEnabled = COALESCE(@ThresholdEnabled, ThresholdEnabled),
@@ -290,41 +170,18 @@ SET HighLimit = COALESCE(@HighLimit, HighLimit),
     FuzzyLimits = COALESCE(@FuzzyLimits, FuzzyLimits),
     Fuzzy_Low = COALESCE(@FuzzyLow, Fuzzy_Low),
     Fuzzy_High = COALESCE(@FuzzyHigh, Fuzzy_High)
-=======
-SET HighLimit = CASE WHEN @HighLimitProvided = 1 THEN @HighLimit ELSE HighLimit END,
-    LowLimit = CASE WHEN @LowLimitProvided = 1 THEN @LowLimit ELSE LowLimit END,
-    ThresholdEnabled = CASE WHEN @ThresholdEnabledProvided = 1 THEN @ThresholdEnabled ELSE ThresholdEnabled END,
-    PrimaryContact = CASE WHEN @PrimaryContactProvided = 1 THEN @PrimaryContact ELSE PrimaryContact END,
-    SecondaryContact = CASE WHEN @SecondaryContactProvided = 1 THEN @SecondaryContact ELSE SecondaryContact END,
-    SecondaryContactDelay = CASE WHEN @SecondaryContactDelayProvided = 1 THEN @SecondaryContactDelay ELSE SecondaryContactDelay END,
-    FuzzyLimits = CASE WHEN @FuzzyLimitsProvided = 1 THEN @FuzzyLimits ELSE FuzzyLimits END,
-    Fuzzy_Low = CASE WHEN @FuzzyLowProvided = 1 THEN @FuzzyLow ELSE Fuzzy_Low END,
-    Fuzzy_High = CASE WHEN @FuzzyHighProvided = 1 THEN @FuzzyHigh ELSE Fuzzy_High END
->>>>>>> origin/codex/add-backing-fields-and-flags-in-devicelimitupdaterequest
 WHERE DeviceDataID = @DeviceDataID";
 
                     SqlParameter[] parameters = new[]
                     {
-                        CreateSqlParameter("@HighLimitProvided", SqlDbType.Bit, limits.HighLimitProvided),
                         CreateSqlParameter("@HighLimit", SqlDbType.Float, limits.HighLimit),
-                        CreateSqlParameter("@LowLimitProvided", SqlDbType.Bit, limits.LowLimitProvided),
                         CreateSqlParameter("@LowLimit", SqlDbType.Float, limits.LowLimit),
-                        CreateSqlParameter("@ThresholdEnabledProvided", SqlDbType.Bit, limits.ThresholdEnabledProvided),
                         CreateSqlParameter("@ThresholdEnabled", SqlDbType.Bit, limits.ThresholdEnabled),
-                        CreateSqlParameter("@PrimaryContactProvided", SqlDbType.Bit, limits.PrimaryContactProvided),
                         CreateSqlParameter("@PrimaryContact", SqlDbType.VarChar, limits.PrimaryContact, 100),
-                        CreateSqlParameter("@SecondaryContactProvided", SqlDbType.Bit, limits.SecondaryContactProvided),
                         CreateSqlParameter("@SecondaryContact", SqlDbType.VarChar, limits.SecondaryContact, 100),
-                        CreateSqlParameter("@SecondaryContactDelayProvided", SqlDbType.Bit, limits.SecondaryContactDelayProvided),
                         CreateSqlParameter("@SecondaryContactDelay", SqlDbType.Int, limits.SecondaryContactDelay),
-                        CreateSqlParameter("@FuzzyLimitsProvided", SqlDbType.Bit, limits.FuzzyLimitsProvided),
                         CreateSqlParameter("@FuzzyLimits", SqlDbType.Bit, limits.FuzzyLimits),
-<<<<<<< HEAD
-=======
-                        CreateSqlParameter("@FuzzyLowProvided", SqlDbType.Bit, limits.FuzzyLowProvided),
->>>>>>> origin/codex/add-backing-fields-and-flags-in-devicelimitupdaterequest
                         CreateSqlParameter("@FuzzyLow", SqlDbType.Float, limits.FuzzyLow),
-                        CreateSqlParameter("@FuzzyHighProvided", SqlDbType.Bit, limits.FuzzyHighProvided),
                         CreateSqlParameter("@FuzzyHigh", SqlDbType.Float, limits.FuzzyHigh),
                         CreateSqlParameter("@DeviceDataID", SqlDbType.BigInt, deviceDataID)
                     };
