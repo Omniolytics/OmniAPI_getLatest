@@ -9,10 +9,46 @@ using System.Security.Cryptography;
 using System.Text;
 using System.IO;
 using System.Net.Mail;
+using System.Data;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using System.Data.SqlClient;
+using Newtonsoft.Json;
 
 namespace OmniAPI.Controllers
 {
+    public class DeviceLimitUpdateRequest
+    {
+        [JsonProperty("deviceDataID")]
+        public long? DeviceDataID { get; set; }
+
+        [JsonProperty("highLimit")]
+        public double? HighLimit { get; set; }
+
+        [JsonProperty("lowLimit")]
+        public double? LowLimit { get; set; }
+
+        [JsonProperty("thresholdEnabled")]
+        public bool? ThresholdEnabled { get; set; }
+
+        [JsonProperty("primaryContact")]
+        public string PrimaryContact { get; set; }
+
+        [JsonProperty("secondaryContact")]
+        public string SecondaryContact { get; set; }
+
+        [JsonProperty("secondaryContactDelay")]
+        public int? SecondaryContactDelay { get; set; }
+
+        [JsonProperty("fuzzyLimits")]
+        public bool? FuzzyLimits { get; set; }
+
+        [JsonProperty("fuzzy_Low")]
+        public double? FuzzyLow { get; set; }
+
+        [JsonProperty("fuzzy_High")]
+        public double? FuzzyHigh { get; set; }
+    }
 
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class DeviceController : ApiController
@@ -106,6 +142,61 @@ namespace OmniAPI.Controllers
             // return ByteArrToString(Encrypt(name));
         }
 
+        [Route("updateDevice/{deviceDataID}")]
+        [HttpPost]
+        public bool updateDevice(long deviceDataID, DeviceLimitUpdateRequest limits)
+        {
+            if (limits == null)
+            {
+                return false;
+            }
+
+            if (limits.DeviceDataID.HasValue && limits.DeviceDataID.Value != deviceDataID)
+            {
+                return false;
+            }
+
+            try
+            {
+                using (omnioEntities en = new omnioEntities())
+                {
+                    const string updateSql = @"UPDATE tbl_DeviceLimits
+SET HighLimit = COALESCE(@HighLimit, HighLimit),
+    LowLimit = COALESCE(@LowLimit, LowLimit),
+    ThresholdEnabled = COALESCE(@ThresholdEnabled, ThresholdEnabled),
+    PrimaryContact = COALESCE(@PrimaryContact, PrimaryContact),
+    SecondaryContact = COALESCE(@SecondaryContact, SecondaryContact),
+    SecondaryContactDelay = COALESCE(@SecondaryContactDelay, SecondaryContactDelay),
+    FuzzyLimits = COALESCE(@FuzzyLimits, FuzzyLimits),
+    Fuzzy_Low = COALESCE(@FuzzyLow, Fuzzy_Low),
+    Fuzzy_High = COALESCE(@FuzzyHigh, Fuzzy_High)
+WHERE DeviceDataID = @DeviceDataID";
+
+                    SqlParameter[] parameters = new[]
+                    {
+                        CreateSqlParameter("@HighLimit", SqlDbType.Float, limits.HighLimit),
+                        CreateSqlParameter("@LowLimit", SqlDbType.Float, limits.LowLimit),
+                        CreateSqlParameter("@ThresholdEnabled", SqlDbType.Bit, limits.ThresholdEnabled),
+                        CreateSqlParameter("@PrimaryContact", SqlDbType.VarChar, limits.PrimaryContact, 100),
+                        CreateSqlParameter("@SecondaryContact", SqlDbType.VarChar, limits.SecondaryContact, 100),
+                        CreateSqlParameter("@SecondaryContactDelay", SqlDbType.Int, limits.SecondaryContactDelay),
+                        CreateSqlParameter("@FuzzyLimits", SqlDbType.Bit, limits.FuzzyLimits),
+                        CreateSqlParameter("@FuzzyLow", SqlDbType.Float, limits.FuzzyLow),
+                        CreateSqlParameter("@FuzzyHigh", SqlDbType.Float, limits.FuzzyHigh),
+                        CreateSqlParameter("@DeviceDataID", SqlDbType.BigInt, deviceDataID)
+                    };
+
+                    int rowsAffected = en.Database.ExecuteSqlCommand(updateSql, parameters);
+
+                    return rowsAffected > 0;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         //This does not delete the device but just remove the link to the brioler house;
         [Route("deleteDevice")]
         [HttpPost]
@@ -146,10 +237,7 @@ namespace OmniAPI.Controllers
                 //string[] prevDeviceID = device.DeviceID.Split(':');
 
                 omnioEntities en = new omnioEntities();
-               List<tbl_DeviceLimits> Device = en.tbl_DeviceLimits.Where(x => x.DeviceID == id).ToList();
-            
-
-
+                List<tbl_DeviceLimits> Device = en.tbl_DeviceLimits.Where(x => x.DeviceID == id).ToList();
 
                 return Device;
             }
@@ -160,6 +248,21 @@ namespace OmniAPI.Controllers
             }
 
             // return ByteArrToString(Encrypt(name));
+        }
+
+        private static SqlParameter CreateSqlParameter(string name, SqlDbType type, object value, int? size = null)
+        {
+            SqlParameter parameter = new SqlParameter(name, type);
+
+            if (size.HasValue)
+            {
+                parameter.Size = size.Value;
+            }
+
+            parameter.Value = value ?? DBNull.Value;
+            parameter.IsNullable = true;
+
+            return parameter;
         }
     }
 }
