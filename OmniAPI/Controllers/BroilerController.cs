@@ -169,7 +169,7 @@ namespace OmniAPI.Controllers
                 using (omnioEntities en = new omnioEntities())
                 {
                     const string query =
-                        "SELECT Id, Act, Completed, ConditionsNotMet, NotCompleted, PrimaryContact, SecondaryContact, Delay, BroilerID FROM dbo.tbl_ActNotifications WHERE BroilerID = @broilerId";
+                        "SELECT Id, Act, Completed, ConditionsNotMet, NotCompleted, PrimaryContact, SecondaryContact, Delay, CAST(BroilerID AS NVARCHAR(50)) AS BroilerID FROM dbo.tbl_ActNotifications WHERE BroilerID = @broilerId";
 
                     SqlParameter broilerIdParameter = new SqlParameter("@broilerId", id);
                     List<ActNotificationDto> notifications = en.Database
@@ -179,7 +179,7 @@ namespace OmniAPI.Controllers
                     if (!notifications.Any())
                     {
                         const string fallbackQuery =
-                            "SELECT Id, Act, Completed, ConditionsNotMet, NotCompleted, PrimaryContact, SecondaryContact, Delay, TRY_CAST(BroilerID AS INT) AS BroilerID FROM dbo.tbl_ActNotifications WHERE CAST(BroilerID AS NVARCHAR(50)) = @broilerId";
+                            "SELECT Id, Act, Completed, ConditionsNotMet, NotCompleted, PrimaryContact, SecondaryContact, Delay, CAST(BroilerID AS NVARCHAR(50)) AS BroilerID FROM dbo.tbl_ActNotifications WHERE CAST(BroilerID AS NVARCHAR(50)) = @broilerId";
                         SqlParameter fallbackParameter = new SqlParameter("@broilerId", id.ToString());
                         notifications = en.Database.SqlQuery<ActNotificationDto>(fallbackQuery, fallbackParameter).ToList();
                     }
@@ -202,7 +202,7 @@ namespace OmniAPI.Controllers
                 using (omnioEntities en = new omnioEntities())
                 {
                     const string query =
-                        "SELECT Id, Act, Completed, ConditionsNotMet, NotCompleted, PrimaryContact, SecondaryContact, Delay, BroilerID FROM dbo.tbl_ActNotifications";
+                        "SELECT Id, Act, Completed, ConditionsNotMet, NotCompleted, PrimaryContact, SecondaryContact, Delay, CAST(BroilerID AS NVARCHAR(50)) AS BroilerID FROM dbo.tbl_ActNotifications";
 
                     return en.Database
                         .SqlQuery<ActNotificationDto>(query)
